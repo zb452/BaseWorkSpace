@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/ios/!svn/ver/7/trunk/DKZY/Doctor/DKDoctorWorkSpace/DK_Doctor/DK_Doctor/QPLive.framework/_CodeSignature
+END
+CodeDirectory
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/ios/!svn/ver/7/trunk/DKZY/Doctor/DKDoctorWorkSpace/DK_Doctor/DK_Doctor/QPLive.framework/_CodeSignature/CodeDirectory
+END
+CodeResources
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/ios/!svn/ver/7/trunk/DKZY/Doctor/DKDoctorWorkSpace/DK_Doctor/DK_Doctor/QPLive.framework/_CodeSignature/CodeResources
+END
+CodeSignature
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/ios/!svn/ver/7/trunk/DKZY/Doctor/DKDoctorWorkSpace/DK_Doctor/DK_Doctor/QPLive.framework/_CodeSignature/CodeSignature
+END
+CodeRequirements
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/ios/!svn/ver/7/trunk/DKZY/Doctor/DKDoctorWorkSpace/DK_Doctor/DK_Doctor/QPLive.framework/_CodeSignature/CodeRequirements
+END

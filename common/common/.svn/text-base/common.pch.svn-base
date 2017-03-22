@@ -1,0 +1,24 @@
+//
+//  common.pch
+//  common
+//
+//  Created by 张斌 on 2016/10/18.
+//  Copyright © 2016年 陕西医管家医院管理咨询服务有限公司. All rights reserved.
+//
+
+#ifndef common_pch
+#define common_pch
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+
+#ifdef __OBJC__
+#import <UIKit/UIKit.h>
+#import "UIColor+BGHexColor.h"
+
+
+#endif
+
+
+#endif /* common_pch */

@@ -1,0 +1,204 @@
+//
+//  TeamMemberViewController.m
+//  DK_Doctor
+//
+//  Created by 张斌 on 2017/2/16.
+//  Copyright © 2017年 陕西医管家医院管理咨询服务有限公司. All rights reserved.
+//
+
+#import "TeamMemberViewController.h"
+#import "TeamMemberVeiwModel.h"
+#import "MJRefresh.h"
+#import "MemberTableViewCell.h"
+
+#define CellHeight 50
+
+@interface TeamMemberViewController ()<UITableViewDelegate,UITableViewDataSource,MemberCallDelegate,UISearchResultsUpdating,UISearchBarDelegate>
+
+@property(strong,nonatomic)TeamMemberVeiwModel *viewModel;
+@property(weak,nonatomic)IBOutlet UITableView *tableView;
+
+@property (nonatomic, strong) UISearchController *searchController;
+
+@end
+
+@implementation TeamMemberViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    // Do any additional setup after loading the view from its nib.
+    
+    
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+-(void)dealloc
+{
+    [DefaultNotificationCenter removeObserver:self];
+}
+
+-(instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil withTeam:(Team *)team
+{
+    _viewModel = [[TeamMemberVeiwModel alloc] initWithTeam:team];
+    
+    self.title = team.teamName;
+    
+    return [self initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+}
+-(void)initUI
+{
+    [super initUI];
+    
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    
+    [self.tableView registerNib:[UINib nibWithNibName:@"MemberTableViewCell" bundle:nil] forCellReuseIdentifier:@"MemberTableViewCell"];
+    
+    self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(pullUp)];
+    
+    self.searchController = [[UISearchController  alloc] initWithSearchResultsController:nil];
+    _searchController.searchResultsUpdater = self;
+    
+    // _searchController.dimsBackgroundDuringPresentation = YES;
+    
+    _searchController.searchBar.placeholder = @"可直接搜索医生姓名";
+    _searchController.searchBar.delegate = self;
+    
+    self.searchController.searchBar.frame = CGRectMake(self.searchController.searchBar.frame.origin.x,
+                                                       self.searchController.searchBar.frame.origin.y,
+                                                       self.searchController.searchBar.frame.size.width, 44.0);
+    
+    
+    self.tableView.tableHeaderView = _searchController.searchBar;
+    self.edgesForExtendedLayout = UIRectEdgeNone;
+    
+    self.automaticallyAdjustsScrollViewInsets = NO;
+    
+    
+    self.definesPresentationContext = YES;
+    
+
+
+}
+-(void)initData
+{
+    [super initData];
+    
+    //强制下线了，刷新界面
+    __weak typeof (self)weakSelf = self;
+    [DefaultNotificationCenter addObserverForName:DKNotificationDoctorForceQuit object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
+        
+        [weakSelf reloadUIData];
+        
+    }];
+    
+    [self.tableView.mj_header beginRefreshing];
+    [self pullUp];
+}
+#pragma mark- Action
+-(void)pullUp
+{
+    __weak typeof (self)weakSelf = self;
+    
+    [self.viewModel getTeamMemberList:YES Success:^{
+        [weakSelf.tableView.mj_header endRefreshing];
+        [weakSelf.tableView reloadData];
+    } Fail:^(NSString *errorMsg) {
+        [weakSelf.tableView.mj_header endRefreshing];
+        [MBProgressHUD showHideMessage:errorMsg];
+    }];
+
+}
+
+-(void)reloadUIData
+{
+    __weak typeof (self)weakSelf = self;
+    [self.viewModel getTeamMemberList:NO Success:^{
+        [weakSelf.tableView.mj_header endRefreshing];
+        [weakSelf.tableView reloadData];
+    } Fail:^(NSString *errorMsg) {
+        [weakSelf.tableView.mj_header endRefreshing];
+        [MBProgressHUD showHideMessage:errorMsg];
+    }];
+}
+
+#pragma mark- UITableViewDataSource
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return self.viewModel.countOfMember;
+}
+
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    MemberTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"MemberTableViewCell" forIndexPath:indexPath];
+    
+    [cell configWith:[self.viewModel teamMemberOfIndex:indexPath.row]];
+    cell.delegate = self;
+    
+    return cell;
+}
+
+#pragma mark- UITableViewDelegate
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return CellHeight;
+}
+//- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+//{
+//    return DefaultCellHeight;
+//}
+//- (nullable UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+//{
+//    return _searchController.searchBar;
+//}
+
+#pragma mark- MemberCallDelegate
+-(void)callMember:(MemberTableViewCell *)cell Member:(TeamMember *)member
+{
+    //呼叫
+}
+
+#pragma mark- UISearchResultsUpdating
+- (void)updateSearchResultsForSearchController:(UISearchController *)searchController
+{
+    NSString *searchString = [self.searchController.searchBar text];
+    
+    
+    [self.tableView reloadData];
+}
+#pragma mark- UISearchBarDelegate
+- (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar
+{
+    //    self.tableView.tableHeaderView = nil;
+    //    [self.tableView reloadData];
+    
+    return YES;
+}
+- (BOOL)searchBarShouldEndEditing:(UISearchBar *)searchBar
+{
+    //    self.headerBackView.hidden = NO;
+    //    self.headerHeight.constant = 30;
+    
+    //    self.tableView.tableHeaderView = _searchController.searchBar;
+    //    [self.tableView reloadData];
+    
+    return YES;
+}
+
+
+
+/*
+#pragma mark - Navigation
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+}
+*/
+
+@end

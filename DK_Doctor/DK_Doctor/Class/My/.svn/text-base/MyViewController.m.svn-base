@@ -1,0 +1,171 @@
+//
+//  MyViewController.m
+//  DK_Doctor
+//
+//  Created by 张斌 on 2017/1/16.
+//  Copyright © 2017年 陕西医管家医院管理咨询服务有限公司. All rights reserved.
+//
+
+#import "MyViewController.h"
+#import "Doctor.h"
+#import "Team.h"
+#import "MyViewModel.h"
+#import "OnLineWay.h"
+#import "UpdateMyiInfoViewController.h"
+
+
+#define MyInfoCellHeight   85
+
+@interface MyViewController ()
+
+@property(weak,nonatomic)IBOutlet UIView *imgBackView;
+@property(weak,nonatomic)IBOutlet UIImageView *headerView;
+
+@property(weak,nonatomic)IBOutlet UIView *imgDocBackView;
+@property(weak,nonatomic)IBOutlet UIImageView *headerDocView;
+
+@property(weak,nonatomic)IBOutlet UILabel *labelTeamName;
+@property(weak,nonatomic)IBOutlet UILabel *labelName;
+@property(weak,nonatomic)IBOutlet UILabel *labelSignature;
+@property(weak,nonatomic)IBOutlet UIImageView *imgLine;
+@end
+
+@implementation MyViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    // Do any additional setup after loading the view from its nib.
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+-(void)initUI
+{
+    [super initUI];
+    
+    self.imgBackView.layer.cornerRadius = 32.5;
+    self.imgBackView.layer.borderWidth = .5f;
+    self.imgBackView.layer.borderColor = NavitionBarColor.CGColor;
+    self.imgBackView.clipsToBounds = YES;
+    
+    self.headerView.layer.cornerRadius = 28.5f;
+    self.headerView.clipsToBounds = YES;
+    
+    self.imgDocBackView.layer.cornerRadius = 32.5;
+    self.imgDocBackView.layer.borderWidth = .5f;
+    self.imgDocBackView.layer.borderColor = NavitionBarColor.CGColor;
+    self.imgDocBackView.clipsToBounds = YES;
+    
+    self.headerDocView.layer.cornerRadius = 28.5f;
+    self.headerDocView.clipsToBounds = YES;
+    
+    self.title = @"个人中心";
+
+    
+}
+-(void)initData
+{
+    [super initData];
+    [self reloadDataUI];
+    
+    __weak typeof (self)weakSelf = self;
+    [DefaultNotificationCenter addObserverForName:EnterOk object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
+        
+        [weakSelf reloadDataUI];
+    }];
+   
+}
+
+-(void)reloadDataUI
+{
+    Doctor *doctor = [UserDefaultCache loadCache:UserDoctor];
+    Team *team  = [UserDefaultCache loadCache:DKTeam];
+    OnLineWay *lineWay = [UserDefaultCache loadCache:DKLine];
+    
+    self.labelTeamName.text = team.teamName;
+    
+    switch ((int)lineWay.stateId)
+    {
+        case 0:
+            //在线
+            [self.imgLine setImage:[UIImage imageNamed:@"online"]];
+            break;
+        case 1:
+            //隐身
+            [self.imgLine setImage:[UIImage imageNamed:@"hide"]];
+            break;
+        case 2:
+            //值班
+            [self.imgLine setImage:[UIImage imageNamed:@"teamStatus"]];
+            break;
+            
+        default:
+            break;
+    }
+    
+    
+    if ([team.teamPic containsString:@"http"])
+    {
+        [self.headerView sd_setImageWithURL:[NSURL URLWithString:team.teamPic] placeholderImage:[UIImage imageNamed:@"defaultHeader"]];
+    }
+    else
+    {
+        [self.headerView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@",URLDomainName,team.teamPic]] placeholderImage:[UIImage imageNamed:@"defaultHeader"]];
+    }
+    
+    if ([doctor.headPic containsString:@"http"])
+    {
+        [self.headerDocView sd_setImageWithURL:[NSURL URLWithString:doctor.headPic] placeholderImage:[UIImage imageNamed:@"defaultHeader"]];
+    }
+    else
+    {
+        [self.headerDocView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@",URLDomainName,doctor.headPic]] placeholderImage:[UIImage imageNamed:@"defaultHeader"]];
+    }
+    
+    self.labelTeamName.text = team.teamName;
+    self.labelName.text = doctor.name;
+    
+    self.labelSignature.text = [NSString stringWithFormat:@"个性签名:%@",doctor.signature];
+}
+
+-(IBAction)modifyMyInfo:(id)sender
+{
+    //修改个人中心
+    UpdateMyiInfoViewController *updateVC = [[UpdateMyiInfoViewController alloc] initWithNibName:@"UpdateMyiInfoViewController" bundle:nil];
+    
+    [self.navigationController pushViewController:updateVC animated:YES];
+    
+}
+
+-(IBAction)updateDoctorStatus:(id)sender
+{
+    [DefaultNotificationCenter postNotificationName:NotiUpdateStatus object:self];
+    
+}
+
+-(IBAction)logOut:(id)sender
+{
+    MyViewModel *viewModel = [[MyViewModel alloc] init];
+    
+    [viewModel logOutWithFail:^(NSString *errorMsg) {
+        [MBProgressHUD showHideMessage:errorMsg];
+    }];
+}
+
+
+
+
+/*
+#pragma mark - Navigation
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+}
+*/
+
+
+@end

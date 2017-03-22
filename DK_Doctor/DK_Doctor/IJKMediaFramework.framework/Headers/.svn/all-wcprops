@@ -1,0 +1,71 @@
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/ios/!svn/ver/7/trunk/DKZY/Doctor/DKDoctorWorkSpace/DK_Doctor/DK_Doctor/IJKMediaFramework.framework/Headers
+END
+IJKFFMoviePlayerController.h
+K 25
+svn:wc:ra_dav:version-url
+V 136
+/ios/!svn/ver/7/trunk/DKZY/Doctor/DKDoctorWorkSpace/DK_Doctor/DK_Doctor/IJKMediaFramework.framework/Headers/IJKFFMoviePlayerController.h
+END
+IJKMediaPlayer.h
+K 25
+svn:wc:ra_dav:version-url
+V 124
+/ios/!svn/ver/7/trunk/DKZY/Doctor/DKDoctorWorkSpace/DK_Doctor/DK_Doctor/IJKMediaFramework.framework/Headers/IJKMediaPlayer.h
+END
+IJKMPMoviePlayerController.h
+K 25
+svn:wc:ra_dav:version-url
+V 136
+/ios/!svn/ver/7/trunk/DKZY/Doctor/DKDoctorWorkSpace/DK_Doctor/DK_Doctor/IJKMediaFramework.framework/Headers/IJKMPMoviePlayerController.h
+END
+IJKMediaFramework.h
+K 25
+svn:wc:ra_dav:version-url
+V 127
+/ios/!svn/ver/7/trunk/DKZY/Doctor/DKDoctorWorkSpace/DK_Doctor/DK_Doctor/IJKMediaFramework.framework/Headers/IJKMediaFramework.h
+END
+IJKNotificationManager.h
+K 25
+svn:wc:ra_dav:version-url
+V 132
+/ios/!svn/ver/7/trunk/DKZY/Doctor/DKDoctorWorkSpace/DK_Doctor/DK_Doctor/IJKMediaFramework.framework/Headers/IJKNotificationManager.h
+END
+IJKFFMonitor.h
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/ios/!svn/ver/7/trunk/DKZY/Doctor/DKDoctorWorkSpace/DK_Doctor/DK_Doctor/IJKMediaFramework.framework/Headers/IJKFFMonitor.h
+END
+IJKKVOController.h
+K 25
+svn:wc:ra_dav:version-url
+V 126
+/ios/!svn/ver/7/trunk/DKZY/Doctor/DKDoctorWorkSpace/DK_Doctor/DK_Doctor/IJKMediaFramework.framework/Headers/IJKKVOController.h
+END
+IJKMediaModule.h
+K 25
+svn:wc:ra_dav:version-url
+V 124
+/ios/!svn/ver/7/trunk/DKZY/Doctor/DKDoctorWorkSpace/DK_Doctor/DK_Doctor/IJKMediaFramework.framework/Headers/IJKMediaModule.h
+END
+IJKMediaPlayback.h
+K 25
+svn:wc:ra_dav:version-url
+V 126
+/ios/!svn/ver/7/trunk/DKZY/Doctor/DKDoctorWorkSpace/DK_Doctor/DK_Doctor/IJKMediaFramework.framework/Headers/IJKMediaPlayback.h
+END
+IJKAVMoviePlayerController.h
+K 25
+svn:wc:ra_dav:version-url
+V 136
+/ios/!svn/ver/7/trunk/DKZY/Doctor/DKDoctorWorkSpace/DK_Doctor/DK_Doctor/IJKMediaFramework.framework/Headers/IJKAVMoviePlayerController.h
+END
+IJKFFOptions.h
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/ios/!svn/ver/7/trunk/DKZY/Doctor/DKDoctorWorkSpace/DK_Doctor/DK_Doctor/IJKMediaFramework.framework/Headers/IJKFFOptions.h
+END

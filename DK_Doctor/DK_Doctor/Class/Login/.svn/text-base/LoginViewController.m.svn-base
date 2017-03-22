@@ -1,0 +1,150 @@
+//
+//  LoginViewController.m
+//  Yiguanjia_Paitent
+//
+//  Created by 张斌 on 16/8/5.
+//  Copyright © 2016年 张斌. All rights reserved.
+//
+
+#import "LoginViewController.h"
+#import "UIColor+BGHexColor.h"
+#import "CommonFuncation.h"
+#import "EMSDK.h"
+#import "BGSever+Login.h"
+#import "DoctorInfo.h"
+#import "ModifyPSWViewController.h"
+#import "CryptoFuncation.h"
+#import "LoginViewModel.h"
+#import "UserDefaultCache.h"
+
+@interface LoginViewController ()
+
+@property(weak,nonatomic)IBOutlet UIButton *btnLogin;
+@property(weak,nonatomic)IBOutlet UIButton *btnRegister;
+
+@property(weak,nonatomic)IBOutlet UITextField *tfName;
+@property(weak,nonatomic)IBOutlet UITextField *tfPassWord;
+
+
+@end
+
+
+
+@implementation LoginViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    // Do any additional setup after loading the view from its nib.
+    self.title = @"登录";
+    
+    UITapGestureRecognizer *tap =[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapClick:)];
+    
+    [self.view addGestureRecognizer:tap];
+    
+    [DefaultNotificationCenter addObserverForName:ForGetPSWNote object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
+        
+        NSDictionary *dic = note.userInfo;
+        self.tfName.text = dic[@"accountName"];
+    }];
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+//初始化UI
+-(void)initUI
+{
+    [super initUI];
+    self.btnLogin.layer.cornerRadius = 4.f;
+    self.btnLogin.clipsToBounds = YES;
+    
+    self.btnRegister.layer.cornerRadius = 4.f;
+    self.btnRegister.layer.borderWidth = .5f;
+    self.btnRegister.layer.borderColor = NavitionBarColor.CGColor;
+    self.btnRegister.clipsToBounds = YES;
+}
+-(void)initData
+{
+    NSString *userName =  [UserDefaultCache loadCache:UESERNAME];
+    NSString *userPsw =  [UserDefaultCache loadCache:UESERPASSWORD];
+    self.tfName.text  = userName;
+    self.tfPassWord.text = userPsw;
+    
+    if (userPsw && userName)
+    {
+        [self Login:nil];
+    }
+}
+
+- (void)buttonAction_goback:(id)sender
+{
+    
+}
+
+/*
+#pragma mark - Navigation
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+}
+*/
+
+#pragma mark- Action
+-(IBAction)Login:(id)sender
+{
+    LoginViewModel *viewModel = [[LoginViewModel alloc] initWithName:self.tfName.text withPsw:self.tfPassWord.text];
+    
+    if (![viewModel checkAccountAndPswIsNormal])
+    {
+        [CommonFuncation ShowAlert:nil Message:viewModel.hudMessage];
+        return;
+    }
+    //登录
+    __weak typeof (self)weakSelf = self;
+    
+    [viewModel loginWith:^{
+        
+        [weakSelf.tfName resignFirstResponder];
+        [weakSelf.tfPassWord resignFirstResponder];
+        
+        [DefaultNotificationCenter postNotificationName:LogInOK object:self];
+        [weakSelf removeFromParentViewController];
+        
+        [UIView animateWithDuration:0.25 animations:^{
+            weakSelf.view.alpha = 0.0;
+        } completion:^(BOOL finished) {
+            if (finished)
+            {
+                [weakSelf.view removeFromSuperview];
+            }
+        }];
+        
+    } withCallBack:^(NSString *errorMsg) {
+        [MBProgressHUD showHideMessage:errorMsg];
+    }];
+}
+-(IBAction)registerClick:(id)sender
+{
+    ModifyPSWViewController *registerVC = [[ModifyPSWViewController alloc] initWithNibName:@"ModifyPSWViewController" bundle:nil withType:RegisterType];
+    [self.navigationController pushViewController:registerVC animated:YES];
+}
+-(IBAction)forgetPsw:(id)sender
+{
+    ModifyPSWViewController *registerVC = [[ModifyPSWViewController alloc] initWithNibName:@"ModifyPSWViewController" bundle:nil withType:ModifyPSWType];
+    [self.navigationController pushViewController:registerVC animated:YES];
+
+}
+-(void)tapClick:(UITapGestureRecognizer *)tap
+{
+    [self.tfName resignFirstResponder];
+    [self.tfPassWord resignFirstResponder];
+}
+
+
+
+
+@end

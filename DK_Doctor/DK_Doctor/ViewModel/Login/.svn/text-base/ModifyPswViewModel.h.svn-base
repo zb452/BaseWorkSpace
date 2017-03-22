@@ -1,0 +1,38 @@
+//
+//  ModifyPswViewModel.h
+//  DK_Doctor
+//
+//  Created by 张斌 on 2017/2/10.
+//  Copyright © 2017年 陕西医管家医院管理咨询服务有限公司. All rights reserved.
+//
+
+#import "BaseViewModel.h"
+#import "ModifyPSWViewController.h"
+
+@interface ModifyPswViewModel : BaseViewModel
+
+@property(strong,nonatomic)NSString *name;
+@property(strong,nonatomic)NSString *password;
+@property(strong,nonatomic)NSString *aginPassword;
+@property(strong,nonatomic)NSString *authCode;
+
+@property(strong,nonatomic)NSString *hudMessage;
+
+-(instancetype)initwithType:(ControllerType)type;
+
+//检查账号和密码是否正常
+-(BOOL)checkAccountAndPswIsNormal;
+
+//检查手机号
+-(BOOL)checkPhoneNumer;
+
+//注册或者修改密码
+-(void)finishRegist:(SuccessCallback)success
+           withFail:(FailCallback)fail;
+
+//获取验证码
+-(void)getAuthCode:(SuccessCallback)success
+          withFail:(FailCallback)fail;
+
+
+@end

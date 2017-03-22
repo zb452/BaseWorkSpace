@@ -1,0 +1,42 @@
+10
+
+dir
+0
+http://zb@192.168.125:9880/ios/trunk/DKZY/Doctor/DKDoctorWorkSpace/DK_Doctor/DK_Doctor/ViewModel/Order
+http://zb@192.168.125:9880/ios
+add
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+c58d07a8-82a3-7f4b-897d-7ace862ac819
+
+OrderDetailViewModel.h
+file
+
+
+
+add
+
+OrderDetailViewModel.m
+file
+
+
+
+add
+

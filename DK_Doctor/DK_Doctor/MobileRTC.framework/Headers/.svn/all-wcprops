@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/ios/!svn/ver/7/trunk/DKZY/Doctor/DKDoctorWorkSpace/DK_Doctor/DK_Doctor/MobileRTC.framework/Headers
+END
+MobileRTCMeetingService.h
+K 25
+svn:wc:ra_dav:version-url
+V 125
+/ios/!svn/ver/7/trunk/DKZY/Doctor/DKDoctorWorkSpace/DK_Doctor/DK_Doctor/MobileRTC.framework/Headers/MobileRTCMeetingService.h
+END
+MobileRTCMeetingSettings.h
+K 25
+svn:wc:ra_dav:version-url
+V 126
+/ios/!svn/ver/7/trunk/DKZY/Doctor/DKDoctorWorkSpace/DK_Doctor/DK_Doctor/MobileRTC.framework/Headers/MobileRTCMeetingSettings.h
+END
+MobileRTCConstants.h
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/ios/!svn/ver/7/trunk/DKZY/Doctor/DKDoctorWorkSpace/DK_Doctor/DK_Doctor/MobileRTC.framework/Headers/MobileRTCConstants.h
+END
+MobileRTCInviteHelper.h
+K 25
+svn:wc:ra_dav:version-url
+V 123
+/ios/!svn/ver/7/trunk/DKZY/Doctor/DKDoctorWorkSpace/DK_Doctor/DK_Doctor/MobileRTC.framework/Headers/MobileRTCInviteHelper.h
+END
+MobileRTC.h
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/ios/!svn/ver/7/trunk/DKZY/Doctor/DKDoctorWorkSpace/DK_Doctor/DK_Doctor/MobileRTC.framework/Headers/MobileRTC.h
+END
+MobileRTCPremeetingService.h
+K 25
+svn:wc:ra_dav:version-url
+V 128
+/ios/!svn/ver/7/trunk/DKZY/Doctor/DKDoctorWorkSpace/DK_Doctor/DK_Doctor/MobileRTC.framework/Headers/MobileRTCPremeetingService.h
+END
+MobileRTCAuthService.h
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/ios/!svn/ver/7/trunk/DKZY/Doctor/DKDoctorWorkSpace/DK_Doctor/DK_Doctor/MobileRTC.framework/Headers/MobileRTCAuthService.h
+END

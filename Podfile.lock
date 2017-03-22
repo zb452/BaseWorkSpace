@@ -1,0 +1,60 @@
+PODS:
+  - AFNetworking (3.1.0):
+    - AFNetworking/NSURLSession (= 3.1.0)
+    - AFNetworking/Reachability (= 3.1.0)
+    - AFNetworking/Security (= 3.1.0)
+    - AFNetworking/Serialization (= 3.1.0)
+    - AFNetworking/UIKit (= 3.1.0)
+  - AFNetworking/NSURLSession (3.1.0):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/Reachability (3.1.0)
+  - AFNetworking/Security (3.1.0)
+  - AFNetworking/Serialization (3.1.0)
+  - AFNetworking/UIKit (3.1.0):
+    - AFNetworking/NSURLSession
+  - AliyunOSSiOS (2.5.2)
+  - DZNEmptyDataSet (1.8.1)
+  - HMSegmentedControl (1.5.2)
+  - IQKeyboardManager (3.3.7)
+  - MBProgressHUD (0.9.2)
+  - MJRefresh (3.1.12)
+  - NJKWebViewProgress (0.2.3):
+    - NJKWebViewProgress/Core (= 0.2.3)
+    - NJKWebViewProgress/ProgressView (= 0.2.3)
+  - NJKWebViewProgress/Core (0.2.3)
+  - NJKWebViewProgress/ProgressView (0.2.3)
+  - SDCycleScrollView (1.65):
+    - SDWebImage (~> 3.7)
+  - SDWebImage (3.7.6):
+    - SDWebImage/Core (= 3.7.6)
+  - SDWebImage/Core (3.7.6)
+
+DEPENDENCIES:
+  - AFNetworking (~> 3.0)
+  - AliyunOSSiOS (~> 2.5.2)
+  - DZNEmptyDataSet
+  - HMSegmentedControl
+  - IQKeyboardManager
+  - MBProgressHUD (~> 0.9.2)
+  - MJRefresh
+  - NJKWebViewProgress (= 0.2.3)
+  - SDCycleScrollView (~> 1.64)
+  - SDWebImage (~> 3.7.0)
+
+SPEC CHECKSUMS:
+  AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
+  AliyunOSSiOS: 146e2766bf73df9c9f645de6f2d8a92ceb7c8be4
+  DZNEmptyDataSet: 9525833b9e68ac21c30253e1d3d7076cc828eaa7
+  HMSegmentedControl: 83b9686022d2176fb6457d2bdb61e5d6393fed7d
+  IQKeyboardManager: 249c3946acf61345c18b038eb50863fe2793e3a8
+  MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
+  MJRefresh: b96cdb21c4aa75a7b07654311ab2f315c497e806
+  NJKWebViewProgress: f481fd424cb5ecc27eacae11b5397db92fba9a4d
+  SDCycleScrollView: f72904c77698a7f93a41bcbbc2d78b073bf7326c
+  SDWebImage: c325cf02c30337336b95beff20a13df489ec0ec9
+
+PODFILE CHECKSUM: 64304aacf4c49d0f1848b66b91bc9af564024dab
+
+COCOAPODS: 1.0.1

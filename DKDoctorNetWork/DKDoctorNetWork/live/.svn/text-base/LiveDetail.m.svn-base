@@ -1,0 +1,228 @@
+//
+//  LiveDetail.m
+//
+//  Created by 斌 张 on 2016/11/10
+//  Copyright (c) 2016 __MyCompanyName__. All rights reserved.
+//
+
+#import "LiveDetail.h"
+
+
+NSString *const kLiveDetailId = @"id";
+NSString *const kLiveDetailDescription = @"description";
+NSString *const kLiveDetailLiveType = @"liveType";
+NSString *const kLiveDetailTechnicalTitleName = @"technicalTitleName";
+NSString *const kLiveDetailTechnicalTitleCode = @"technicalTitleCode";
+NSString *const kLiveDetailSexName = @"sexName";
+NSString *const kLiveDetailName = @"name";
+NSString *const kLiveDetailChatroomCount = @"chatroomCount";
+NSString *const kLiveDetailPullPath = @"pullPath";
+NSString *const kLiveDetailAccountId = @"accountId";
+NSString *const kLiveDetailNickName = @"nickName";
+NSString *const kLiveDetailLiveStatus = @"liveStatus";
+NSString *const kLiveDetailAreaName = @"areaName";
+NSString *const kLiveDetailSexCode = @"sexCode";
+NSString *const kLiveDetailCId = @"cId";
+NSString *const kLiveDetailCreateTime = @"create_time";
+NSString *const kLiveDetailHeadPic = @"headPic";
+NSString *const kLiveDetailPushPath = @"pushPath";
+NSString *const kLiveDetailcityName = @"cityName";
+NSString *const kLiveDetailrestId = @"restId";
+
+
+@interface LiveDetail ()
+
+- (id)objectOrNilForKey:(id)aKey fromDictionary:(NSDictionary *)dict;
+
+@end
+
+@implementation LiveDetail
+
+@synthesize internalBaseClassIdentifier = _internalBaseClassIdentifier;
+@synthesize internalBaseClassDescription = _internalBaseClassDescription;
+@synthesize liveType = _liveType;
+@synthesize technicalTitleName = _technicalTitleName;
+@synthesize technicalTitleCode = _technicalTitleCode;
+@synthesize sexName = _sexName;
+@synthesize name = _name;
+@synthesize chatroomCount = _chatroomCount;
+@synthesize pullPath = _pullPath;
+@synthesize accountId = _accountId;
+@synthesize nickName = _nickName;
+@synthesize liveStatus = _liveStatus;
+@synthesize areaName = _areaName;
+@synthesize sexCode = _sexCode;
+@synthesize cId = _cId;
+@synthesize createTime = _createTime;
+@synthesize headPic = _headPic;
+@synthesize pushPath = _pushPath;
+@synthesize cityName = _cityName;
+@synthesize restId = _restId;
+
+
++ (instancetype)modelObjectWithDictionary:(NSDictionary *)dict
+{
+    return [[self alloc] initWithDictionary:dict];
+}
+
+- (instancetype)initWithDictionary:(NSDictionary *)dict
+{
+    self = [super init];
+    
+    // This check serves to make sure that a non-NSDictionary object
+    // passed into the model class doesn't break the parsing.
+    if(self && [dict isKindOfClass:[NSDictionary class]]) {
+            self.internalBaseClassIdentifier = [[self objectOrNilForKey:kLiveDetailId fromDictionary:dict] doubleValue];
+            self.internalBaseClassDescription = [self objectOrNilForKey:kLiveDetailDescription fromDictionary:dict];
+            self.liveType = [self objectOrNilForKey:kLiveDetailLiveType fromDictionary:dict];
+            self.technicalTitleName = [self objectOrNilForKey:kLiveDetailTechnicalTitleName fromDictionary:dict];
+            self.technicalTitleCode = [self objectOrNilForKey:kLiveDetailTechnicalTitleCode fromDictionary:dict];
+            self.sexName = [self objectOrNilForKey:kLiveDetailSexName fromDictionary:dict];
+            self.name = [self objectOrNilForKey:kLiveDetailName fromDictionary:dict];
+            self.chatroomCount = [[self objectOrNilForKey:kLiveDetailChatroomCount fromDictionary:dict] doubleValue];
+            self.pullPath = [self objectOrNilForKey:kLiveDetailPullPath fromDictionary:dict];
+            self.accountId = [[self objectOrNilForKey:kLiveDetailAccountId fromDictionary:dict] doubleValue];
+            self.nickName = [self objectOrNilForKey:kLiveDetailNickName fromDictionary:dict];
+            self.liveStatus = [self objectOrNilForKey:kLiveDetailLiveStatus fromDictionary:dict];
+            self.areaName = [self objectOrNilForKey:kLiveDetailAreaName fromDictionary:dict];
+            self.sexCode = [self objectOrNilForKey:kLiveDetailSexCode fromDictionary:dict];
+            self.cId = [[self objectOrNilForKey:kLiveDetailCId fromDictionary:dict] doubleValue];
+            self.createTime = [[self objectOrNilForKey:kLiveDetailCreateTime fromDictionary:dict] doubleValue];
+            self.headPic = [self objectOrNilForKey:kLiveDetailHeadPic fromDictionary:dict];
+            self.pushPath = [self objectOrNilForKey:kLiveDetailPushPath fromDictionary:dict];
+            self.cityName = [self objectOrNilForKey:kLiveDetailcityName fromDictionary:dict];
+            self.restId = [self objectOrNilForKey:kLiveDetailrestId fromDictionary:dict];
+
+    }
+    
+    return self;
+    
+}
+
+- (NSDictionary *)dictionaryRepresentation
+{
+    NSMutableDictionary *mutableDict = [NSMutableDictionary dictionary];
+    [mutableDict setValue:[NSNumber numberWithDouble:self.internalBaseClassIdentifier] forKey:kLiveDetailId];
+    [mutableDict setValue:self.internalBaseClassDescription forKey:kLiveDetailDescription];
+    [mutableDict setValue:self.liveType forKey:kLiveDetailLiveType];
+    [mutableDict setValue:self.technicalTitleName forKey:kLiveDetailTechnicalTitleName];
+    [mutableDict setValue:self.technicalTitleCode forKey:kLiveDetailTechnicalTitleCode];
+    [mutableDict setValue:self.sexName forKey:kLiveDetailSexName];
+    [mutableDict setValue:self.name forKey:kLiveDetailName];
+    [mutableDict setValue:[NSNumber numberWithDouble:self.chatroomCount] forKey:kLiveDetailChatroomCount];
+    [mutableDict setValue:self.pullPath forKey:kLiveDetailPullPath];
+    [mutableDict setValue:[NSNumber numberWithDouble:self.accountId] forKey:kLiveDetailAccountId];
+    [mutableDict setValue:self.nickName forKey:kLiveDetailNickName];
+    [mutableDict setValue:self.liveStatus forKey:kLiveDetailLiveStatus];
+    [mutableDict setValue:self.areaName forKey:kLiveDetailAreaName];
+    [mutableDict setValue:self.sexCode forKey:kLiveDetailSexCode];
+    [mutableDict setValue:[NSNumber numberWithDouble:self.cId] forKey:kLiveDetailCId];
+    [mutableDict setValue:[NSNumber numberWithDouble:self.createTime] forKey:kLiveDetailCreateTime];
+    [mutableDict setValue:self.headPic forKey:kLiveDetailHeadPic];
+    [mutableDict setValue:self.pushPath forKey:kLiveDetailPushPath];
+    [mutableDict setValue:self.cityName forKey:kLiveDetailcityName];
+    [mutableDict setValue:self.restId forKey:kLiveDetailrestId];
+
+    return [NSDictionary dictionaryWithDictionary:mutableDict];
+}
+
+- (NSString *)description 
+{
+    return [NSString stringWithFormat:@"%@", [self dictionaryRepresentation]];
+}
+
+#pragma mark - Helper Method
+- (id)objectOrNilForKey:(id)aKey fromDictionary:(NSDictionary *)dict
+{
+    id object = [dict objectForKey:aKey];
+    return [object isEqual:[NSNull null]] ? nil : object;
+}
+
+
+#pragma mark - NSCoding Methods
+
+- (id)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super init];
+
+    self.internalBaseClassIdentifier = [aDecoder decodeDoubleForKey:kLiveDetailId];
+    self.internalBaseClassDescription = [aDecoder decodeObjectForKey:kLiveDetailDescription];
+    self.liveType = [aDecoder decodeObjectForKey:kLiveDetailLiveType];
+    self.technicalTitleName = [aDecoder decodeObjectForKey:kLiveDetailTechnicalTitleName];
+    self.technicalTitleCode = [aDecoder decodeObjectForKey:kLiveDetailTechnicalTitleCode];
+    self.sexName = [aDecoder decodeObjectForKey:kLiveDetailSexName];
+    self.name = [aDecoder decodeObjectForKey:kLiveDetailName];
+    self.chatroomCount = [aDecoder decodeDoubleForKey:kLiveDetailChatroomCount];
+    self.pullPath = [aDecoder decodeObjectForKey:kLiveDetailPullPath];
+    self.accountId = [aDecoder decodeDoubleForKey:kLiveDetailAccountId];
+    self.nickName = [aDecoder decodeObjectForKey:kLiveDetailNickName];
+    self.liveStatus = [aDecoder decodeObjectForKey:kLiveDetailLiveStatus];
+    self.areaName = [aDecoder decodeObjectForKey:kLiveDetailAreaName];
+    self.sexCode = [aDecoder decodeObjectForKey:kLiveDetailSexCode];
+    self.cId = [aDecoder decodeDoubleForKey:kLiveDetailCId];
+    self.createTime = [aDecoder decodeDoubleForKey:kLiveDetailCreateTime];
+    self.headPic = [aDecoder decodeObjectForKey:kLiveDetailHeadPic];
+    self.pushPath = [aDecoder decodeObjectForKey:kLiveDetailPushPath];
+    self.cityName = [aDecoder decodeObjectForKey:kLiveDetailcityName];
+    self.restId = [aDecoder decodeObjectForKey:kLiveDetailrestId];
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder
+{
+
+    [aCoder encodeDouble:_internalBaseClassIdentifier forKey:kLiveDetailId];
+    [aCoder encodeObject:_internalBaseClassDescription forKey:kLiveDetailDescription];
+    [aCoder encodeObject:_liveType forKey:kLiveDetailLiveType];
+    [aCoder encodeObject:_technicalTitleName forKey:kLiveDetailTechnicalTitleName];
+    [aCoder encodeObject:_technicalTitleCode forKey:kLiveDetailTechnicalTitleCode];
+    [aCoder encodeObject:_sexName forKey:kLiveDetailSexName];
+    [aCoder encodeObject:_name forKey:kLiveDetailName];
+    [aCoder encodeDouble:_chatroomCount forKey:kLiveDetailChatroomCount];
+    [aCoder encodeObject:_pullPath forKey:kLiveDetailPullPath];
+    [aCoder encodeDouble:_accountId forKey:kLiveDetailAccountId];
+    [aCoder encodeObject:_nickName forKey:kLiveDetailNickName];
+    [aCoder encodeObject:_liveStatus forKey:kLiveDetailLiveStatus];
+    [aCoder encodeObject:_areaName forKey:kLiveDetailAreaName];
+    [aCoder encodeObject:_sexCode forKey:kLiveDetailSexCode];
+    [aCoder encodeDouble:_cId forKey:kLiveDetailCId];
+    [aCoder encodeDouble:_createTime forKey:kLiveDetailCreateTime];
+    [aCoder encodeObject:_headPic forKey:kLiveDetailHeadPic];
+    [aCoder encodeObject:_pushPath forKey:kLiveDetailPushPath];
+    [aCoder encodeObject:_cityName forKey:kLiveDetailcityName];
+     [aCoder encodeObject:_restId forKey:kLiveDetailrestId];
+}
+
+- (id)copyWithZone:(NSZone *)zone
+{
+    LiveDetail *copy = [[LiveDetail alloc] init];
+    
+    if (copy) {
+
+        copy.internalBaseClassIdentifier = self.internalBaseClassIdentifier;
+        copy.internalBaseClassDescription = [self.internalBaseClassDescription copyWithZone:zone];
+        copy.liveType = [self.liveType copyWithZone:zone];
+        copy.technicalTitleName = [self.technicalTitleName copyWithZone:zone];
+        copy.technicalTitleCode = [self.technicalTitleCode copyWithZone:zone];
+        copy.sexName = [self.sexName copyWithZone:zone];
+        copy.name = [self.name copyWithZone:zone];
+        copy.chatroomCount = self.chatroomCount;
+        copy.pullPath = [self.pullPath copyWithZone:zone];
+        copy.accountId = self.accountId;
+        copy.nickName = [self.nickName copyWithZone:zone];
+        copy.liveStatus = [self.liveStatus copyWithZone:zone];
+        copy.areaName = [self.areaName copyWithZone:zone];
+        copy.sexCode = [self.sexCode copyWithZone:zone];
+        copy.cId = self.cId;
+        copy.createTime = self.createTime;
+        copy.headPic = [self.headPic copyWithZone:zone];
+        copy.pushPath = [self.pushPath copyWithZone:zone];
+        copy.cityName = [self.cityName copyWithZone:zone];
+        copy.restId = [self.restId copyWithZone:zone];
+    }
+    
+    return copy;
+}
+
+
+@end

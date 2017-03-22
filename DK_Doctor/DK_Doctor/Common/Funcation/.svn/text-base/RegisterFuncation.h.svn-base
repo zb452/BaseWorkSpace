@@ -1,0 +1,39 @@
+//
+//  RegisterFuncation.h
+//  Ep_Doctor
+//
+//  Created by 张斌 on 16/9/9.
+//  Copyright © 2016年 陕西医管家医院管理咨询服务有限公司. All rights reserved.
+//  各种注册第三方功能
+
+#import <Foundation/Foundation.h>
+
+
+@interface RegisterFuncation : NSObject
+
+/**
+ *  注册环信信息
+ */
++(void)registerHy;
+
+/**
+ *  注册环信UI信息
+ */
+//+(void)registerHyUI:(UIApplication *)application
+//        didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+//        apnsCertName:(NSString *)apnsCertName
+//         otherConfig:(NSDictionary *)otherConfig;
+
+/**
+ 注册微信
+ 
+ @param appId   appid
+ @param description  描述
+ */
+//+(void)registerWX:(NSString *)appId withDescription:(NSString *)description;
+
+/**
+ 注册zoom
+ */
++(void)registerZoom;
+@end

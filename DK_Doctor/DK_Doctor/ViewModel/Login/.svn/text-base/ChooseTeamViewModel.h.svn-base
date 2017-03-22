@@ -1,0 +1,46 @@
+//
+//  ChooseTeamViewModel.h
+//  DK_Doctor
+//
+//  Created by 张斌 on 2017/2/11.
+//  Copyright © 2017年 陕西医管家医院管理咨询服务有限公司. All rights reserved.
+//
+
+#import "BaseViewModel.h"
+#import "Team.h"
+
+typedef  void (^NeedAlert)(Team *team);
+@interface ChooseTeamViewModel : BaseViewModel
+
+
+@property(assign,nonatomic)NSInteger teamChoose;  //选择的团队
+@property(assign,nonatomic)NSInteger onLineWayChoose; //选在的登录方式
+
+
+-(NSInteger)teamCount;
+-(NSInteger)onLineWayCount;
+
+-(NSString *)teamName:(NSInteger)index;
+-(NSString *)onLineWayName:(NSInteger)index;
+
+-(UIImage *)chooseTeamImage:(NSInteger)index;
+-(UIImage *)chooseOnLineWayImage:(NSInteger)index;
+
+
+
+-(void)getMyTeamList:(WillSendCallback)WillSend
+             Success:(SuccessCallback)Success
+            withFail:(FailCallback)Fail;
+
+-(void)getOnLineWay:(SuccessCallback)Success
+           withFail:(FailCallback)Fail;
+
+//进入时候调用
+-(void)enterWithNeedAlert:(NeedAlert)needAlert
+                  Success:(SuccessCallback)Success
+                 withFail:(FailCallback)Fail;
+
+-(void)updateTeamAndDoctor:(SuccessCallback)Success
+                  withFail:(FailCallback)Fail;
+
+@end

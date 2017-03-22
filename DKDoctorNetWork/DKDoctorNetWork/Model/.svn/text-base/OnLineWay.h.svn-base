@@ -1,0 +1,21 @@
+//
+//  OnLineWay.h
+//
+//  Created by 斌 张 on 2017/2/11
+//  Copyright (c) 2017 __MyCompanyName__. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+
+
+
+@interface OnLineWay : NSObject <NSCoding, NSCopying>
+
+@property (nonatomic, assign) double stateId;
+@property (nonatomic, strong) NSString *stateName;
+
++ (instancetype)modelObjectWithDictionary:(NSDictionary *)dict;
+- (instancetype)initWithDictionary:(NSDictionary *)dict;
+- (NSDictionary *)dictionaryRepresentation;
+
+@end

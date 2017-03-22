@@ -1,0 +1,93 @@
+//
+//  TeamTableViewCell.m
+//  DK_Doctor
+//
+//  Created by 张斌 on 2017/1/19.
+//  Copyright © 2017年 陕西医管家医院管理咨询服务有限公司. All rights reserved.
+//
+
+#import "TeamTableViewCell.h"
+#import "UIImageView+WebCache.h"
+
+@interface TeamTableViewCell()
+
+@property(weak,nonatomic)IBOutlet UIImageView *imgView;
+@property(weak,nonatomic)IBOutlet UILabel *labelName;
+@property(weak,nonatomic)IBOutlet UILabel *labelMember;
+@property(weak,nonatomic)IBOutlet UIImageView *imgMeeting;
+@property(weak,nonatomic)IBOutlet UIButton *btnCall;
+
+@property(strong,nonatomic)Team *team;
+
+@end
+
+@implementation TeamTableViewCell
+
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    // Initialization code
+    
+    self.selectionStyle = UITableViewCellSeparatorStyleNone;
+    
+    self.imgView.layer.cornerRadius = 20;
+    self.imgView.clipsToBounds  =YES;
+}
+
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+    [super setSelected:selected animated:animated];
+
+    // Configure the view for the selected state
+}
+
+-(void)configWith:(Team *)team
+{
+    self.team = team;
+    self.labelName.text = team.teamName;
+    
+    if ([team.teamPic containsString:@"http"])
+    {
+        [self.imgView sd_setImageWithURL:[NSURL URLWithString:team.teamPic] placeholderImage:[UIImage imageNamed:@"defaultHeader"]];
+    }
+    else
+    {
+        [self.imgView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@",URLDomainName,team.teamPic]] placeholderImage:[UIImage imageNamed:@"defaultHeader"]];
+    }
+    if (team.teamStatus == 103201)
+    {
+        //团队在线
+        self.labelMember.text = [NSString stringWithFormat:@"%@代表团队登录中",team.accountName];
+        
+        [self.btnCall setImage:[UIImage imageNamed:@"call"] forState:UIControlStateNormal];
+        
+//        self.btnCall.userInteractionEnabled = YES;
+    }
+    else
+    {
+        //团队不在线
+        self.labelMember.text = @"";
+        [self.btnCall setImage:[UIImage imageNamed:@"noCall"] forState:UIControlStateNormal];
+        
+  //      self.btnCall.userInteractionEnabled = NO;
+    }
+    
+    if (team.usingMeetingStatus == 0)
+    {
+        //视频中
+        self.imgMeeting.hidden = NO;
+    }
+    else
+    {
+        self.imgMeeting.hidden = YES;
+    }
+}
+
+-(IBAction)call:(id)sender
+{
+    if ([self.delegate respondsToSelector:@selector(callTeam:Team:)])
+    {
+        [self.delegate callTeam:self Team:self.team];
+    }
+}
+
+
+@end

@@ -1,0 +1,281 @@
+//
+//  BGSever+Live.m
+//  EPNetWork
+//
+//  Created by 张斌 on 2016/11/3.
+//  Copyright © 2016年 陕西医管家医院管理咨询服务有限公司. All rights reserved.
+//
+
+#import "BGSever+Live.h"
+
+@implementation BGSever (Live)
+
+
+/**
+ *  查询直播的科室
+ *
+ *
+ */
++(void)getLiveDepartMentWithSuccess:(Success)successBlock
+                   Process:(Process)processBlock
+                      Fail:(Failure)failBlock
+{
+    
+    [[HttpBase shareHttpBase] postDataFromAction:GetLiveDepartMent withParameters:nil withProcess:^(NSProgress *loadProcess) {
+        if (processBlock)
+        {
+            processBlock(loadProcess);
+        }
+    } withSuccessBlock:^(id backJson) {
+        
+        if (successBlock)
+        {
+            successBlock(backJson);
+        }
+        
+    } withFailBlock:^(NSError *error) {
+        if (failBlock)
+        {
+            failBlock(error);
+        }
+        
+    }];
+    
+}
+/**
+ *  查询对应科室的直播列表
+ *  @param departmentId  科室的id
+ *
+ */
++(void)getLivelistWithDepartMent:(NSString *)departmentId
+                        liveType:(NSString *)liveType
+                            Page:(NSInteger)page
+                            Limit:(NSInteger)limit
+                            Success:(Success)successBlock
+                            Process:(Process)processBlock
+                               Fail:(Failure)failBlock
+{
+    NSMutableDictionary *postDic = [NSMutableDictionary dictionary];
+    
+    [postDic setNoNullObject:departmentId forKey:@"departmentsId"];
+
+    [postDic setNoNullObject:[NSString stringWithFormat:@"%d",page] forKey:YGJPage];
+    [postDic setNoNullObject:[NSString stringWithFormat:@"%d",limit] forKey:YGJLimit];
+    [postDic setNoNullObject:liveType forKey:@"liveType"];
+    
+    [[HttpBase shareHttpBase] postDataFromAction:GetLiveList withParameters:postDic withProcess:^(NSProgress *loadProcess) {
+        if (processBlock)
+        {
+            processBlock(loadProcess);
+        }
+    } withSuccessBlock:^(id backJson) {
+        
+        if (successBlock)
+        {
+            successBlock(backJson);
+        }
+        
+    } withFailBlock:^(NSError *error) {
+        if (failBlock)
+        {
+            failBlock(error);
+        }
+        
+    }];
+    
+}
+
+/**
+ *  创建直播
+ *
+ * @param merberId  医生的id
+ */
++(void)createLiveWithMemberId:(NSString *)merberId
+                            Success:(Success)successBlock
+                            Process:(Process)processBlock
+                               Fail:(Failure)failBlock
+{
+    
+    
+    NSMutableDictionary *postDic = [NSMutableDictionary dictionary];
+    [postDic setNoNullObject:merberId forKey:@"id"];
+    [postDic setNoNullObject:@"103101" forKey:@"liveType"];
+
+    [[HttpBase shareHttpBase] postDataFromAction:CreateLive withParameters:postDic withProcess:^(NSProgress *loadProcess) {
+        if (processBlock)
+        {
+            processBlock(loadProcess);
+        }
+    } withSuccessBlock:^(id backJson) {
+        
+        if (successBlock)
+        {
+            successBlock(backJson);
+        }
+        
+    } withFailBlock:^(NSError *error) {
+        if (failBlock)
+        {
+            failBlock(error);
+        }
+        
+    }];
+    
+}
+
+/**
+ *  查询直播详情
+ *
+ * @param merberId  医生的id
+ */
++(void)queryLiveDetailWithId:(NSString *)liveId
+                      Success:(Success)successBlock
+                      Process:(Process)processBlock
+                         Fail:(Failure)failBlock
+{
+    
+    
+    NSMutableDictionary *postDic = [NSMutableDictionary dictionary];
+    [postDic setNoNullObject:liveId forKey:@"id"];
+    
+    [[HttpBase shareHttpBase] postDataFromAction:GetLiveDetail withParameters:postDic withProcess:^(NSProgress *loadProcess) {
+        if (processBlock)
+        {
+            processBlock(loadProcess);
+        }
+    } withSuccessBlock:^(id backJson) {
+        
+        if (successBlock)
+        {
+            successBlock(backJson);
+        }
+        
+    } withFailBlock:^(NSError *error) {
+        if (failBlock)
+        {
+            failBlock(error);
+        }
+        
+    }];
+}
+
+/**
+ *  查询直播详情
+ *
+ * @param merberId  医生的id
+ */
++(void)addChatRoomWithId:(NSString *)userId
+              ChatRoomId:(NSString *)chatRoomId
+                     Success:(Success)successBlock
+                     Process:(Process)processBlock
+                        Fail:(Failure)failBlock
+{
+    
+    
+    NSMutableDictionary *postDic = [NSMutableDictionary dictionary];
+    [postDic setNoNullObject:userId forKey:@"userId"];
+    [postDic setNoNullObject:chatRoomId forKey:@"chatroomId"];
+    
+    [[HttpBase shareHttpBase] postDataFromAction:AddChatRoom withParameters:postDic withProcess:^(NSProgress *loadProcess) {
+        if (processBlock)
+        {
+            processBlock(loadProcess);
+        }
+    } withSuccessBlock:^(id backJson) {
+        
+        if (successBlock)
+        {
+            successBlock(backJson);
+        }
+        
+    } withFailBlock:^(NSError *error) {
+        if (failBlock)
+        {
+            failBlock(error);
+        }
+        
+    }];
+    
+}
+
+/**
+ *  医生结束直播
+ *
+ * @param chatRoomId  聊调试id
+ */
++(void)doctorFinishLiveWithId:(NSString *)chatRoomId
+                 Success:(Success)successBlock
+                 Process:(Process)processBlock
+                    Fail:(Failure)failBlock
+{
+    
+    
+    NSMutableDictionary *postDic = [NSMutableDictionary dictionary];
+    [postDic setNoNullObject:chatRoomId forKey:@"chatroomId"];
+    
+    [[HttpBase shareHttpBase] postDataFromAction:DoctorFinishLive withParameters:postDic withProcess:^(NSProgress *loadProcess) {
+        if (processBlock)
+        {
+            processBlock(loadProcess);
+        }
+    } withSuccessBlock:^(id backJson) {
+        
+        if (successBlock)
+        {
+            successBlock(backJson);
+        }
+        
+    } withFailBlock:^(NSError *error) {
+        if (failBlock)
+        {
+            failBlock(error);
+        }
+        
+    }];
+    
+}
+/**
+ *  用户退出直播
+ *
+ * @param merberId
+ */
++(void)userQuitLiveWithId:(NSString *)chatRoomId
+                   userId:(NSString *)userId
+                      Success:(Success)successBlock
+                      Process:(Process)processBlock
+                         Fail:(Failure)failBlock
+{
+    
+    
+    NSMutableDictionary *postDic = [NSMutableDictionary dictionary];
+    [postDic setNoNullObject:chatRoomId forKey:@"chatroomId"];
+    [postDic setNoNullObject:userId forKey:@"userId"];
+    
+    [[HttpBase shareHttpBase] postDataFromAction:UeserQuitRoom withParameters:postDic withProcess:^(NSProgress *loadProcess) {
+        if (processBlock)
+        {
+            processBlock(loadProcess);
+        }
+    } withSuccessBlock:^(id backJson) {
+        
+        if (successBlock)
+        {
+            successBlock(backJson);
+        }
+        
+    } withFailBlock:^(NSError *error) {
+        if (failBlock)
+        {
+            failBlock(error);
+        }
+        
+    }];
+    
+}
+
+
+
+
+
+
+@end

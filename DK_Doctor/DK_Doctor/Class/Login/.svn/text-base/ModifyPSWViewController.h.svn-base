@@ -1,0 +1,21 @@
+//
+//  ModifyPSWViewController.h
+//  Yiguanjia_Paitent
+//
+//  Created by 张斌 on 16/8/26.
+//  Copyright © 2016年 张斌. All rights reserved.
+//
+
+#import "BaseViewController.h"
+
+typedef enum
+{
+    RegisterType,  // 注册页面
+    ModifyPSWType   //忘记密码页面
+}ControllerType;
+
+@interface ModifyPSWViewController : BaseViewController
+
+-(instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil withType:(ControllerType)Type;
+
+@end

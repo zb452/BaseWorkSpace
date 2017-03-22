@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="MemberTableViewCell" id="KGk-i7-Jjw" customClass="MemberTableViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="defaultHeader.png" translatesAutoresizingMaskIntoConstraints="NO" id="79S-tt-VTv">
+                        <rect key="frame" x="15" y="5" width="40" height="40"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="40" id="LU4-cw-BQ6"/>
+                            <constraint firstAttribute="width" constant="40" id="xJx-Ym-N9M"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="师娟子" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0aQ-kN-jKe">
+                        <rect key="frame" x="65" y="14" width="52" height="22"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="52" id="THP-yh-gfI"/>
+                            <constraint firstAttribute="height" constant="22" id="dH7-DJ-AVo"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                        <color key="textColor" red="0.23921568627450979" green="0.23921568627450979" blue="0.23921568627450979" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NZ1-fN-wqW">
+                        <rect key="frame" x="255" y="10" width="50" height="30"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="50" id="ExE-6X-gYy"/>
+                            <constraint firstAttribute="height" constant="30" id="TZf-Jn-FA6"/>
+                        </constraints>
+                        <state key="normal" title="Button" image="memberCall.png"/>
+                        <connections>
+                            <action selector="click:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="pg1-cz-l1D"/>
+                        </connections>
+                    </button>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="meeting.png" translatesAutoresizingMaskIntoConstraints="NO" id="L4f-Sa-ZDc">
+                        <rect key="frame" x="215" y="11" width="30" height="28"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="30" id="Qa4-El-6x8"/>
+                            <constraint firstAttribute="height" constant="28" id="Qjp-4g-9Fe"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="副主任医师" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wYZ-WK-FIp">
+                        <rect key="frame" x="124" y="14" width="86" height="22"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="22" id="cPR-0I-oue"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                        <color key="textColor" red="0.73725490196078436" green="0.73725490196078436" blue="0.73725490196078436" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rDo-X3-zCL">
+                        <rect key="frame" x="65" y="48" width="255" height="1"/>
+                        <color key="backgroundColor" red="0.94509803921568625" green="0.94509803921568625" blue="0.94509803921568625" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="1" id="EYn-MH-bN7"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="wYZ-WK-FIp" firstAttribute="centerY" secondItem="79S-tt-VTv" secondAttribute="centerY" id="3vF-U5-fEi"/>
+                    <constraint firstItem="79S-tt-VTv" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="4L8-VC-oyt"/>
+                    <constraint firstAttribute="bottom" secondItem="rDo-X3-zCL" secondAttribute="bottom" id="5Bo-CS-aY7"/>
+                    <constraint firstAttribute="trailing" secondItem="NZ1-fN-wqW" secondAttribute="trailing" constant="15" id="5uC-bH-EMb"/>
+                    <constraint firstItem="79S-tt-VTv" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="Lre-gA-vFw"/>
+                    <constraint firstItem="rDo-X3-zCL" firstAttribute="leading" secondItem="0aQ-kN-jKe" secondAttribute="leading" id="QYd-wV-7wm"/>
+                    <constraint firstItem="0aQ-kN-jKe" firstAttribute="leading" secondItem="79S-tt-VTv" secondAttribute="trailing" constant="10" id="Ucq-8N-Bca"/>
+                    <constraint firstItem="0aQ-kN-jKe" firstAttribute="centerY" secondItem="79S-tt-VTv" secondAttribute="centerY" id="Wfv-6z-ZCR"/>
+                    <constraint firstItem="NZ1-fN-wqW" firstAttribute="centerY" secondItem="79S-tt-VTv" secondAttribute="centerY" id="YiM-U2-q3H"/>
+                    <constraint firstAttribute="trailing" secondItem="rDo-X3-zCL" secondAttribute="trailing" id="dN8-mt-HzX"/>
+                    <constraint firstItem="L4f-Sa-ZDc" firstAttribute="centerY" secondItem="79S-tt-VTv" secondAttribute="centerY" id="dy1-VZ-qGf"/>
+                    <constraint firstItem="wYZ-WK-FIp" firstAttribute="leading" secondItem="0aQ-kN-jKe" secondAttribute="trailing" constant="7" id="g5y-ZL-SaC"/>
+                    <constraint firstItem="L4f-Sa-ZDc" firstAttribute="leading" secondItem="wYZ-WK-FIp" secondAttribute="trailing" constant="5" id="h6h-Nn-pcn"/>
+                    <constraint firstItem="NZ1-fN-wqW" firstAttribute="leading" secondItem="L4f-Sa-ZDc" secondAttribute="trailing" constant="10" id="meK-1x-QDq"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="btnCall" destination="NZ1-fN-wqW" id="v7Q-nw-emM"/>
+                <outlet property="imgMeeting" destination="L4f-Sa-ZDc" id="Fbr-1g-mue"/>
+                <outlet property="imgView" destination="79S-tt-VTv" id="1VI-YD-ang"/>
+                <outlet property="labelName" destination="0aQ-kN-jKe" id="p2W-Kb-3UP"/>
+                <outlet property="labelProfess" destination="wYZ-WK-FIp" id="8mW-Ur-8Yh"/>
+            </connections>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="defaultHeader.png" width="93" height="92"/>
+        <image name="meeting.png" width="30" height="28"/>
+        <image name="memberCall.png" width="50" height="30"/>
+    </resources>
+</document>

@@ -1,0 +1,50 @@
+//
+//  MyViewModel.m
+//  DK_Doctor
+//
+//  Created by 张斌 on 2017/2/23.
+//  Copyright © 2017年 陕西医管家医院管理咨询服务有限公司. All rights reserved.
+//
+
+#import "MyViewModel.h"
+#import "DKHyChatHelper.h"
+#import "BGSever+Team.h"
+#import "Doctor.h"
+#import "Team.h"
+
+@implementation MyViewModel
+
+-(void)logOutWithFail:(FailCallback)fail
+{
+    Doctor *doctor = [UserDefaultCache loadCache:UserDoctor];
+    Team *team = [UserDefaultCache loadCache:DKTeam];
+    [BGSever updateDoctorState:[NSString stringWithFormat:@"%d",(int)doctor.accountId] doctorState:@"-1" team:team.teamId showLoad:YES loadText:@"正在退出..." success:^(NSDictionary *getDic) {
+        
+        if ([getDic[@"code"] intValue] == 0)
+        {
+            [[DKHyChatHelper shareDKHyChatHelper] logout];
+            
+            [UserDefaultCache removeCache:UESERPASSWORD];
+            [UserDefaultCache removeCache:UserDoctor];
+            
+            [DefaultNotificationCenter postNotificationName:NotiLogOut object:self];
+
+        }
+        else
+        {
+            if ([getDic[@"data"] isKindOfClass:[NSString class]])
+            {
+                fail(getDic[@"data"]);
+            }
+            else
+            {
+                fail(@"退出失败");
+            }
+        }
+        
+    } Process:nil failure:^(NSError *error) {
+        fail(@"退出失败");
+    }];
+}
+
+@end

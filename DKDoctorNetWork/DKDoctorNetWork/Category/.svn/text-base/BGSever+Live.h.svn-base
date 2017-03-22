@@ -1,0 +1,86 @@
+//
+//  BGSever+Live.h
+//  EPNetWork
+//
+//  Created by 张斌 on 2016/11/3.
+//  Copyright © 2016年 陕西医管家医院管理咨询服务有限公司. All rights reserved.
+//
+
+#import "BGSever.h"
+
+@interface BGSever (Live)
+
+
+/**
+ *  查询直播的科室
+ *
+ *
+ */
++(void)getLiveDepartMentWithSuccess:(Success)successBlock
+                            Process:(Process)processBlock
+                               Fail:(Failure)failBlock;
+
+/**
+ *  查询对应科室的直播列表
+ *  @param departmentId  科室的id
+ *
+ */
++(void)getLivelistWithDepartMent:(NSString *)departmentId
+                        liveType:(NSString *)liveType
+                            Page:(NSInteger)page
+                           Limit:(NSInteger)limit
+                         Success:(Success)successBlock
+                         Process:(Process)processBlock
+                            Fail:(Failure)failBlock;
+
+/**
+ *  创建直播
+ * @param merberId  医生的id
+ *
+ */
++(void)createLiveWithMemberId:(NSString *)merberId
+                      Success:(Success)successBlock
+                      Process:(Process)processBlock
+                         Fail:(Failure)failBlock;
+/**
+ *  查询直播详情
+ *
+ * @param merberId  医生的id
+ */
++(void)queryLiveDetailWithId:(NSString *)liveId
+                     Success:(Success)successBlock
+                     Process:(Process)processBlock
+                        Fail:(Failure)failBlock;
+/**
+ *  添加聊天室成员
+ *
+ * @param userId  用户的id
+ */
++(void)addChatRoomWithId:(NSString *)userId
+              ChatRoomId:(NSString *)chatRoomId
+                 Success:(Success)successBlock
+                 Process:(Process)processBlock
+                    Fail:(Failure)failBlock;
+
+/**
+ *  医生结束直播
+ *
+ * @param merberId  医生的id
+ */
++(void)doctorFinishLiveWithId:(NSString *)chatRoomId
+                      Success:(Success)successBlock
+                      Process:(Process)processBlock
+                         Fail:(Failure)failBlock;
+
+/**
+ *  用户退出直播
+ *
+ * @param merberId
+ */
++(void)userQuitLiveWithId:(NSString *)chatRoomId
+                   userId:(NSString *)userId
+                  Success:(Success)successBlock
+                  Process:(Process)processBlock
+                     Fail:(Failure)failBlock;
+
+@end

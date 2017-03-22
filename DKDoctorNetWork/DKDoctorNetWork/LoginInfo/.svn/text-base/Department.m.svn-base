@@ -1,0 +1,214 @@
+//
+//  Department.m
+//
+//  Created by 斌 张 on 2016/10/17
+//  Copyright (c) 2016 陕西医管家医院管理咨询服务有限公司. All rights reserved.
+//
+
+#import "Department.h"
+
+
+NSString *const kDepartmentId = @"id";
+NSString *const kDepartmentLevelCode = @"levelCode";
+NSString *const kDepartmentDescription = @"description";
+NSString *const kDepartmentLevelName = @"levelName";
+NSString *const kDepartmentTypeCode = @"typeCode";
+NSString *const kDepartmentName = @"name";
+NSString *const kDepartmentStar = @"star";
+NSString *const kDepartmentTypeName = @"typeName";
+NSString *const kDepartmentTime = @"time";
+NSString *const kDepartmentIsDefault = @"isDefault";
+NSString *const kDepartmentIsPublic = @"isPublic";
+NSString *const kDepartmentCreateTime = @"createTime";
+NSString *const kDepartmentNum = @"num";
+NSString *const kDepartmentIconImg = @"iconImg";
+NSString *const kDepartmentHospitalAreaId = @"hospitalAreaId";
+NSString *const kDepartmentImgPath = @"imgPath";
+NSString *const kDepartmentStatus = @"status";
+NSString *const kDepartmentUpdateTime = @"updateTime";
+
+
+@interface Department ()
+
+- (id)objectOrNilForKey:(id)aKey fromDictionary:(NSDictionary *)dict;
+
+@end
+
+@implementation Department
+
+@synthesize departmentIdentifier = _departmentIdentifier;
+@synthesize levelCode = _levelCode;
+@synthesize departmentDescription = _departmentDescription;
+@synthesize levelName = _levelName;
+@synthesize typeCode = _typeCode;
+@synthesize name = _name;
+@synthesize star = _star;
+@synthesize typeName = _typeName;
+@synthesize time = _time;
+@synthesize isDefault = _isDefault;
+@synthesize isPublic = _isPublic;
+@synthesize createTime = _createTime;
+@synthesize num = _num;
+@synthesize iconImg = _iconImg;
+@synthesize hospitalAreaId = _hospitalAreaId;
+@synthesize imgPath = _imgPath;
+@synthesize status = _status;
+@synthesize updateTime = _updateTime;
+
+
++ (instancetype)modelObjectWithDictionary:(NSDictionary *)dict
+{
+    return [[self alloc] initWithDictionary:dict];
+}
+
+- (instancetype)initWithDictionary:(NSDictionary *)dict
+{
+    self = [super init];
+    
+    // This check serves to make sure that a non-NSDictionary object
+    // passed into the model class doesn't break the parsing.
+    if(self && [dict isKindOfClass:[NSDictionary class]]) {
+            self.departmentIdentifier = [[self objectOrNilForKey:kDepartmentId fromDictionary:dict] doubleValue];
+            self.levelCode = [self objectOrNilForKey:kDepartmentLevelCode fromDictionary:dict];
+            self.departmentDescription = [self objectOrNilForKey:kDepartmentDescription fromDictionary:dict];
+            self.levelName = [self objectOrNilForKey:kDepartmentLevelName fromDictionary:dict];
+            self.typeCode = [self objectOrNilForKey:kDepartmentTypeCode fromDictionary:dict];
+            self.name = [self objectOrNilForKey:kDepartmentName fromDictionary:dict];
+            self.star = [self objectOrNilForKey:kDepartmentStar fromDictionary:dict];
+            self.typeName = [self objectOrNilForKey:kDepartmentTypeName fromDictionary:dict];
+            self.time = [self objectOrNilForKey:kDepartmentTime fromDictionary:dict];
+            self.isDefault = [self objectOrNilForKey:kDepartmentIsDefault fromDictionary:dict];
+            self.isPublic = [self objectOrNilForKey:kDepartmentIsPublic fromDictionary:dict];
+            self.createTime = [[self objectOrNilForKey:kDepartmentCreateTime fromDictionary:dict] doubleValue];
+            self.num = [self objectOrNilForKey:kDepartmentNum fromDictionary:dict];
+            self.iconImg = [self objectOrNilForKey:kDepartmentIconImg fromDictionary:dict];
+            self.hospitalAreaId = [[self objectOrNilForKey:kDepartmentHospitalAreaId fromDictionary:dict] doubleValue];
+            self.imgPath = [self objectOrNilForKey:kDepartmentImgPath fromDictionary:dict];
+            self.status = [self objectOrNilForKey:kDepartmentStatus fromDictionary:dict];
+            self.updateTime = [[self objectOrNilForKey:kDepartmentUpdateTime fromDictionary:dict] doubleValue];
+
+    }
+    
+    return self;
+    
+}
+
+- (NSDictionary *)dictionaryRepresentation
+{
+    NSMutableDictionary *mutableDict = [NSMutableDictionary dictionary];
+    [mutableDict setValue:[NSNumber numberWithDouble:self.departmentIdentifier] forKey:kDepartmentId];
+    [mutableDict setValue:self.levelCode forKey:kDepartmentLevelCode];
+    [mutableDict setValue:self.departmentDescription forKey:kDepartmentDescription];
+    [mutableDict setValue:self.levelName forKey:kDepartmentLevelName];
+    [mutableDict setValue:self.typeCode forKey:kDepartmentTypeCode];
+    [mutableDict setValue:self.name forKey:kDepartmentName];
+    [mutableDict setValue:self.star forKey:kDepartmentStar];
+    [mutableDict setValue:self.typeName forKey:kDepartmentTypeName];
+    [mutableDict setValue:self.time forKey:kDepartmentTime];
+    [mutableDict setValue:self.isDefault forKey:kDepartmentIsDefault];
+    [mutableDict setValue:self.isPublic forKey:kDepartmentIsPublic];
+    [mutableDict setValue:[NSNumber numberWithDouble:self.createTime] forKey:kDepartmentCreateTime];
+    [mutableDict setValue:self.num forKey:kDepartmentNum];
+    [mutableDict setValue:self.iconImg forKey:kDepartmentIconImg];
+    [mutableDict setValue:[NSNumber numberWithDouble:self.hospitalAreaId] forKey:kDepartmentHospitalAreaId];
+    [mutableDict setValue:self.imgPath forKey:kDepartmentImgPath];
+    [mutableDict setValue:self.status forKey:kDepartmentStatus];
+    [mutableDict setValue:[NSNumber numberWithDouble:self.updateTime] forKey:kDepartmentUpdateTime];
+
+    return [NSDictionary dictionaryWithDictionary:mutableDict];
+}
+
+- (NSString *)description 
+{
+    return [NSString stringWithFormat:@"%@", [self dictionaryRepresentation]];
+}
+
+#pragma mark - Helper Method
+- (id)objectOrNilForKey:(id)aKey fromDictionary:(NSDictionary *)dict
+{
+    id object = [dict objectForKey:aKey];
+    return [object isEqual:[NSNull null]] ? nil : object;
+}
+
+
+#pragma mark - NSCoding Methods
+
+- (id)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super init];
+
+    self.departmentIdentifier = [aDecoder decodeDoubleForKey:kDepartmentId];
+    self.levelCode = [aDecoder decodeObjectForKey:kDepartmentLevelCode];
+    self.departmentDescription = [aDecoder decodeObjectForKey:kDepartmentDescription];
+    self.levelName = [aDecoder decodeObjectForKey:kDepartmentLevelName];
+    self.typeCode = [aDecoder decodeObjectForKey:kDepartmentTypeCode];
+    self.name = [aDecoder decodeObjectForKey:kDepartmentName];
+    self.star = [aDecoder decodeObjectForKey:kDepartmentStar];
+    self.typeName = [aDecoder decodeObjectForKey:kDepartmentTypeName];
+    self.time = [aDecoder decodeObjectForKey:kDepartmentTime];
+    self.isDefault = [aDecoder decodeObjectForKey:kDepartmentIsDefault];
+    self.isPublic = [aDecoder decodeObjectForKey:kDepartmentIsPublic];
+    self.createTime = [aDecoder decodeDoubleForKey:kDepartmentCreateTime];
+    self.num = [aDecoder decodeObjectForKey:kDepartmentNum];
+    self.iconImg = [aDecoder decodeObjectForKey:kDepartmentIconImg];
+    self.hospitalAreaId = [aDecoder decodeDoubleForKey:kDepartmentHospitalAreaId];
+    self.imgPath = [aDecoder decodeObjectForKey:kDepartmentImgPath];
+    self.status = [aDecoder decodeObjectForKey:kDepartmentStatus];
+    self.updateTime = [aDecoder decodeDoubleForKey:kDepartmentUpdateTime];
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder
+{
+
+    [aCoder encodeDouble:_departmentIdentifier forKey:kDepartmentId];
+    [aCoder encodeObject:_levelCode forKey:kDepartmentLevelCode];
+    [aCoder encodeObject:_departmentDescription forKey:kDepartmentDescription];
+    [aCoder encodeObject:_levelName forKey:kDepartmentLevelName];
+    [aCoder encodeObject:_typeCode forKey:kDepartmentTypeCode];
+    [aCoder encodeObject:_name forKey:kDepartmentName];
+    [aCoder encodeObject:_star forKey:kDepartmentStar];
+    [aCoder encodeObject:_typeName forKey:kDepartmentTypeName];
+    [aCoder encodeObject:_time forKey:kDepartmentTime];
+    [aCoder encodeObject:_isDefault forKey:kDepartmentIsDefault];
+    [aCoder encodeObject:_isPublic forKey:kDepartmentIsPublic];
+    [aCoder encodeDouble:_createTime forKey:kDepartmentCreateTime];
+    [aCoder encodeObject:_num forKey:kDepartmentNum];
+    [aCoder encodeObject:_iconImg forKey:kDepartmentIconImg];
+    [aCoder encodeDouble:_hospitalAreaId forKey:kDepartmentHospitalAreaId];
+    [aCoder encodeObject:_imgPath forKey:kDepartmentImgPath];
+    [aCoder encodeObject:_status forKey:kDepartmentStatus];
+    [aCoder encodeDouble:_updateTime forKey:kDepartmentUpdateTime];
+}
+
+- (id)copyWithZone:(NSZone *)zone
+{
+    Department *copy = [[Department alloc] init];
+    
+    if (copy) {
+
+        copy.departmentIdentifier = self.departmentIdentifier;
+        copy.levelCode = [self.levelCode copyWithZone:zone];
+        copy.departmentDescription = [self.departmentDescription copyWithZone:zone];
+        copy.levelName = [self.levelName copyWithZone:zone];
+        copy.typeCode = [self.typeCode copyWithZone:zone];
+        copy.name = [self.name copyWithZone:zone];
+        copy.star = [self.star copyWithZone:zone];
+        copy.typeName = [self.typeName copyWithZone:zone];
+        copy.time = [self.time copyWithZone:zone];
+        copy.isDefault = [self.isDefault copyWithZone:zone];
+        copy.isPublic = [self.isPublic copyWithZone:zone];
+        copy.createTime = self.createTime;
+        copy.num = [self.num copyWithZone:zone];
+        copy.iconImg = [self.iconImg copyWithZone:zone];
+        copy.hospitalAreaId = self.hospitalAreaId;
+        copy.imgPath = [self.imgPath copyWithZone:zone];
+        copy.status = [self.status copyWithZone:zone];
+        copy.updateTime = self.updateTime;
+    }
+    
+    return copy;
+}
+
+
+@end

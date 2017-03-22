@@ -1,0 +1,27 @@
+//
+//  Team.h
+//
+//  Created by 斌 张 on 2017/2/17
+//  Copyright (c) 2017 __MyCompanyName__. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+
+
+
+@interface Team : NSObject <NSCoding, NSCopying>
+
+@property (nonatomic, strong) NSString *teamId;
+@property (nonatomic, assign) double accountId;
+@property (nonatomic, assign) double teamStatus;
+@property (nonatomic, strong) NSString *teamPic;
+@property (nonatomic, assign) double usingMeetingStatus;
+@property (nonatomic, strong) NSString *teamDescription;
+@property (nonatomic, strong) NSString *accountName;
+@property (nonatomic, strong) NSString *teamName;
+
++ (instancetype)modelObjectWithDictionary:(NSDictionary *)dict;
+- (instancetype)initWithDictionary:(NSDictionary *)dict;
+- (NSDictionary *)dictionaryRepresentation;
+
+@end

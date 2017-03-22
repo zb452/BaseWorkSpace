@@ -1,0 +1,228 @@
+//
+//  HospitalArea.m
+//
+//  Created by 斌 张 on 2016/12/24
+//  Copyright (c) 2016 __MyCompanyName__. All rights reserved.
+//
+
+#import "HospitalArea.h"
+
+
+NSString *const kHospitalAreaDescription = @"description";
+NSString *const kHospitalAreaStatus = @"status";
+NSString *const kHospitalAreaTypeName = @"typeName";
+NSString *const kHospitalAreaUpdateTime = @"updateTime";
+NSString *const kHospitalAreaLevelCode = @"levelCode";
+NSString *const kHospitalAreaHospitalId = @"hospitalId";
+NSString *const kHospitalAreaLevelName = @"levelName";
+NSString *const kHospitalAreaLatitude = @"latitude";
+NSString *const kHospitalAreaIsDefault = @"isDefault";
+NSString *const kHospitalAreaName = @"name";
+NSString *const kHospitalAreaId = @"id";
+NSString *const kHospitalAreaRoute = @"route";
+NSString *const kHospitalAreaLongitude = @"longitude";
+NSString *const kHospitalAreaWebsite = @"website";
+NSString *const kHospitalAreaImgIcon = @"imgIcon";
+NSString *const kHospitalAreaIsPublic = @"isPublic";
+NSString *const kHospitalAreaCreateTime = @"createTime";
+NSString *const kHospitalAreaImgPath = @"imgPath";
+NSString *const kHospitalAreaAddress = @"address";
+NSString *const kHospitalAreaTypeCode = @"typeCode";
+
+
+@interface HospitalArea ()
+
+- (id)objectOrNilForKey:(id)aKey fromDictionary:(NSDictionary *)dict;
+
+@end
+
+@implementation HospitalArea
+
+@synthesize internalBaseClassDescription = _internalBaseClassDescription;
+@synthesize status = _status;
+@synthesize typeName = _typeName;
+@synthesize updateTime = _updateTime;
+@synthesize levelCode = _levelCode;
+@synthesize hospitalId = _hospitalId;
+@synthesize levelName = _levelName;
+@synthesize latitude = _latitude;
+@synthesize isDefault = _isDefault;
+@synthesize name = _name;
+@synthesize internalBaseClassIdentifier = _internalBaseClassIdentifier;
+@synthesize route = _route;
+@synthesize longitude = _longitude;
+@synthesize website = _website;
+@synthesize imgIcon = _imgIcon;
+@synthesize isPublic = _isPublic;
+@synthesize createTime = _createTime;
+@synthesize imgPath = _imgPath;
+@synthesize address = _address;
+@synthesize typeCode = _typeCode;
+
+
++ (instancetype)modelObjectWithDictionary:(NSDictionary *)dict
+{
+    return [[self alloc] initWithDictionary:dict];
+}
+
+- (instancetype)initWithDictionary:(NSDictionary *)dict
+{
+    self = [super init];
+    
+    // This check serves to make sure that a non-NSDictionary object
+    // passed into the model class doesn't break the parsing.
+    if(self && [dict isKindOfClass:[NSDictionary class]]) {
+            self.internalBaseClassDescription = [self objectOrNilForKey:kHospitalAreaDescription fromDictionary:dict];
+            self.status = [self objectOrNilForKey:kHospitalAreaStatus fromDictionary:dict];
+            self.typeName = [self objectOrNilForKey:kHospitalAreaTypeName fromDictionary:dict];
+            self.updateTime = [[self objectOrNilForKey:kHospitalAreaUpdateTime fromDictionary:dict] doubleValue];
+            self.levelCode = [self objectOrNilForKey:kHospitalAreaLevelCode fromDictionary:dict];
+            self.hospitalId = [[self objectOrNilForKey:kHospitalAreaHospitalId fromDictionary:dict] doubleValue];
+            self.levelName = [self objectOrNilForKey:kHospitalAreaLevelName fromDictionary:dict];
+            self.latitude = [self objectOrNilForKey:kHospitalAreaLatitude fromDictionary:dict];
+            self.isDefault = [self objectOrNilForKey:kHospitalAreaIsDefault fromDictionary:dict];
+            self.name = [self objectOrNilForKey:kHospitalAreaName fromDictionary:dict];
+            self.internalBaseClassIdentifier = [[self objectOrNilForKey:kHospitalAreaId fromDictionary:dict] doubleValue];
+            self.route = [self objectOrNilForKey:kHospitalAreaRoute fromDictionary:dict];
+            self.longitude = [self objectOrNilForKey:kHospitalAreaLongitude fromDictionary:dict];
+            self.website = [self objectOrNilForKey:kHospitalAreaWebsite fromDictionary:dict];
+            self.imgIcon = [self objectOrNilForKey:kHospitalAreaImgIcon fromDictionary:dict];
+            self.isPublic = [self objectOrNilForKey:kHospitalAreaIsPublic fromDictionary:dict];
+            self.createTime = [[self objectOrNilForKey:kHospitalAreaCreateTime fromDictionary:dict] doubleValue];
+            self.imgPath = [self objectOrNilForKey:kHospitalAreaImgPath fromDictionary:dict];
+            self.address = [self objectOrNilForKey:kHospitalAreaAddress fromDictionary:dict];
+            self.typeCode = [self objectOrNilForKey:kHospitalAreaTypeCode fromDictionary:dict];
+
+    }
+    
+    return self;
+    
+}
+
+- (NSDictionary *)dictionaryRepresentation
+{
+    NSMutableDictionary *mutableDict = [NSMutableDictionary dictionary];
+    [mutableDict setValue:self.internalBaseClassDescription forKey:kHospitalAreaDescription];
+    [mutableDict setValue:self.status forKey:kHospitalAreaStatus];
+    [mutableDict setValue:self.typeName forKey:kHospitalAreaTypeName];
+    [mutableDict setValue:[NSNumber numberWithDouble:self.updateTime] forKey:kHospitalAreaUpdateTime];
+    [mutableDict setValue:self.levelCode forKey:kHospitalAreaLevelCode];
+    [mutableDict setValue:[NSNumber numberWithDouble:self.hospitalId] forKey:kHospitalAreaHospitalId];
+    [mutableDict setValue:self.levelName forKey:kHospitalAreaLevelName];
+    [mutableDict setValue:self.latitude forKey:kHospitalAreaLatitude];
+    [mutableDict setValue:self.isDefault forKey:kHospitalAreaIsDefault];
+    [mutableDict setValue:self.name forKey:kHospitalAreaName];
+    [mutableDict setValue:[NSNumber numberWithDouble:self.internalBaseClassIdentifier] forKey:kHospitalAreaId];
+    [mutableDict setValue:self.route forKey:kHospitalAreaRoute];
+    [mutableDict setValue:self.longitude forKey:kHospitalAreaLongitude];
+    [mutableDict setValue:self.website forKey:kHospitalAreaWebsite];
+    [mutableDict setValue:self.imgIcon forKey:kHospitalAreaImgIcon];
+    [mutableDict setValue:self.isPublic forKey:kHospitalAreaIsPublic];
+    [mutableDict setValue:[NSNumber numberWithDouble:self.createTime] forKey:kHospitalAreaCreateTime];
+    [mutableDict setValue:self.imgPath forKey:kHospitalAreaImgPath];
+    [mutableDict setValue:self.address forKey:kHospitalAreaAddress];
+    [mutableDict setValue:self.typeCode forKey:kHospitalAreaTypeCode];
+
+    return [NSDictionary dictionaryWithDictionary:mutableDict];
+}
+
+- (NSString *)description 
+{
+    return [NSString stringWithFormat:@"%@", [self dictionaryRepresentation]];
+}
+
+#pragma mark - Helper Method
+- (id)objectOrNilForKey:(id)aKey fromDictionary:(NSDictionary *)dict
+{
+    id object = [dict objectForKey:aKey];
+    return [object isEqual:[NSNull null]] ? nil : object;
+}
+
+
+#pragma mark - NSCoding Methods
+
+- (id)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super init];
+
+    self.internalBaseClassDescription = [aDecoder decodeObjectForKey:kHospitalAreaDescription];
+    self.status = [aDecoder decodeObjectForKey:kHospitalAreaStatus];
+    self.typeName = [aDecoder decodeObjectForKey:kHospitalAreaTypeName];
+    self.updateTime = [aDecoder decodeDoubleForKey:kHospitalAreaUpdateTime];
+    self.levelCode = [aDecoder decodeObjectForKey:kHospitalAreaLevelCode];
+    self.hospitalId = [aDecoder decodeDoubleForKey:kHospitalAreaHospitalId];
+    self.levelName = [aDecoder decodeObjectForKey:kHospitalAreaLevelName];
+    self.latitude = [aDecoder decodeObjectForKey:kHospitalAreaLatitude];
+    self.isDefault = [aDecoder decodeObjectForKey:kHospitalAreaIsDefault];
+    self.name = [aDecoder decodeObjectForKey:kHospitalAreaName];
+    self.internalBaseClassIdentifier = [aDecoder decodeDoubleForKey:kHospitalAreaId];
+    self.route = [aDecoder decodeObjectForKey:kHospitalAreaRoute];
+    self.longitude = [aDecoder decodeObjectForKey:kHospitalAreaLongitude];
+    self.website = [aDecoder decodeObjectForKey:kHospitalAreaWebsite];
+    self.imgIcon = [aDecoder decodeObjectForKey:kHospitalAreaImgIcon];
+    self.isPublic = [aDecoder decodeObjectForKey:kHospitalAreaIsPublic];
+    self.createTime = [aDecoder decodeDoubleForKey:kHospitalAreaCreateTime];
+    self.imgPath = [aDecoder decodeObjectForKey:kHospitalAreaImgPath];
+    self.address = [aDecoder decodeObjectForKey:kHospitalAreaAddress];
+    self.typeCode = [aDecoder decodeObjectForKey:kHospitalAreaTypeCode];
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder
+{
+
+    [aCoder encodeObject:_internalBaseClassDescription forKey:kHospitalAreaDescription];
+    [aCoder encodeObject:_status forKey:kHospitalAreaStatus];
+    [aCoder encodeObject:_typeName forKey:kHospitalAreaTypeName];
+    [aCoder encodeDouble:_updateTime forKey:kHospitalAreaUpdateTime];
+    [aCoder encodeObject:_levelCode forKey:kHospitalAreaLevelCode];
+    [aCoder encodeDouble:_hospitalId forKey:kHospitalAreaHospitalId];
+    [aCoder encodeObject:_levelName forKey:kHospitalAreaLevelName];
+    [aCoder encodeObject:_latitude forKey:kHospitalAreaLatitude];
+    [aCoder encodeObject:_isDefault forKey:kHospitalAreaIsDefault];
+    [aCoder encodeObject:_name forKey:kHospitalAreaName];
+    [aCoder encodeDouble:_internalBaseClassIdentifier forKey:kHospitalAreaId];
+    [aCoder encodeObject:_route forKey:kHospitalAreaRoute];
+    [aCoder encodeObject:_longitude forKey:kHospitalAreaLongitude];
+    [aCoder encodeObject:_website forKey:kHospitalAreaWebsite];
+    [aCoder encodeObject:_imgIcon forKey:kHospitalAreaImgIcon];
+    [aCoder encodeObject:_isPublic forKey:kHospitalAreaIsPublic];
+    [aCoder encodeDouble:_createTime forKey:kHospitalAreaCreateTime];
+    [aCoder encodeObject:_imgPath forKey:kHospitalAreaImgPath];
+    [aCoder encodeObject:_address forKey:kHospitalAreaAddress];
+    [aCoder encodeObject:_typeCode forKey:kHospitalAreaTypeCode];
+}
+
+- (id)copyWithZone:(NSZone *)zone
+{
+    HospitalArea *copy = [[HospitalArea alloc] init];
+    
+    if (copy) {
+
+        copy.internalBaseClassDescription = [self.internalBaseClassDescription copyWithZone:zone];
+        copy.status = [self.status copyWithZone:zone];
+        copy.typeName = [self.typeName copyWithZone:zone];
+        copy.updateTime = self.updateTime;
+        copy.levelCode = [self.levelCode copyWithZone:zone];
+        copy.hospitalId = self.hospitalId;
+        copy.levelName = [self.levelName copyWithZone:zone];
+        copy.latitude = [self.latitude copyWithZone:zone];
+        copy.isDefault = [self.isDefault copyWithZone:zone];
+        copy.name = [self.name copyWithZone:zone];
+        copy.internalBaseClassIdentifier = self.internalBaseClassIdentifier;
+        copy.route = [self.route copyWithZone:zone];
+        copy.longitude = [self.longitude copyWithZone:zone];
+        copy.website = [self.website copyWithZone:zone];
+        copy.imgIcon = [self.imgIcon copyWithZone:zone];
+        copy.isPublic = [self.isPublic copyWithZone:zone];
+        copy.createTime = self.createTime;
+        copy.imgPath = [self.imgPath copyWithZone:zone];
+        copy.address = [self.address copyWithZone:zone];
+        copy.typeCode = [self.typeCode copyWithZone:zone];
+    }
+    
+    return copy;
+}
+
+
+@end

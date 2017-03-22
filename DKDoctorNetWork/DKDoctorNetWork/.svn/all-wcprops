@@ -1,0 +1,65 @@
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/ios/!svn/ver/15/trunk/DKZY/Doctor/DKDoctorWorkSpace/DKDoctorNetWork/DKDoctorNetWork
+END
+HttpBase.h
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/ios/!svn/ver/9/trunk/DKZY/Doctor/DKDoctorWorkSpace/DKDoctorNetWork/DKDoctorNetWork/HttpBase.h
+END
+NetEngine.h
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/ios/!svn/ver/7/trunk/DKZY/Doctor/DKDoctorWorkSpace/DKDoctorNetWork/DKDoctorNetWork/NetEngine.h
+END
+YXNetRequestGroup.h
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/ios/!svn/ver/7/trunk/DKZY/Doctor/DKDoctorWorkSpace/DKDoctorNetWork/DKDoctorNetWork/YXNetRequestGroup.h
+END
+HttpBase.m
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/ios/!svn/ver/9/trunk/DKZY/Doctor/DKDoctorWorkSpace/DKDoctorNetWork/DKDoctorNetWork/HttpBase.m
+END
+NetEngine.m
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/ios/!svn/ver/7/trunk/DKZY/Doctor/DKDoctorWorkSpace/DKDoctorNetWork/DKDoctorNetWork/NetEngine.m
+END
+YXNetRequestGroup.m
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/ios/!svn/ver/9/trunk/DKZY/Doctor/DKDoctorWorkSpace/DKDoctorNetWork/DKDoctorNetWork/YXNetRequestGroup.m
+END
+DKDoctorNetWork.h
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/ios/!svn/ver/7/trunk/DKZY/Doctor/DKDoctorWorkSpace/DKDoctorNetWork/DKDoctorNetWork/DKDoctorNetWork.h
+END
+urls.h
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/ios/!svn/ver/16/trunk/DKZY/Doctor/DKDoctorWorkSpace/DKDoctorNetWork/DKDoctorNetWork/urls.h
+END
+DKDoctorNetWork.pch
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/ios/!svn/ver/7/trunk/DKZY/Doctor/DKDoctorWorkSpace/DKDoctorNetWork/DKDoctorNetWork/DKDoctorNetWork.pch
+END
+DKDoctorNetWork.m
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/ios/!svn/ver/7/trunk/DKZY/Doctor/DKDoctorWorkSpace/DKDoctorNetWork/DKDoctorNetWork/DKDoctorNetWork.m
+END

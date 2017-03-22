@@ -1,0 +1,75 @@
+//
+//  HangUpVideoView.m
+//  DK_Patient
+//
+//  Created by 张斌 on 2017/1/14.
+//  Copyright © 2017年 陕西医管家医院管理咨询服务有限公司. All rights reserved.
+//
+
+#import "HangUpVideoView.h"
+#import "DKHyChatHelper.h"
+#import "DKSoundHelper.h"
+
+@implementation HangUpVideoView
+
+/*
+// Only override drawRect: if you perform custom drawing.
+// An empty implementation adversely affects performance during animation.
+- (void)drawRect:(CGRect)rect {
+    // Drawing code
+}
+*/
+
+
+-(void)awakeFromNib
+{
+    [super awakeFromNib];
+    
+    self.imgHeader.layer.cornerRadius = 50.f;
+    self.imgHeader.clipsToBounds = YES;
+}
+
+
+-(IBAction)CancelVideo:(id)sender
+{
+    //取消视频
+    switch (self.meetType)
+    {
+        case PatientType:
+            [[DKHyChatHelper shareDKHyChatHelper] sendCMDMessage:DKCancel To:self.dicData[@"from"] ext:nil];
+            break;
+        case DoctorType:
+            [[DKHyChatHelper shareDKHyChatHelper] sendCMDMessage:DKDoctorCancel To:self.dicData[@"from"] ext:nil];
+            break;
+        case TeamType:
+            [[DKHyChatHelper shareDKHyChatHelper] sendCMDMessage:DKDoctorCancel To:self.dicData[@"from"] ext:nil];
+            break;
+            
+        default:
+            break;
+    }
+
+    __weak typeof (self)weakSelf = self;
+    [[DKSoundHelper shareDKSoundHelper] stopAlertSoundWithSoundID];
+    [self dismissView:YES complete:^{
+
+       // [[DKZoomHelper shareZoomHelper] joinMeeting:self.dicData[@"RoomId"]];
+    }];
+    
+    if (self.timer)
+    {
+        [self.timer invalidate];
+        self.timer = nil;
+    }
+    
+}
+
+-(void)noResponse
+{
+    [super noResponse];
+
+    [MBProgressHUD showHideMessage:@"对方未响应"];
+
+}
+
+@end

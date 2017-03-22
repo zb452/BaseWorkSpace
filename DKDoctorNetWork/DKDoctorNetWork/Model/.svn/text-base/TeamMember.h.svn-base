@@ -1,0 +1,30 @@
+//
+//  TeamMember.h
+//
+//  Created by 斌 张 on 2017/2/18
+//  Copyright (c) 2017 __MyCompanyName__. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+
+
+
+@interface TeamMember : NSObject <NSCoding, NSCopying>
+
+@property (nonatomic, strong) NSString *name;
+@property (nonatomic, assign) double accountId;
+@property (nonatomic, strong) NSString *departmentsId;
+@property (nonatomic, strong) NSString *headPic;
+@property (nonatomic, strong) NSString *signature;
+@property (nonatomic, strong) NSString *departmentsName;
+@property (nonatomic, strong) NSString *usingMeetingStatus;
+@property (nonatomic, strong) NSString *internalBaseClassDescription;
+@property (nonatomic, strong) NSString *technicalTitleCode;
+@property (nonatomic, strong) NSString *technicalTitleName;
+@property (nonatomic, assign) double accountStatus;
+
++ (instancetype)modelObjectWithDictionary:(NSDictionary *)dict;
+- (instancetype)initWithDictionary:(NSDictionary *)dict;
+- (NSDictionary *)dictionaryRepresentation;
+
+@end

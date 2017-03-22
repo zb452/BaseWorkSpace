@@ -1,0 +1,242 @@
+//
+//  BGSever+Team.m
+//  DKDoctorNetWork
+//
+//  Created by 张斌 on 2017/2/11.
+//  Copyright © 2017年 陕西医管家医院管理咨询服务有限公司. All rights reserved.
+//
+
+#import "BGSever+Team.h"
+
+@implementation BGSever (Team)
+
+
+/**
+ 获取我所在的团队列表
+
+ @param accountId 用户id
+ */
++ (void)GetMyTimeList:(NSString *)accountId
+               showLoad:(BOOL)isShowLoad
+               loadText:(NSString *)text
+                success:(Success)successBlock
+                Process:(Process)processBlock
+                failure:(Failure)failureBlock
+{
+    NSMutableDictionary *postDic = [NSMutableDictionary dictionary];
+    [postDic setNoNullObject:accountId forKey:@"accountId"];
+    [[HttpBase shareHttpBase] postDataFromAction:GetMyTeamList isShowLoad:isShowLoad loadText:text withParameters:postDic withProcess:^(NSProgress *loadProcess) {
+        if (processBlock)
+        {
+            processBlock(loadProcess);
+        }
+    } withSuccessBlock:^(id backJson) {
+        
+        if (successBlock)
+        {
+            successBlock(backJson);
+        }
+        
+    } withFailBlock:^(NSError *error) {
+        if (failureBlock)
+        {
+            failureBlock(error);
+        }
+        
+    }];
+}
+
+/**
+ 获取登录的上线方式
+ */
++ (void)GetOnLineWay:(BOOL)isShowLoad
+             loadText:(NSString *)text
+              success:(Success)successBlock
+              Process:(Process)processBlock
+              failure:(Failure)failureBlock
+{
+    [[HttpBase shareHttpBase] postDataFromAction:GetOnLineWayList isShowLoad:isShowLoad loadText:text withParameters:nil withProcess:^(NSProgress *loadProcess) {
+        if (processBlock)
+        {
+            processBlock(loadProcess);
+        }
+    } withSuccessBlock:^(id backJson) {
+        
+        if (successBlock)
+        {
+            successBlock(backJson);
+        }
+        
+    } withFailBlock:^(NSError *error) {
+        if (failureBlock)
+        {
+            failureBlock(error);
+        }
+        
+    }];
+}
+
+/**
+ 获取某一个团队信息
+ 
+ @param teamId 用户id
+ */
++ (void)GetTeamDetailInfo:(NSString *)teamId
+             showLoad:(BOOL)isShowLoad
+             loadText:(NSString *)text
+              success:(Success)successBlock
+              Process:(Process)processBlock
+              failure:(Failure)failureBlock
+{
+    NSMutableDictionary *postDic = [NSMutableDictionary dictionary];
+    [postDic setNoNullObject:teamId forKey:@"teamId"];
+    
+   //  [postDic setNoNullObject:@"1" forKey:@"teamId"];
+    [[HttpBase shareHttpBase] postDataFromAction:GetTeamDetail isShowLoad:isShowLoad loadText:text withParameters:postDic withProcess:^(NSProgress *loadProcess) {
+        if (processBlock)
+        {
+            processBlock(loadProcess);
+        }
+    } withSuccessBlock:^(id backJson) {
+        
+        if (successBlock)
+        {
+            successBlock(backJson);
+        }
+        
+    } withFailBlock:^(NSError *error) {
+        if (failureBlock)
+        {
+            failureBlock(error);
+        }
+        
+    }];
+}
+
+/**
+ 更新医生和值班信息
+
+ @param accountId 医生id
+ @param accountStatus 登入的状态
+ @param teamId 选择的团队id
+ */
++ (void)updateDoctorState:(NSString *)accountId
+              doctorState:(NSString *)accountStatus
+                     team:(NSString *)teamId
+               showLoad:(BOOL)isShowLoad
+               loadText:(NSString *)text
+                success:(Success)successBlock
+                Process:(Process)processBlock
+                failure:(Failure)failureBlock
+{
+    NSMutableDictionary *postDic = [NSMutableDictionary dictionary];
+    [postDic setNoNullObject:accountId forKey:@"accountId"];
+    [postDic setNoNullObject:accountStatus forKey:@"accountStatus"];
+    [postDic setNoNullObject:teamId forKey:@"teamId"];
+    
+    [[HttpBase shareHttpBase] postDataFromAction:updatetDoctorStatus isShowLoad:isShowLoad loadText:text withParameters:postDic withProcess:^(NSProgress *loadProcess) {
+        if (processBlock)
+        {
+            processBlock(loadProcess);
+        }
+    } withSuccessBlock:^(id backJson) {
+        
+        if (successBlock)
+        {
+            successBlock(backJson);
+        }
+        
+    } withFailBlock:^(NSError *error) {
+        if (failureBlock)
+        {
+            failureBlock(error);
+        }
+    }];
+}
+
+/**
+ 获取我的团队和协作团队
+
+ @param teamId 我的团队id
+ */
++ (void)getAboutTeamList:(NSString *)teamId
+                 showLoad:(BOOL)isShowLoad
+                 loadText:(NSString *)text
+                  success:(Success)successBlock
+                  Process:(Process)processBlock
+                  failure:(Failure)failureBlock
+{
+    NSMutableDictionary *postDic = [NSMutableDictionary dictionary];
+    [postDic setNoNullObject:teamId forKey:@"teamId"];
+    
+    [[HttpBase shareHttpBase] postDataFromAction:GetAboutTeam isShowLoad:isShowLoad loadText:text withParameters:postDic withProcess:^(NSProgress *loadProcess) {
+        
+        if (processBlock)
+        {
+            processBlock(loadProcess);
+        }
+        
+    } withSuccessBlock:^(id backJson) {
+        
+        if (successBlock)
+        {
+            successBlock(backJson);
+        }
+        
+    } withFailBlock:^(NSError *error) {
+        if (failureBlock)
+        {
+            failureBlock(error);
+        }
+    }];
+}
+
+/**
+ 获取团队成员列表
+
+ @param teamId 团队成员
+ */
++ (void)getTeamMemberList:(NSString *)teamId
+                showLoad:(BOOL)isShowLoad
+                loadText:(NSString *)text
+                 success:(Success)successBlock
+                 Process:(Process)processBlock
+                 failure:(Failure)failureBlock
+{
+    NSMutableDictionary *postDic = [NSMutableDictionary dictionary];
+    [postDic setNoNullObject:teamId forKey:@"teamId"];
+    
+    [[HttpBase shareHttpBase] postDataFromAction:GetTeamMember isShowLoad:isShowLoad loadText:text withParameters:postDic withProcess:^(NSProgress *loadProcess) {
+        
+        if (processBlock)
+        {
+            processBlock(loadProcess);
+        }
+        
+    } withSuccessBlock:^(id backJson) {
+        
+        if (successBlock)
+        {
+            successBlock(backJson);
+        }
+        
+    } withFailBlock:^(NSError *error) {
+        if (failureBlock)
+        {
+            failureBlock(error);
+        }
+    }];
+}
+
+
+
+
+
+
+
+
+
+
+
+
+@end

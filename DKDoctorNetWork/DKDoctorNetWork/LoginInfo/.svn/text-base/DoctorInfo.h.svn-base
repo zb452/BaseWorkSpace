@@ -1,0 +1,25 @@
+//
+//  DoctorInfo.h
+//
+//  Created by 斌 张 on 2016/10/17
+//  Copyright (c) 2016 陕西医管家医院管理咨询服务有限公司. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+
+@class Member, HospitalArea, Department;
+
+@interface DoctorInfo : NSObject <NSCoding, NSCopying>
+
+@property (nonatomic, strong) Member *member;
+@property (nonatomic, strong) NSString *levelCode;
+@property (nonatomic, strong) HospitalArea *hospitalArea;
+@property (nonatomic, strong) Department *department;
+
++(DoctorInfo *)shareDoctorInfo;
+
++ (instancetype)modelObjectWithDictionary:(NSDictionary *)dict;
+- (instancetype)initWithDictionary:(NSDictionary *)dict;
+- (NSDictionary *)dictionaryRepresentation;
+
+@end

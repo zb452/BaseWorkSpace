@@ -1,0 +1,261 @@
+//
+//  ChooseTeamViewModel.m
+//  DK_Doctor
+//
+//  Created by 张斌 on 2017/2/11.
+//  Copyright © 2017年 陕西医管家医院管理咨询服务有限公司. All rights reserved.
+//
+
+#import "ChooseTeamViewModel.h"
+#import "BGSever+Team.h"
+#import "Doctor.h"
+#import "UserDefaultCache.h"
+#import "Team.h"
+#import "OnLineWay.h"
+#import "DKHyChatHelper.h"
+
+@interface ChooseTeamViewModel()
+
+@property(strong,nonatomic)NSArray *aryTeamList;
+@property(strong,nonatomic)NSArray *aryOnLineWay;
+
+@property(strong,nonatomic)Team *team; //选择值班的团队
+
+
+
+@end
+
+@implementation ChooseTeamViewModel
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        self.teamChoose = -1;
+        self.onLineWayChoose = -1;
+    }
+    return self;
+}
+
+-(NSInteger)teamCount
+{
+    return self.aryTeamList.count;
+}
+-(NSInteger)onLineWayCount
+{
+    return self.aryOnLineWay.count;
+}
+
+-(NSString *)teamName:(NSInteger)index
+{
+    Team *team = [self.aryTeamList objectAt:index];
+    
+    return team.teamName;
+}
+-(NSString *)onLineWayName:(NSInteger)index
+{
+    OnLineWay *onLineWay = [self.aryOnLineWay objectAt:index];
+    
+    return onLineWay.stateName;
+}
+-(UIImage *)chooseTeamImage:(NSInteger)index
+{
+    if (self.teamChoose == index)
+    {
+        return [UIImage imageNamed:@"choosed"];
+    }
+    
+    return [UIImage imageNamed:@"choose"];
+}
+
+-(UIImage *)chooseOnLineWayImage:(NSInteger)index
+{
+    if (self.onLineWayChoose == index)
+    {
+        return [UIImage imageNamed:@"choosed"];
+    }
+    
+    return [UIImage imageNamed:@"choose"];
+}
+
+
+
+-(void)updateTeamAndDoctor:(SuccessCallback)Success
+                  withFail:(FailCallback)Fail
+{
+    Doctor *doctor = [UserDefaultCache loadCache:UserDoctor];
+    
+    OnLineWay *onLineWay = [self.aryOnLineWay objectAt:self.onLineWayChoose];
+    
+    [BGSever updateDoctorState:[NSString stringWithFormat:@"%d",(int)doctor.accountId] doctorState:[NSString stringWithFormat:@"%d",(int)onLineWay.stateId] team:self.team.teamId showLoad:YES loadText:@"" success:^(NSDictionary *getDic) {
+        
+        if ([getDic[@"code"] intValue] == 0)
+        {
+            NSString *teamState = @"";
+            if ((onLineWay.stateId == 2)&&(self.team.accountId != doctor.accountId))
+            {
+                if (self.team.accountName.length != 0)
+                {
+                    //发消息给之前登录的人，通知他已经被强制踢下线
+                    [[DKHyChatHelper shareDKHyChatHelper] sendCMDMessage:DKDoctorForceQuit To:[NSString stringWithFormat:@"%d",(int)self.team.accountId] ext:[NSDictionary dictionaryWithObjectsAndKeys:doctor.name,DKDoctorName,nil]];
+                }
+                
+                [UserDefaultCache setCache:self.team forKey:DKTeam];
+                [UserDefaultCache setCache:onLineWay forKey:DKLine];
+                Success();
+
+            }
+            else
+            {
+                [UserDefaultCache setCache:self.team forKey:DKTeam];
+                [UserDefaultCache setCache:onLineWay forKey:DKLine];
+                Success();
+            }
+            
+        }
+        else
+        {
+            if ([getDic[@"data"] isKindOfClass:[NSString class]])
+            {
+                Fail(getDic[@"data"]);
+            }
+            else
+            {
+                Fail(@"进入失败");
+            }
+        }
+
+        
+    } Process:nil failure:^(NSError *error) {
+        Fail(@"进入失败");
+    }];
+
+}
+
+-(void)enterWithNeedAlert:(NeedAlert)needAlert
+                Success:(SuccessCallback)Success
+               withFail:(FailCallback)Fail
+{
+    self.team = [self.aryTeamList objectAt:self.teamChoose];
+    
+     OnLineWay *onLineWay = [self.aryOnLineWay objectAt:self.onLineWayChoose];
+    
+    if (onLineWay.stateId != 2)
+    {
+         [self updateTeamAndDoctor:Success withFail:Fail];
+    }
+    else
+    {
+        __weak typeof (self)weakSelf = self;
+        [BGSever GetTeamDetailInfo:weakSelf.team.teamId showLoad:YES loadText:@"" success:^(NSDictionary *getDic) {
+            
+            if ([getDic[@"code"] intValue] == 0)
+            {
+                if ([getDic[@"data"] isKindOfClass:[NSDictionary class]])
+                {
+                    weakSelf.team = [Team modelObjectWithDictionary:getDic[@"data"]];
+                    Doctor *doctor = [UserDefaultCache loadCache:UserDoctor];
+                    if ((weakSelf.team.teamStatus == 103201)&&(weakSelf.team.accountId !=doctor.accountId))
+                    {
+                        //有人在线,需要踢人下线
+                        needAlert(weakSelf.team);
+                    }
+                    else
+                    {
+                        [weakSelf updateTeamAndDoctor:Success withFail:Fail];
+                    }
+                }
+            }
+            else
+            {
+                if ([getDic[@"data"] isKindOfClass:[NSString class]])
+                {
+                    Fail(getDic[@"data"]);
+                }
+                else
+                {
+                    Fail(@"进入失败");
+                }
+            }
+            
+        } Process:nil failure:^(NSError *error) {
+            Fail(@"进入失败");
+        }];
+
+    }
+}
+
+-(void)getMyTeamList:(WillSendCallback)WillSend
+             Success:(SuccessCallback)Success
+            withFail:(FailCallback)Fail
+{
+    Doctor *doctor = [UserDefaultCache loadCache:UserDoctor];
+    
+    self.isWaitData = YES;//开始等待网络数据
+    __weak typeof (self)weakSelf = self;
+    WillSend();
+    [BGSever GetMyTimeList:[NSString stringWithFormat:@"%d",(int)doctor.accountId] showLoad:YES loadText:@"" success:^(NSDictionary *getDic) {
+        
+        self.isWaitData = NO;//等待结束
+        if ([getDic[@"code"] intValue] == 0)
+        {
+            if ([getDic[@"data"] isKindOfClass:[NSArray class]])
+            {
+                NSMutableArray  *ary = [NSMutableArray array];
+                for (NSDictionary * dic in getDic[@"data"])
+                {
+                    Team *team = [Team modelObjectWithDictionary:dic];
+                    [ary addObject:team];
+                }
+                
+                weakSelf.aryTeamList = [NSArray arrayWithArray:ary];
+                
+                Success();
+            }
+        }
+        else
+        {
+             weakSelf.isNetWorkBad = YES;
+            if ([getDic[@"data"] isKindOfClass:[NSString class]])
+            {
+                Fail(getDic[@"data"]);
+            }
+            else
+            {
+                Fail(@"获取团队列表失败");
+            }
+        }
+        
+    } Process:nil failure:^(NSError *error) {
+        self.isWaitData = NO;//等待结束
+        weakSelf.isNetWorkBad = YES;
+        Fail(@"获取团队列表失败,请检查网络");
+    }];
+}
+
+-(void)getOnLineWay:(SuccessCallback)Success
+           withFail:(FailCallback)Fail
+{
+    //不需要从服务器获得了，直接写死 成员状态 在线:0，不在线:1，值班:2
+    NSMutableArray  *ary = [NSMutableArray array];
+    OnLineWay *lineWay = [[OnLineWay alloc] init];
+    lineWay.stateId = 0;
+    lineWay.stateName = @"在线";
+    [ary addObject:lineWay];
+    
+    OnLineWay *lineWay1 = [[OnLineWay alloc] init];
+    lineWay1.stateId = 1;
+    lineWay1.stateName = @"隐身";
+    [ary addObject:lineWay1];
+    
+    OnLineWay *lineWay2 = [[OnLineWay alloc] init];
+    lineWay2.stateId = 2;
+    lineWay2.stateName = @"值班";
+    [ary addObject:lineWay2];
+    
+    self.aryOnLineWay = [NSArray arrayWithArray:ary];
+    
+    Success();
+}
+
+@end

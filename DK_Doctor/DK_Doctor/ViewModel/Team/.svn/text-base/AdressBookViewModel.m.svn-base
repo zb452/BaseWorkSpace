@@ -1,0 +1,187 @@
+//
+//  AdressBookViewModel.m
+//  DK_Doctor
+//
+//  Created by 张斌 on 2017/2/16.
+//  Copyright © 2017年 陕西医管家医院管理咨询服务有限公司. All rights reserved.
+//
+
+#import "AdressBookViewModel.h"
+#import "BGSever+Team.h"
+#import "UserDefaultCache.h"
+#import "BGSever+Zoom.h"
+#import "Doctor.h"
+#import "DKHyChatHelper.h"
+#import "DKSoundHelper.h"
+
+
+@interface AdressBookViewModel()
+
+@property(strong,nonatomic)NSArray *aryMyTeam;
+@property(strong,nonatomic)NSArray *aryAboutTeam;
+
+@property(strong,nonatomic)NSArray *arySearch;
+
+@end
+
+@implementation AdressBookViewModel
+
+-(void)getMyAboutTeam:(BOOL)isShowLoad
+             willSend:(WillSendCallback)WillSend
+                Success:(SuccessCallback)Success
+                 Fail:(FailCallback)fail
+
+{
+    Team *team = [UserDefaultCache loadCache:DKTeam];
+    
+    self.isWaitData = YES;
+    WillSend();
+    [BGSever getAboutTeamList:team.teamId showLoad:isShowLoad loadText:@"" success:^(NSDictionary *getDic) {
+        
+         self.isWaitData = NO;
+        self.isNetWorkBad = NO;
+        if ([getDic[@"code"] intValue] == 0)
+        {
+            Team *myTeam = [Team modelObjectWithDictionary:getDic[@"data"][@"myTeam"]];
+            if (myTeam.accountId == 0)
+            {
+                //无人值班，强制把视频状态改为未视频状态
+                myTeam.usingMeetingStatus = 1;
+            }
+            
+            [UserDefaultCache setCache:myTeam forKey:DKTeam];
+            self.aryMyTeam = [NSArray arrayWithObjects:myTeam, nil];
+            
+            if ([getDic[@"data"][@"otherTeams"] isKindOfClass:[NSArray class]])
+            {
+                NSMutableArray *mutableAry = [NSMutableArray array];
+                for (NSDictionary *dicOtherTeam in getDic[@"data"][@"otherTeams"])
+                {
+                    Team *otherTeam = [Team modelObjectWithDictionary:dicOtherTeam];
+                    if (otherTeam.accountId == 0)
+                    {
+                        //无人值班，强制把视频状态改为未视频状态
+                        otherTeam.usingMeetingStatus = 1;
+                    }
+
+                    
+                    [mutableAry addObject:otherTeam];
+                }
+                
+                self.aryAboutTeam = [NSArray arrayWithArray:mutableAry];
+            }
+            
+            //开启接受消息
+            [[DKHyChatHelper shareDKHyChatHelper] startReciveMsg];
+            Success();
+        }
+        else
+        {
+             self.isNetWorkBad = YES;
+            if ([getDic[@"data"] isKindOfClass:[NSString class]])
+            {
+                fail(getDic[@"data"]);
+            }
+            else
+            {
+                fail(@"获取通讯录信息失败");
+            }
+            
+        }
+        
+    } Process:nil failure:^(NSError *error) {
+        self.isWaitData = NO;
+         self.isNetWorkBad = YES;
+        fail(@"获取通讯录信息失败，请检查网络连接");
+    }];
+}
+
+-(void)startMeetingWithTeam:(Team *)team
+               Success:(SuccessCallback)Success
+               Fail:(FailCallback)fail
+{
+    Doctor *doctor = [UserDefaultCache loadCache:UserDoctor];
+    Team *currentTeam = [UserDefaultCache loadCache:DKTeam];
+    
+    [[DKSoundHelper shareDKSoundHelper] playMeetMusic];
+    
+    [BGSever CreateOnceZoomMetting:[NSString stringWithFormat:@"%d",(int)currentTeam.accountId] showLoad:YES loadText:@"" success:^(NSDictionary *getDic) {
+        
+        if ([getDic[@"code"] intValue] == 0)
+        {
+            if (getDic[@"data"])
+            {
+                NSMutableDictionary  *notiExt = [NSMutableDictionary dictionary];
+                [notiExt setNoNullObject:team.teamName forKey:DKDoctorName];
+                [notiExt setNoNullObject:team.teamPic forKey:DKDoctorPic];
+                [notiExt setNoNullObject:getDic[@"data"][@"meetingId"] forKey:DKZoomId];
+                [notiExt setNoNullObject:@"0" forKey:DKIsTeamMeeting];
+                [notiExt setNoNullObject:getDic[@"data"][@"meetingUid"] forKey:DKZoomUid];
+                [notiExt setNoNullObject:getDic[@"data"][@"meetingToken"] forKey:DKZoomToken];
+                [notiExt setNoNullObject:getDic[@"data"][@"appId"] forKey:DKZoomAppId];
+                [notiExt setNoNullObject:getDic[@"data"][@"appValue"] forKey:DKZoomAppValue];
+                [notiExt setNoNullObject:getDic[@"data"][@"joinUrl"] forKey:DKZoomJoinUrl];
+                [notiExt setNoNullObject:getDic[@"data"][@"id"] forKey:DKMeetingId];
+                
+                [notiExt setNoNullObject:[NSString stringWithFormat:@"%d",(int)team.accountId] forKey:@"from"];
+                
+                [DefaultNotificationCenter postNotificationName:DKNotificationDoctorStartMeeting object:self userInfo:notiExt];
+                
+                NSMutableDictionary  *ext = [NSMutableDictionary dictionary];
+                [ext setNoNullObject:currentTeam.teamName forKey:DKDoctorName];
+                [ext setNoNullObject:currentTeam.teamPic forKey:DKDoctorPic];
+                [ext setNoNullObject:getDic[@"data"][@"meetingId"] forKey:DKZoomId];
+                [ext setNoNullObject:@"0" forKey:DKIsTeamMeeting];
+                [ext setNoNullObject:getDic[@"data"][@"joinUrl"] forKey:DKZoomJoinUrl];
+                [ext setNoNullObject:getDic[@"data"][@"id"] forKey:DKMeetingId];
+                
+                [[DKHyChatHelper shareDKHyChatHelper] sendCMDMessage:DKDoctorStartMeeting To:[NSString stringWithFormat:@"%d",(int)team.accountId] ext:ext];
+                
+                [[DKSoundHelper shareDKSoundHelper] playMeetMusic];
+                
+               
+            }
+            else
+            {
+                fail(@"当前视频人数过多，请稍后再试");
+            }
+        }
+        else
+        {
+            fail(@"开启视频失败");
+        }
+        
+        
+    } Process:nil failure:^(NSError *error) {
+        fail(@"开启视频失败");
+    }];
+}
+
+-(Team *)myTeam:(NSInteger)index
+{
+    Team *team = [self.aryMyTeam objectAt:index];
+    
+    return team;
+}
+
+-(Team *)otherTeam:(NSInteger)index
+{
+    Team *team = [self.aryAboutTeam objectAt:index];
+    
+    return team;
+}
+
+-(NSInteger)countWithindex:(NSInteger)index
+{
+    if (index == 0 )
+    {
+        return self.aryMyTeam.count;
+    }
+    
+    return self.aryAboutTeam.count;
+}
+
+
+
+
+@end

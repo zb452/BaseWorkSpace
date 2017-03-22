@@ -1,0 +1,32 @@
+//
+//  DK_Doctor.pch
+//  DK_Doctor
+//
+//  Created by 张斌 on 2017/1/16.
+//  Copyright © 2017年 陕西医管家医院管理咨询服务有限公司. All rights reserved.
+//
+
+#ifndef DK_Doctor_pch
+#define DK_Doctor_pch
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+
+#import "RTArray.h"
+#import "UIImageView+WebCache.h"
+#import "MBProgressHUD+ShowInfo.h"
+#import <Availability.h>
+#import <MobileCoreServices/MobileCoreServices.h>
+#import "UIColor+BGHexColor.h"
+
+
+#import "Color.h"
+#import "config.h"
+#import "urls.h"
+#import "MettingProtocl.h"
+#import "UserDefaultCache.h"
+#import "Notification.h"
+
+
+#endif /* DK_Doctor_pch */

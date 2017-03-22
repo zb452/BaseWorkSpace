@@ -1,0 +1,561 @@
+//
+//  DKHyChatHelper.m
+//  DK_Patient
+//
+//  Created by 张斌 on 2017/1/13.
+//  Copyright © 2017年 陕西医管家医院管理咨询服务有限公司. All rights reserved.
+//
+
+#import "DKHyChatHelper.h"
+#import "DKZoomHelper.h"
+
+
+
+
+#define HyAppKey   @"yiguanjia#yiguanjiaepdoctor"
+
+@interface DKHyChatHelper()<EMClientDelegate,EMChatManagerDelegate>
+
+@end
+
+@implementation DKHyChatHelper
+
++(DKHyChatHelper *)shareDKHyChatHelper
+{
+    static DKHyChatHelper* hyHelper = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        hyHelper=  [[DKHyChatHelper alloc] init];
+    });
+    
+    return hyHelper;
+}
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self)
+    {
+        
+        
+    }
+    return self;
+}
+
+
+/**
+ 注册环信
+ */
+-(void)registerHy
+{
+    //注册appkey
+    EMOptions *options = [EMOptions optionsWithAppkey:HyAppKey];
+    //推送证书
+    options.apnsCertName = @"SandBoxPush";
+    [[EMClient sharedClient] initializeSDKWithOptions:options];
+}
+
+/**
+ 登录环信
+
+ @param name 用户id
+ @param psw 密码
+ @return 登录状态
+ */
+-(EMError *)loginWithUserName:(NSString *)name password:(NSString *)psw
+{
+    
+    EMError *error =  [[EMClient sharedClient] loginWithUsername:name password:psw];
+    
+    if (!error)
+    {
+        [[EMClient sharedClient] addDelegate:self];
+        //注册消息回调
+        [[EMClient sharedClient].chatManager addDelegate:self delegateQueue:nil];
+    }
+    
+    return error;
+}
+
+/**
+ 登出
+
+ @return 登出状态
+ */
+-(EMError *)logout
+{
+    EMError *error =  [[EMClient sharedClient] logout:YES];
+    
+    if (!error)
+    {
+        [[EMClient sharedClient] removeDelegate:self];
+        [[EMClient sharedClient].chatManager removeDelegate:self];
+    }
+    
+    return error;
+}
+
+/**
+ 发送CMD消息
+
+ @param action CMD命令
+ @param toUser 要发送给消息的用户id
+ @param messageExt 额外的参数
+ */
+-(void)sendCMDMessage:(NSString *)action To:(NSString *)toUser ext:(NSDictionary *)messageExt
+{
+    EMCmdMessageBody *body = [[EMCmdMessageBody alloc] initWithAction:action];
+    NSString *from = [[EMClient sharedClient] currentUsername];
+    
+    // 生成message
+    EMMessage *message = [[EMMessage alloc] initWithConversationID:toUser from:from to:toUser body:body ext:messageExt];
+    message.chatType = EMChatTypeChat;// 设置为单聊消息
+
+    [[EMClient sharedClient].chatManager sendMessage:message progress:nil completion:^(EMMessage *message, EMError *error) {
+        
+        DKLog(@"%@:%@",action,error);
+        
+    }];
+}
+
+/**
+ 发送文本消息
+
+ @param message 文本消息
+ @param toUser 要发送给消息的用户id
+ @param messageExt 额外的参数
+ */
+-(void)sendTextMessage:(NSString *)Msg To:(NSString *)toUser ext:(NSDictionary *)messageExt
+{
+    EMTextMessageBody *body = [[EMTextMessageBody alloc] initWithText:Msg];
+     NSString *from = [[EMClient sharedClient] currentUsername];
+    
+    // 生成message
+    EMMessage *message = [[EMMessage alloc] initWithConversationID:toUser from:from to:toUser body:body ext:messageExt];
+    message.chatType = EMChatTypeChat;// 设置为单聊消息
+
+    
+    [[EMClient sharedClient].chatManager sendMessage:message progress:nil completion:^(EMMessage *message, EMError *error) {
+        
+        NSLog(@"%@",message);
+        
+    }];
+}
+
+
+#pragma mark-  EMClientDelegate
+/*!
+ *  \~chinese
+ *  SDK连接服务器的状态变化时会接收到该回调
+ *
+ *  有以下几种情况, 会引起该方法的调用:
+ *  1. 登录成功后, 手机无法上网时, 会调用该回调
+ *  2. 登录成功后, 网络状态变化时, 会调用该回调
+ *
+ *  @param aConnectionState 当前状态
+ *
+ *  \~english
+ *  Delegate method will be invoked when server connection state has changed
+ *
+ *  @param aConnectionState Current state
+ */
+- (void)connectionStateDidChange:(EMConnectionState)aConnectionState
+{
+    
+}
+
+/*!
+ *  \~chinese
+ *  自动登录失败时的回调
+ *
+ *  @param aError 错误信息
+ *
+ *  \~english
+ *  Delegate method will be invoked when auto login is completed
+ *
+ *  @param aError Error
+ */
+- (void)autoLoginDidCompleteWithError:(EMError *)aError
+{
+    [UserDefaultCache removeCache:UESERPASSWORD];
+    [UserDefaultCache removeCache:UserDoctor];
+     [DefaultNotificationCenter postNotificationName:NotiLogOut object:self];
+}
+
+/*!
+ *  \~chinese
+ *  当前登录账号在其它设备登录时会接收到此回调
+ *
+ *  \~english
+ *  Delegate method will be invoked when current IM account logged into another device
+ */
+- (void)userAccountDidLoginFromOtherDevice
+{
+    [MBProgressHUD showHideMessage:@"此账号在其他设备登录"];
+    [UserDefaultCache removeCache:UESERPASSWORD];
+    [UserDefaultCache removeCache:UserDoctor];
+
+    [DefaultNotificationCenter postNotificationName:NotiLogOut object:self];
+}
+
+/*!
+ *  \~chinese
+ *  当前登录账号已经被从服务器端删除时会收到该回调
+ *
+ *  \~english
+ *  Delegate method will be invoked when current IM account is removed from server
+ */
+- (void)userAccountDidRemoveFromServer
+{
+    [UserDefaultCache removeCache:UESERPASSWORD];
+    [UserDefaultCache removeCache:UserDoctor];
+    
+    [DefaultNotificationCenter postNotificationName:NotiLogOut object:self];
+}
+
+/*!
+ *  \~chinese
+ *  会话列表发生变化
+ *
+ *  @param aConversationList  会话列表<EMConversation>
+ *
+ *  \~english
+ *  Delegate method will be invoked when the conversation list has changed
+ *
+ *  @param aConversationList  Conversation list<EMConversation>
+ */
+- (void)conversationListDidUpdate:(NSArray *)aConversationList
+{
+    
+}
+
+#pragma mark - EMChatManagerDelegate
+
+/*!
+ *  \~chinese
+ *  收到消息
+ *
+ *  @param aMessages  消息列表<EMMessage>
+ *
+ *  \~english
+ *  Delegate method will be invoked when receiving new messages
+ *
+ *  @param aMessages  Receivecd message list<EMMessage>
+ */
+- (void)messagesDidReceive:(NSArray *)aMessages
+{
+    for (EMMessage *message in aMessages)
+    {
+        EMMessageBody *msgBody = message.body;
+    
+        NSDictionary *dic = message.ext;
+        switch (msgBody.type) {
+            case EMMessageBodyTypeText:
+            {
+                // 收到的文字消息
+                EMTextMessageBody *textBody = (EMTextMessageBody *)msgBody;
+                
+                NSString *txt = textBody.text;
+                
+                DKLog(@"%@",txt);
+            }
+                break;
+            case EMMessageBodyTypeImage:
+            {
+                // 得到一个图片消息body
+            }
+                break;
+            case EMMessageBodyTypeLocation:
+            {
+                //位置
+            }
+                break;
+            case EMMessageBodyTypeVoice:
+            {
+                // 音频sdk会自动下载
+            }
+                break;
+            case EMMessageBodyTypeVideo:
+            {
+                //视频
+            }
+                break;
+            case EMMessageBodyTypeFile:
+            {
+                //文件
+            }
+                break;
+                
+            default:
+                break;
+        }
+        
+    }
+
+}
+
+/*!
+ *  \~chinese
+ *  收到Cmd消息
+ *
+ *  @param aCmdMessages  Cmd消息列表<EMMessage>
+ *
+ *  \~english
+ *  Delegate method will be invoked when receiving command messages
+ *
+ *  @param aCmdMessages  Command message list<EMMessage>
+ */
+- (void)cmdMessagesDidReceive:(NSArray *)aCmdMessages
+{
+    for (EMMessage *message in aCmdMessages)
+    {
+        EMCmdMessageBody *body = (EMCmdMessageBody *)message.body;
+        
+        NSDictionary *dic = message.ext;
+        
+        NSMutableDictionary *mutabledic = [NSMutableDictionary dictionaryWithDictionary:dic];
+        
+        [mutabledic setObject:message.from forKey:@"from"];
+        
+        if ([body.action isEqualToString:DKStartMeeting])
+        {
+            //收到开始会议的消息
+            if ([[DKZoomHelper shareZoomHelper] isIdle])
+            {
+                [DefaultNotificationCenter postNotificationName:DKStartMeeting object:self userInfo:mutabledic];
+            }
+
+        }
+        else if ([body.action isEqualToString:DKConsent])
+        {
+            //收到同意开始会议的消息
+            if ([[DKZoomHelper shareZoomHelper] isIdle])
+            {
+                [DefaultNotificationCenter postNotificationName:DKConsent object:self userInfo:mutabledic];
+            }
+        }
+        else if ([body.action isEqualToString:DKRejection])
+        {
+            //收到拒绝会议的消息
+            [DefaultNotificationCenter postNotificationName:DKRejection object:self userInfo:mutabledic];
+        }
+        else if ([body.action isEqualToString:DKCancel])
+        {
+            //收到对方取消会议的消息
+            [DefaultNotificationCenter postNotificationName:DKCancel object:self userInfo:mutabledic];
+            
+        }
+//        else if ([body.action isEqualToString:DKTeamStartMeeting]) //团队视频
+//        {
+//            //团队对团队发起视频
+//            [DefaultNotificationCenter postNotificationName:DKTeamStartMeeting object:self userInfo:mutabledic];
+//        }
+//        else if ([body.action isEqualToString:DKTeamConsent])
+//        {
+//            //收到对方团队同意开始会议的消息
+//            [DefaultNotificationCenter postNotificationName:DKTeamConsent object:self userInfo:mutabledic];
+//        }
+//        else if ([body.action isEqualToString:DKTeamRejection])
+//        {
+//            //收到对方团队拒绝会议的消息
+//            [DefaultNotificationCenter postNotificationName:DKTeamRejection object:self userInfo:mutabledic];
+//        }
+//        else if ([body.action isEqualToString:DKTeamCancel])
+//        {
+//            //收手到对方团队取消会议的消息
+//            [DefaultNotificationCenter postNotificationName:DKTeamCancel object:self userInfo:mutabledic];
+//        }
+        else if ([body.action isEqualToString:DKDoctorStartMeeting]) //医生对医生视频
+        {
+            //医生对医生发起视频
+            [DefaultNotificationCenter postNotificationName:DKDoctorStartMeeting object:self userInfo:mutabledic];
+        }
+        else if ([body.action isEqualToString:DKDoctorConsent])
+        {
+            //收到对方医生同意开始会议的消息
+            [DefaultNotificationCenter postNotificationName:DKDoctorConsent object:self userInfo:mutabledic];
+        }
+        else if ([body.action isEqualToString:DKDoctorRejection])
+        {
+            //收到对方医生拒绝会议的消息
+            [DefaultNotificationCenter postNotificationName:DKDoctorRejection object:self userInfo:mutabledic];
+        }
+        else if ([body.action isEqualToString:DKDoctorCancel])
+        {
+            //收手到对方医生取消会议的消息
+            [DefaultNotificationCenter postNotificationName:DKDoctorCancel object:self userInfo:mutabledic];
+        }
+        else if ([body.action isEqualToString:DKDoctorForceQuit])
+        {
+            //收手被强制踢下线
+            [DefaultNotificationCenter postNotificationName:DKDoctorForceQuit object:self userInfo:dic];
+        }
+        
+        DKLog(@"%@",body.action);
+    }
+
+}
+
+/*!
+ *  \~chinese
+ *  收到已读回执
+ *
+ *  @param aMessages  已读消息列表<EMMessage>
+ *
+ *  \~english
+ *   Delegate method will be invoked when receiving read acknowledgements for message list
+ *
+ *  @param aMessages  Acknowledged message list<EMMessage>
+ */
+- (void)messagesDidRead:(NSArray *)aMessages
+{
+    for (EMMessage *message in aMessages)
+    {
+        EMMessageBody *msgBody = message.body;
+        
+        NSDictionary *dic = message.ext;
+        switch (msgBody.type) {
+            case EMMessageBodyTypeText:
+            {
+                // 收到的文字消息
+                EMTextMessageBody *textBody = (EMTextMessageBody *)msgBody;
+                
+                NSString *txt = textBody.text;
+                
+                DKLog(@"已读：%@",txt);
+            }
+                break;
+            case EMMessageBodyTypeImage:
+            {
+                // 得到一个图片消息body
+            }
+                break;
+            case EMMessageBodyTypeLocation:
+            {
+                //位置
+            }
+                break;
+            case EMMessageBodyTypeVoice:
+            {
+                // 音频sdk会自动下载
+            }
+                break;
+            case EMMessageBodyTypeVideo:
+            {
+                //视频
+            }
+                break;
+            case EMMessageBodyTypeFile:
+            {
+                //文件
+            }
+                break;
+                
+            default:
+                break;
+        }
+        
+    }
+}
+
+/*!
+ *  \~chinese
+ *  收到消息送达回执
+ *
+ *  @param aMessages  送达消息列表<EMMessage>
+ *
+ *  \~english
+ * Delegate method will be invoked when receiving deliver acknowledgements for message list
+ *
+ *  @param aMessages  Acknowledged message list<EMMessage>
+ */
+- (void)messagesDidDeliver:(NSArray *)aMessages
+{
+    for (EMMessage *message in aMessages)
+    {
+        EMMessageBody *msgBody = message.body;
+        
+        NSDictionary *dic = message.ext;
+        switch (msgBody.type) {
+            case EMMessageBodyTypeText:
+            {
+                // 收到的文字消息
+                EMTextMessageBody *textBody = (EMTextMessageBody *)msgBody;
+                
+                NSString *txt = textBody.text;
+                
+                DKLog(@"已送达：%@",txt);
+            }
+                break;
+            case EMMessageBodyTypeImage:
+            {
+                // 得到一个图片消息body
+            }
+                break;
+            case EMMessageBodyTypeLocation:
+            {
+                //位置
+            }
+                break;
+            case EMMessageBodyTypeVoice:
+            {
+                // 音频sdk会自动下载
+            }
+                break;
+            case EMMessageBodyTypeVideo:
+            {
+                //视频
+            }
+                break;
+            case EMMessageBodyTypeFile:
+            {
+                //文件
+            }
+                break;
+                
+            default:
+                break;
+        }
+        
+    }
+}
+
+/*!
+ *  \~chinese
+ *  消息状态发生变化
+ *
+ *  @param aMessage  状态发生变化的消息
+ *  @param aError    出错信息
+ *
+ *  \~english
+ *  Delegate method will be invoked when message status has changed
+ *
+ *  @param aMessage  Message whose status has changed
+ *  @param aError    Error info
+ */
+- (void)messageStatusDidChange:(EMMessage *)aMessage
+                         error:(EMError *)aError
+{
+    
+}
+
+/*!
+ *  \~chinese
+ *  消息附件状态发生改变
+ *
+ *  @param aMessage  附件状态发生变化的消息
+ *  @param aError    错误信息
+ *
+ *  \~english
+ *  Delegate method will be invoked when message attachment status has changed
+ *
+ *  @param aMessage  Message attachment status has changed
+ *  @param aError    Error
+ */
+- (void)messageAttachmentStatusDidChange:(EMMessage *)aMessage
+                                   error:(EMError *)aError
+{
+    
+}
+
+@end

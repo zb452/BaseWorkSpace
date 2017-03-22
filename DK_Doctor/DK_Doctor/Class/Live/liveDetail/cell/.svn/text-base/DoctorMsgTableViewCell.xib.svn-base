@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="DoctorMsgTableViewCell" id="KGk-i7-Jjw" customClass="DoctorMsgTableViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="25"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <frame key="frameInset" width="320" height="24"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="doctorMsg.png" translatesAutoresizingMaskIntoConstraints="NO" id="zSr-by-vtr">
+                        <constraints>
+                            <constraint firstAttribute="width" secondItem="zSr-by-vtr" secondAttribute="height" multiplier="5:3" id="taG-k0-2Yv"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3F9-gm-cpC">
+                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="bottom" secondItem="zSr-by-vtr" secondAttribute="bottom" constant="3" id="9SY-IC-N50"/>
+                    <constraint firstAttribute="bottom" secondItem="3F9-gm-cpC" secondAttribute="bottom" id="F7B-oV-gqY"/>
+                    <constraint firstItem="3F9-gm-cpC" firstAttribute="leading" secondItem="zSr-by-vtr" secondAttribute="trailing" id="GFz-7W-rfv"/>
+                    <constraint firstItem="zSr-by-vtr" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="3" id="JQd-78-mIR"/>
+                    <constraint firstItem="3F9-gm-cpC" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="LTT-wB-H3V"/>
+                    <constraint firstAttribute="trailing" secondItem="3F9-gm-cpC" secondAttribute="trailing" id="UW5-iy-P6W"/>
+                    <constraint firstItem="zSr-by-vtr" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="hFb-dw-6Sj"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="labelMsg" destination="3F9-gm-cpC" id="Nga-sy-I5B"/>
+            </connections>
+            <point key="canvasLocation" x="34" y="53.5"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="doctorMsg.png" width="30" height="18"/>
+    </resources>
+</document>

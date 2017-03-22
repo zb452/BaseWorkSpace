@@ -1,0 +1,475 @@
+//
+//  ViewController.m
+//  Yiguanjia_Paitent
+//
+//  Created by 张斌 on 16/8/5.
+//  Copyright © 2016年 张斌. All rights reserved.
+//
+
+#import "ViewController.h"
+#import "HomeViewController.h"
+#import "MyViewController.h"
+//#import "LiveListViewController.h"
+#import "DKHyChatHelper.h"
+#import "OrderViewController.h"
+#import "baseTipView.h"
+#import "DKZoomHelper.h"
+#import "SendVideoVIew.h"
+#import "HangUpVideoView.h"
+#import "DKSoundHelper.h"
+#import "LoginViewController.h"
+#import "BGSever+Login.h"
+#import "CryptoFuncation.h"
+#import "UserDefaultCache.h"
+#import "ChooseTeamViewController.h"
+
+
+@interface ViewController ()<CustomTabbarViewControllerDelegate,UIAlertViewDelegate>
+
+@property(strong,nonatomic)baseTipView *tipView;//视频会议的邀请界面
+
+@property(strong,nonatomic)LoginViewController *loginVC;
+@property(strong,nonatomic)ChooseTeamViewController *chooseVC;
+
+@end
+
+@implementation ViewController
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        // Custom initialization
+    }
+    return self;
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    // Do any additional setup after loading the view, typically from a nib.
+    [self initWithRootViewController];
+    self.view.backgroundColor = [UIColor whiteColor];
+    
+    [self addZoomNotifcation];
+    [self addOtherNotifcation];
+    
+}
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+-(void)dealloc
+{
+    [DefaultNotificationCenter removeObserver:self];
+}
+
+-(void)addLoginView
+{
+    self.loginVC = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
+    
+    self.loginVC.view.alpha = 1.f;
+    [self addChildViewController:self.loginVC];
+    
+    [self.loginVC.view setFrame:self.view.bounds];
+    
+    [self.view addSubview:self.loginVC.view];
+}
+
+- (void)initWithRootViewController
+{
+    self.m_delegate = self;
+    //TeamMemberViewController
+    HomeViewController* controller_1 = [[HomeViewController alloc]initWithNibName:@"HomeViewController" bundle:nil];
+    
+    MyViewController* controller_4 = [[MyViewController alloc]initWithNibName:@"MyViewController" bundle:nil];
+//    
+    OrderViewController *controller_2 = [[OrderViewController alloc] initWithNibName:@"OrderViewController" bundle:nil];
+    
+//    PaitentViewController* controller_2 = [[PaitentViewController alloc]initWithNibName:@"PaitentViewController" bundle:nil];
+    
+//    ClinicalCircleViewController *controller_3 = [[ClinicalCircleViewController alloc] initWithNibName:@"ClinicalCircleViewController" bundle:nil];
+    
+    UINavigationController* _nav1 = [[UINavigationController alloc]initWithRootViewController:controller_1];
+    UINavigationController* _nav2 = [[UINavigationController alloc]initWithRootViewController:controller_2];
+////    UINavigationController* _nav2 = [[UINavigationController alloc]initWithRootViewController:controller_2];
+////    UINavigationController* _nav3 = [[UINavigationController alloc] initWithRootViewController:controller_3];
+    UINavigationController* _nav4 = [[UINavigationController alloc] initWithRootViewController:controller_4];
+
+    
+    
+    self.viewControllers = [NSArray arrayWithObjects:
+                            _nav1,
+                            _nav2,
+                            _nav4,
+                            nil];
+    
+    self.tabHeight = 49;
+
+    [self setBackgroundImage:[UIImage imageNamed:@"tabbar.png"]];
+    self.view.backgroundColor = [UIColor colorWithRed:31/255. green:31/255. blue:31/255. alpha:1];
+}
+- (UIImage*)normalImageAtIndex:(NSInteger)_index
+{
+
+//    NSLog(@"normal:%@",[UIImage imageNamed:[NSString stringWithFormat:@"tabbar_btn%zd_normal.png",_index+1]]);
+    return [UIImage imageNamed:[NSString stringWithFormat:@"tabbar_btn%zd_normal.png",_index+1]];
+}
+- (UIImage*)selectedImageAtIndex:(NSInteger)_index
+{
+//    NSLog(@"select:%@",[UIImage imageNamed:[NSString stringWithFormat:@"tabbar_btn%zd_select.png",_index+1]]);
+    return [UIImage imageNamed:[NSString stringWithFormat:@"tabbar_btn%zd_select.png",_index+1]];
+}
+-(BOOL)shouldSelectAtIndex:(NSInteger)_index
+{
+
+    return YES;
+}
+
+-(void)addZoomNotifcation
+{
+    //关于视频接到socket消息后内部notification到这里处理,都是对方socket发过来的消息
+    
+    //医生和患者之间的视频
+    __weak typeof (self)weakSelf = self;
+ /*   [DefaultNotificationCenter addObserverForName:DKStartMeeting object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
+        //监听到发起会议的消息
+        NSDictionary *dic = note.userInfo;
+        weakSelf.tipView = (SendVideoVIew *)[[[NSBundle mainBundle] loadNibNamed:@"SendVideoVIew" owner:self options:nil] lastObject];
+        
+        [weakSelf.tipView setFrame:CGRectMake(0, ScreenHeight/4.f, ScreenWidth, ScreenHeight/2.f)];
+        [weakSelf.tipView showWithData:dic withType:PatientType Complete:^{
+            
+        }];
+        
+        [[DKSoundHelper shareDKSoundHelper] playMeetMusic];
+        
+    }];
+    
+    
+    [DefaultNotificationCenter addObserverForName:DKConsent object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
+        //监听同意会议的消息
+        NSDictionary *dic = note.userInfo;
+        
+        [weakSelf.tipView dismissView:YES complete:^{
+            
+            weakSelf.tipView = nil;
+            [[DKZoomHelper shareZoomHelper] joinMeeting:dic[DKZoomId]];
+        }];
+    }];
+    
+    
+    [DefaultNotificationCenter addObserverForName:DKRejection object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
+        //监听拒绝会议的消息
+    //    NSDictionary *dic = note.userInfo;
+        
+        [weakSelf.tipView dismissView:YES complete:^{
+            
+            weakSelf.tipView = nil;
+        }];
+        
+    }];
+    
+    
+    [DefaultNotificationCenter addObserverForName:DKCancel object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
+        //主动取消会议的消息
+        NSDictionary *dic = note.userInfo;
+        
+        [weakSelf.tipView dismissView:YES complete:^{
+            
+            weakSelf.tipView = nil;
+        }];
+    }];
+*/
+    
+    //团队和团队之间的视频
+    [DefaultNotificationCenter addObserverForName:DKDoctorStartMeeting object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
+        //监听到其他团队对本团队发起会议的消息
+        NSDictionary *dic = note.userInfo;
+        weakSelf.tipView = (SendVideoVIew *)[[[NSBundle mainBundle] loadNibNamed:@"SendVideoVIew" owner:self options:nil] lastObject];
+        
+        [weakSelf.tipView setFrame:[UIScreen mainScreen].bounds];
+        
+        [weakSelf.tipView showWithData:dic withType:TeamType Complete:^{
+            
+        }];
+//        //团队和团队之间视频的UI Code
+//        weakSelf.tipView.labelName.text = dic[DKDoctorName];
+//        [weakSelf.tipView.imgHeader sd_setImageWithURL:[NSURL URLWithString:dic[DKDoctorPic]];
+    }];
+    
+    
+    [DefaultNotificationCenter addObserverForName:DKDoctorConsent object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
+        //监听对方团队同意会议的消息
+        NSDictionary *dic = note.userInfo;
+        
+        [weakSelf.tipView dismissView:YES complete:^{
+            
+            {
+                //对方团队同意了视频，告诉服务器的状态改变code
+                
+            }
+            
+            [weakSelf.tipView invalidateTimer];
+            weakSelf.tipView = nil;
+            [[DKZoomHelper shareZoomHelper] joinMeeting:dic[DKZoomId]];
+            
+        }];
+        
+    }];
+    
+    [DefaultNotificationCenter addObserverForName:DKDoctorCancel object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
+        //发起会议方主动取消会议的消息
+        NSDictionary *dic = note.userInfo;
+        
+        [weakSelf.tipView dismissView:YES complete:^{
+            
+            {
+                //提示对方取消了会议
+             //   [MBProgressHUD showHideMessage:[NSString stringWithFormat:@"%@取消了会议",dic[DKDoctorName]]];
+                
+            }
+            [weakSelf.tipView invalidateTimer];
+            weakSelf.tipView = nil;
+           
+        }];
+        
+    }];
+
+    
+    
+    [DefaultNotificationCenter addObserverForName:DKDoctorRejection object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
+        //监听对方团队拒绝会议的消息
+        //    NSDictionary *dic = note.userInfo;
+        
+        [weakSelf.tipView dismissView:YES complete:^{
+            
+            {
+                //对方团队拒绝了视频会议code
+             //    [MBProgressHUD showHideMessage:[NSString stringWithFormat:@"%@拒绝了会议",dic[Dk]]];
+            }
+            [weakSelf.tipView invalidateTimer];
+            weakSelf.tipView = nil;
+        }];
+        
+    }];
+    
+    
+    [DefaultNotificationCenter addObserverForName:DKNotificationCancel object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
+        //自己主动取消会议的消息
+        NSDictionary *dic = note.userInfo;
+        
+        [weakSelf.tipView dismissView:YES complete:^{
+            
+            {
+                //主动取消了会议code
+            }
+            
+            [weakSelf.tipView invalidateTimer];
+            weakSelf.tipView = nil;
+        }];
+    }];
+    
+    [DefaultNotificationCenter addObserverForName:DKNotificationDoctorStartMeeting object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
+        //自己对其他团队主动发起视频会议的消息
+        NSDictionary *dic = note.userInfo;
+        
+        weakSelf.tipView = (HangUpVideoView *)[[[NSBundle mainBundle] loadNibNamed:@"HangUpVideoView" owner:self options:nil] lastObject];
+        
+        [weakSelf.tipView setFrame:[UIScreen mainScreen].bounds];
+        
+        [weakSelf.tipView showWithData:dic withType:TeamType Complete:^{
+            
+        }];
+        
+    }];
+
+    
+    
+    //医生和医生之间的视频
+    
+/*
+    [DefaultNotificationCenter addObserverForName:DKDoctorStartMeeting object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
+        //监听到医生对自己发起会议的消息
+        NSDictionary *dic = note.userInfo;
+        weakSelf.tipView = (SendVideoVIew *)[[[NSBundle mainBundle] loadNibNamed:@"SendVideoVIew" owner:self options:nil] lastObject];
+        
+        [weakSelf.tipView setFrame:CGRectMake(0, ScreenHeight/4.f, ScreenWidth, ScreenHeight/2.f)];
+        [weakSelf.tipView showWithData:dic withType:DoctorType Complete:^{
+            
+        }];
+        
+        [[DKSoundHelper shareDKSoundHelper] playMeetMusic];
+        
+    }];
+    
+    
+    [DefaultNotificationCenter addObserverForName:DKDoctorConsent object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
+        //监听对方医生同意会议的消息
+        NSDictionary *dic = note.userInfo;
+        
+        [weakSelf.tipView dismissView:YES complete:^{
+            
+            weakSelf.tipView = nil;
+            [[DKZoomHelper shareZoomHelper] joinMeeting:dic[DKZoomId]];
+            
+        }];
+        
+    }];
+    
+    
+    [DefaultNotificationCenter addObserverForName:DKDoctorRejection object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
+        //监听对方医生拒绝会议的消息
+        //    NSDictionary *dic = note.userInfo;
+        
+        [weakSelf.tipView dismissView:YES complete:^{
+            
+            weakSelf.tipView = nil;
+        }];
+        
+    }];
+    
+    
+    [DefaultNotificationCenter addObserverForName:DKDoctorCancel object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
+        //主动取消会议的消息
+        NSDictionary *dic = note.userInfo;
+        
+        [weakSelf.tipView dismissView:YES complete:^{
+            
+            weakSelf.tipView = nil;
+        }];
+    }];
+    
+    [DefaultNotificationCenter addObserverForName:DKNotificationStartMeeting object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
+        //主动发起视频会议的消息
+        NSDictionary *dic = note.userInfo;
+        
+        
+        weakSelf.tipView = (HangUpVideoView *)[[[NSBundle mainBundle] loadNibNamed:@"HangUpVideoView" owner:self options:nil] lastObject];
+        
+        [weakSelf.tipView setFrame:CGRectMake(0, ScreenHeight/4.f, ScreenWidth, ScreenHeight/2.f)];
+        
+        [weakSelf.tipView showWithData:dic withType:PatientType Complete:^{
+            
+        }];
+        
+    }];
+*/
+    
+    //关于视频内部显示等待view的动作直接发消息到这里处理
+    //医生和患者之间的视频
+/*    [DefaultNotificationCenter addObserverForName:DKNotificationStartMeeting object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
+        //主动发起视频会议的消息
+        NSDictionary *dic = note.userInfo;
+        
+        
+        weakSelf.tipView = (HangUpVideoView *)[[[NSBundle mainBundle] loadNibNamed:@"HangUpVideoView" owner:self options:nil] lastObject];
+        
+        [weakSelf.tipView setFrame:CGRectMake(0, ScreenHeight/4.f, ScreenWidth, ScreenHeight/2.f)];
+        
+        [weakSelf.tipView showWithData:dic withType:PatientType Complete:^{
+            
+        }];
+        
+    }];
+    
+    //医生和医生之间的视频
+    [DefaultNotificationCenter addObserverForName:DKNotificationDoctorStartMeeting object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
+        //主动发起视频会议的消息
+        NSDictionary *dic = note.userInfo;
+        
+        
+        weakSelf.tipView = (HangUpVideoView *)[[[NSBundle mainBundle] loadNibNamed:@"HangUpVideoView" owner:self options:nil] lastObject];
+        
+        [weakSelf.tipView setFrame:CGRectMake(0, ScreenHeight/4.f, ScreenWidth, ScreenHeight/2.f)];
+        
+        [weakSelf.tipView showWithData:dic withType:DoctorType Complete:^{
+            
+        }];
+        
+        //        [[DKSoundHelper shareDKSoundHelper] playMeetMusic];
+    }];
+    
+    //医生和患者之间的视频
+    [DefaultNotificationCenter addObserverForName:DKNotificationTeamStartMeeting object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
+        //主动发起视频会议的消息
+        NSDictionary *dic = note.userInfo;
+        
+        
+        weakSelf.tipView = (HangUpVideoView *)[[[NSBundle mainBundle] loadNibNamed:@"HangUpVideoView" owner:self options:nil] lastObject];
+        
+        [weakSelf.tipView setFrame:[UIScreen mainScreen].bounds];
+        
+        [weakSelf.tipView showWithData:dic withType:TeamType Complete:^{
+            
+        }];
+        
+        //        [[DKSoundHelper shareDKSoundHelper] playMeetMusic];
+    }];
+ */
+}
+-(void)addOtherNotifcation
+{
+    __weak typeof (self)weakSelf = self;
+    [DefaultNotificationCenter addObserverForName:LogInOK object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
+        
+            
+            weakSelf.chooseVC = [[ChooseTeamViewController alloc] initWithNibName:@"ChooseTeamViewController" bundle:nil];
+            
+            weakSelf.chooseVC.view.alpha = 1;
+            weakSelf.chooseVC.backImgView.hidden = YES;
+            [weakSelf.chooseVC.view setFrame:weakSelf.view.bounds];
+            [weakSelf addChildViewController:weakSelf.chooseVC];
+            [weakSelf.view addSubview:weakSelf.chooseVC.view];
+            
+            if (weakSelf.loginVC)
+            {
+                [weakSelf.view bringSubviewToFront:weakSelf.loginVC.view];
+                
+                [UIView transitionFromView:weakSelf.loginVC.view toView:weakSelf.chooseVC.view duration:1 options:UIViewAnimationOptionCurveEaseInOut|UIViewAnimationOptionTransitionCrossDissolve completion:^(BOOL finished) {
+                    [weakSelf.loginVC.view removeFromSuperview];
+                    [weakSelf.loginVC removeFromParentViewController];
+                    
+                }];
+            }
+
+        
+    }];
+
+    [DefaultNotificationCenter addObserverForName:DKNotificationDoctorForceQuit object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
+        
+        NSDictionary *dic = note.userInfo;
+        [MBProgressHUD showHideMessage:[NSString stringWithFormat:@"您已被%@代替值班，当前状态为在线",dic[DKDoctorName]]];
+    }];
+    
+    //用户退出登录
+    [DefaultNotificationCenter addObserverForName:NotiLogOut object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
+        
+         weakSelf.selectedIndex = 0;
+        [weakSelf addLoginView];
+       
+       // [weakSelf reloadTabbar];
+    }];
+    
+    //用户切换页面
+    [DefaultNotificationCenter addObserverForName:NotiUpdateStatus object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
+        
+        if (!weakSelf.chooseVC)
+        {
+            weakSelf.chooseVC = [[ChooseTeamViewController alloc] initWithNibName:@"ChooseTeamViewController" bundle:nil];
+        }
+        
+        weakSelf.chooseVC.backImgView.hidden = NO;
+        weakSelf.chooseVC.view.alpha = 1;
+        [weakSelf addChildViewController:weakSelf.chooseVC];
+        [weakSelf.view addSubview:weakSelf.chooseVC.view];
+    }];
+}
+
+@end

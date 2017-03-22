@@ -1,0 +1,298 @@
+//
+//  Member.m
+//
+//  Created by 斌 张 on 2016/12/28
+//  Copyright (c) 2016 __MyCompanyName__. All rights reserved.
+//
+
+#import "Member.h"
+
+
+NSString *const kMemberDescription = @"description";
+NSString *const kMemberTechnicalTitleCode = @"technicalTitleCode";
+NSString *const kMemberBirthday = @"birthday";
+NSString *const kMemberNickName = @"nickName";
+NSString *const kMemberAreaName = @"areaName";
+NSString *const kMemberTypeName = @"typeName";
+NSString *const kMemberStatus = @"status";
+NSString *const kMemberTelephone = @"telephone";
+NSString *const kMemberPositionCode = @"positionCode";
+NSString *const kMemberUpdateTime = @"updateTime";
+NSString *const kMemberTechnicalTitleName = @"technicalTitleName";
+NSString *const kMemberAuthenCode = @"authenCode";
+NSString *const kMemberHospitalId = @"hospitalId";
+NSString *const kMemberSexCode = @"sexCode";
+NSString *const kMemberAuthenName = @"authenName";
+NSString *const kMemberSexName = @"sexName";
+NSString *const kMemberWorkUnit = @"workUnit";
+NSString *const kMemberName = @"name";
+NSString *const kMemberDepartmentsId = @"departmentsId";
+NSString *const kMemberHeadPic = @"headPic";
+NSString *const kMemberIdCard = @"idCard";
+NSString *const kMemberId = @"id";
+NSString *const kMemberProvinceId = @"provinceId";
+NSString *const kMemberHospitalAreaId = @"hospitalAreaId";
+NSString *const kMemberPositionName = @"positionName";
+NSString *const kMemberAge = @"age";
+NSString *const kMemberMemberId = @"memberId";
+NSString *const kMemberCreateTime = @"createTime";
+NSString *const kMemberAccountId = @"accountId";
+NSString *const kMemberTypeCode = @"typeCode";
+
+
+@interface Member ()
+
+- (id)objectOrNilForKey:(id)aKey fromDictionary:(NSDictionary *)dict;
+
+@end
+
+@implementation Member
+
+@synthesize internalBaseClassDescription = _internalBaseClassDescription;
+@synthesize technicalTitleCode = _technicalTitleCode;
+@synthesize birthday = _birthday;
+@synthesize nickName = _nickName;
+@synthesize areaName = _areaName;
+@synthesize typeName = _typeName;
+@synthesize status = _status;
+@synthesize telephone = _telephone;
+@synthesize positionCode = _positionCode;
+@synthesize updateTime = _updateTime;
+@synthesize technicalTitleName = _technicalTitleName;
+@synthesize authenCode = _authenCode;
+@synthesize hospitalId = _hospitalId;
+@synthesize sexCode = _sexCode;
+@synthesize authenName = _authenName;
+@synthesize sexName = _sexName;
+@synthesize workUnit = _workUnit;
+@synthesize name = _name;
+@synthesize departmentsId = _departmentsId;
+@synthesize headPic = _headPic;
+@synthesize idCard = _idCard;
+@synthesize internalBaseClassIdentifier = _internalBaseClassIdentifier;
+@synthesize provinceId = _provinceId;
+@synthesize hospitalAreaId = _hospitalAreaId;
+@synthesize positionName = _positionName;
+@synthesize age = _age;
+@synthesize memberId = _memberId;
+@synthesize createTime = _createTime;
+@synthesize accountId = _accountId;
+@synthesize typeCode = _typeCode;
+
+
++ (instancetype)modelObjectWithDictionary:(NSDictionary *)dict
+{
+    return [[self alloc] initWithDictionary:dict];
+}
+
+- (instancetype)initWithDictionary:(NSDictionary *)dict
+{
+    self = [super init];
+    
+    // This check serves to make sure that a non-NSDictionary object
+    // passed into the model class doesn't break the parsing.
+    if(self && [dict isKindOfClass:[NSDictionary class]]) {
+            self.internalBaseClassDescription = [self objectOrNilForKey:kMemberDescription fromDictionary:dict];
+            self.technicalTitleCode = [self objectOrNilForKey:kMemberTechnicalTitleCode fromDictionary:dict];
+            self.birthday = [self objectOrNilForKey:kMemberBirthday fromDictionary:dict];
+            self.nickName = [self objectOrNilForKey:kMemberNickName fromDictionary:dict];
+            self.areaName = [self objectOrNilForKey:kMemberAreaName fromDictionary:dict];
+            self.typeName = [self objectOrNilForKey:kMemberTypeName fromDictionary:dict];
+            self.status = [self objectOrNilForKey:kMemberStatus fromDictionary:dict];
+            self.telephone = [self objectOrNilForKey:kMemberTelephone fromDictionary:dict];
+            self.positionCode = [self objectOrNilForKey:kMemberPositionCode fromDictionary:dict];
+            self.updateTime = [[self objectOrNilForKey:kMemberUpdateTime fromDictionary:dict] doubleValue];
+            self.technicalTitleName = [self objectOrNilForKey:kMemberTechnicalTitleName fromDictionary:dict];
+            self.authenCode = [self objectOrNilForKey:kMemberAuthenCode fromDictionary:dict];
+            self.hospitalId = [[self objectOrNilForKey:kMemberHospitalId fromDictionary:dict] doubleValue];
+            self.sexCode = [self objectOrNilForKey:kMemberSexCode fromDictionary:dict];
+            self.authenName = [self objectOrNilForKey:kMemberAuthenName fromDictionary:dict];
+            self.sexName = [self objectOrNilForKey:kMemberSexName fromDictionary:dict];
+            self.workUnit = [self objectOrNilForKey:kMemberWorkUnit fromDictionary:dict];
+            self.name = [self objectOrNilForKey:kMemberName fromDictionary:dict];
+            self.departmentsId = [[self objectOrNilForKey:kMemberDepartmentsId fromDictionary:dict] doubleValue];
+            self.headPic = [self objectOrNilForKey:kMemberHeadPic fromDictionary:dict];
+            self.idCard = [self objectOrNilForKey:kMemberIdCard fromDictionary:dict];
+            self.internalBaseClassIdentifier = [[self objectOrNilForKey:kMemberId fromDictionary:dict] doubleValue];
+            self.provinceId = [[self objectOrNilForKey:kMemberProvinceId fromDictionary:dict] doubleValue];
+            self.hospitalAreaId = [[self objectOrNilForKey:kMemberHospitalAreaId fromDictionary:dict] doubleValue];
+            self.positionName = [self objectOrNilForKey:kMemberPositionName fromDictionary:dict];
+            self.age = [[self objectOrNilForKey:kMemberAge fromDictionary:dict] doubleValue];
+            self.memberId = [[self objectOrNilForKey:kMemberMemberId fromDictionary:dict] doubleValue];
+            self.createTime = [[self objectOrNilForKey:kMemberCreateTime fromDictionary:dict] doubleValue];
+            self.accountId = [[self objectOrNilForKey:kMemberAccountId fromDictionary:dict] doubleValue];
+            self.typeCode = [self objectOrNilForKey:kMemberTypeCode fromDictionary:dict];
+
+    }
+    
+    return self;
+    
+}
+
+- (NSDictionary *)dictionaryRepresentation
+{
+    NSMutableDictionary *mutableDict = [NSMutableDictionary dictionary];
+    [mutableDict setValue:self.internalBaseClassDescription forKey:kMemberDescription];
+    [mutableDict setValue:self.technicalTitleCode forKey:kMemberTechnicalTitleCode];
+    [mutableDict setValue:self.birthday forKey:kMemberBirthday];
+    [mutableDict setValue:self.nickName forKey:kMemberNickName];
+    [mutableDict setValue:self.areaName forKey:kMemberAreaName];
+    [mutableDict setValue:self.typeName forKey:kMemberTypeName];
+    [mutableDict setValue:self.status forKey:kMemberStatus];
+    [mutableDict setValue:self.telephone forKey:kMemberTelephone];
+    [mutableDict setValue:self.positionCode forKey:kMemberPositionCode];
+    [mutableDict setValue:[NSNumber numberWithDouble:self.updateTime] forKey:kMemberUpdateTime];
+    [mutableDict setValue:self.technicalTitleName forKey:kMemberTechnicalTitleName];
+    [mutableDict setValue:self.authenCode forKey:kMemberAuthenCode];
+    [mutableDict setValue:[NSNumber numberWithDouble:self.hospitalId] forKey:kMemberHospitalId];
+    [mutableDict setValue:self.sexCode forKey:kMemberSexCode];
+    [mutableDict setValue:self.authenName forKey:kMemberAuthenName];
+    [mutableDict setValue:self.sexName forKey:kMemberSexName];
+    [mutableDict setValue:self.workUnit forKey:kMemberWorkUnit];
+    [mutableDict setValue:self.name forKey:kMemberName];
+    [mutableDict setValue:[NSNumber numberWithDouble:self.departmentsId] forKey:kMemberDepartmentsId];
+    [mutableDict setValue:self.headPic forKey:kMemberHeadPic];
+    [mutableDict setValue:self.idCard forKey:kMemberIdCard];
+    [mutableDict setValue:[NSNumber numberWithDouble:self.internalBaseClassIdentifier] forKey:kMemberId];
+    [mutableDict setValue:[NSNumber numberWithDouble:self.provinceId] forKey:kMemberProvinceId];
+    [mutableDict setValue:[NSNumber numberWithDouble:self.hospitalAreaId] forKey:kMemberHospitalAreaId];
+    [mutableDict setValue:self.positionName forKey:kMemberPositionName];
+    [mutableDict setValue:[NSNumber numberWithDouble:self.age] forKey:kMemberAge];
+    [mutableDict setValue:[NSNumber numberWithDouble:self.memberId] forKey:kMemberMemberId];
+    [mutableDict setValue:[NSNumber numberWithDouble:self.createTime] forKey:kMemberCreateTime];
+    [mutableDict setValue:[NSNumber numberWithDouble:self.accountId] forKey:kMemberAccountId];
+    [mutableDict setValue:self.typeCode forKey:kMemberTypeCode];
+
+    return [NSDictionary dictionaryWithDictionary:mutableDict];
+}
+
+- (NSString *)description 
+{
+    return [NSString stringWithFormat:@"%@", [self dictionaryRepresentation]];
+}
+
+#pragma mark - Helper Method
+- (id)objectOrNilForKey:(id)aKey fromDictionary:(NSDictionary *)dict
+{
+    id object = [dict objectForKey:aKey];
+    return [object isEqual:[NSNull null]] ? nil : object;
+}
+
+
+#pragma mark - NSCoding Methods
+
+- (id)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super init];
+
+    self.internalBaseClassDescription = [aDecoder decodeObjectForKey:kMemberDescription];
+    self.technicalTitleCode = [aDecoder decodeObjectForKey:kMemberTechnicalTitleCode];
+    self.birthday = [aDecoder decodeObjectForKey:kMemberBirthday];
+    self.nickName = [aDecoder decodeObjectForKey:kMemberNickName];
+    self.areaName = [aDecoder decodeObjectForKey:kMemberAreaName];
+    self.typeName = [aDecoder decodeObjectForKey:kMemberTypeName];
+    self.status = [aDecoder decodeObjectForKey:kMemberStatus];
+    self.telephone = [aDecoder decodeObjectForKey:kMemberTelephone];
+    self.positionCode = [aDecoder decodeObjectForKey:kMemberPositionCode];
+    self.updateTime = [aDecoder decodeDoubleForKey:kMemberUpdateTime];
+    self.technicalTitleName = [aDecoder decodeObjectForKey:kMemberTechnicalTitleName];
+    self.authenCode = [aDecoder decodeObjectForKey:kMemberAuthenCode];
+    self.hospitalId = [aDecoder decodeDoubleForKey:kMemberHospitalId];
+    self.sexCode = [aDecoder decodeObjectForKey:kMemberSexCode];
+    self.authenName = [aDecoder decodeObjectForKey:kMemberAuthenName];
+    self.sexName = [aDecoder decodeObjectForKey:kMemberSexName];
+    self.workUnit = [aDecoder decodeObjectForKey:kMemberWorkUnit];
+    self.name = [aDecoder decodeObjectForKey:kMemberName];
+    self.departmentsId = [aDecoder decodeDoubleForKey:kMemberDepartmentsId];
+    self.headPic = [aDecoder decodeObjectForKey:kMemberHeadPic];
+    self.idCard = [aDecoder decodeObjectForKey:kMemberIdCard];
+    self.internalBaseClassIdentifier = [aDecoder decodeDoubleForKey:kMemberId];
+    self.provinceId = [aDecoder decodeDoubleForKey:kMemberProvinceId];
+    self.hospitalAreaId = [aDecoder decodeDoubleForKey:kMemberHospitalAreaId];
+    self.positionName = [aDecoder decodeObjectForKey:kMemberPositionName];
+    self.age = [aDecoder decodeDoubleForKey:kMemberAge];
+    self.memberId = [aDecoder decodeDoubleForKey:kMemberMemberId];
+    self.createTime = [aDecoder decodeDoubleForKey:kMemberCreateTime];
+    self.accountId = [aDecoder decodeDoubleForKey:kMemberAccountId];
+    self.typeCode = [aDecoder decodeObjectForKey:kMemberTypeCode];
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder
+{
+
+    [aCoder encodeObject:_internalBaseClassDescription forKey:kMemberDescription];
+    [aCoder encodeObject:_technicalTitleCode forKey:kMemberTechnicalTitleCode];
+    [aCoder encodeObject:_birthday forKey:kMemberBirthday];
+    [aCoder encodeObject:_nickName forKey:kMemberNickName];
+    [aCoder encodeObject:_areaName forKey:kMemberAreaName];
+    [aCoder encodeObject:_typeName forKey:kMemberTypeName];
+    [aCoder encodeObject:_status forKey:kMemberStatus];
+    [aCoder encodeObject:_telephone forKey:kMemberTelephone];
+    [aCoder encodeObject:_positionCode forKey:kMemberPositionCode];
+    [aCoder encodeDouble:_updateTime forKey:kMemberUpdateTime];
+    [aCoder encodeObject:_technicalTitleName forKey:kMemberTechnicalTitleName];
+    [aCoder encodeObject:_authenCode forKey:kMemberAuthenCode];
+    [aCoder encodeDouble:_hospitalId forKey:kMemberHospitalId];
+    [aCoder encodeObject:_sexCode forKey:kMemberSexCode];
+    [aCoder encodeObject:_authenName forKey:kMemberAuthenName];
+    [aCoder encodeObject:_sexName forKey:kMemberSexName];
+    [aCoder encodeObject:_workUnit forKey:kMemberWorkUnit];
+    [aCoder encodeObject:_name forKey:kMemberName];
+    [aCoder encodeDouble:_departmentsId forKey:kMemberDepartmentsId];
+    [aCoder encodeObject:_headPic forKey:kMemberHeadPic];
+    [aCoder encodeObject:_idCard forKey:kMemberIdCard];
+    [aCoder encodeDouble:_internalBaseClassIdentifier forKey:kMemberId];
+    [aCoder encodeDouble:_provinceId forKey:kMemberProvinceId];
+    [aCoder encodeDouble:_hospitalAreaId forKey:kMemberHospitalAreaId];
+    [aCoder encodeObject:_positionName forKey:kMemberPositionName];
+    [aCoder encodeDouble:_age forKey:kMemberAge];
+    [aCoder encodeDouble:_memberId forKey:kMemberMemberId];
+    [aCoder encodeDouble:_createTime forKey:kMemberCreateTime];
+    [aCoder encodeDouble:_accountId forKey:kMemberAccountId];
+    [aCoder encodeObject:_typeCode forKey:kMemberTypeCode];
+}
+
+- (id)copyWithZone:(NSZone *)zone
+{
+    Member *copy = [[Member alloc] init];
+    
+    if (copy) {
+
+        copy.internalBaseClassDescription = [self.internalBaseClassDescription copyWithZone:zone];
+        copy.technicalTitleCode = [self.technicalTitleCode copyWithZone:zone];
+        copy.birthday = [self.birthday copyWithZone:zone];
+        copy.nickName = [self.nickName copyWithZone:zone];
+        copy.areaName = [self.areaName copyWithZone:zone];
+        copy.typeName = [self.typeName copyWithZone:zone];
+        copy.status = [self.status copyWithZone:zone];
+        copy.telephone = [self.telephone copyWithZone:zone];
+        copy.positionCode = [self.positionCode copyWithZone:zone];
+        copy.updateTime = self.updateTime;
+        copy.technicalTitleName = [self.technicalTitleName copyWithZone:zone];
+        copy.authenCode = [self.authenCode copyWithZone:zone];
+        copy.hospitalId = self.hospitalId;
+        copy.sexCode = [self.sexCode copyWithZone:zone];
+        copy.authenName = [self.authenName copyWithZone:zone];
+        copy.sexName = [self.sexName copyWithZone:zone];
+        copy.workUnit = [self.workUnit copyWithZone:zone];
+        copy.name = [self.name copyWithZone:zone];
+        copy.departmentsId = self.departmentsId;
+        copy.headPic = [self.headPic copyWithZone:zone];
+        copy.idCard = [self.idCard copyWithZone:zone];
+        copy.internalBaseClassIdentifier = self.internalBaseClassIdentifier;
+        copy.provinceId = self.provinceId;
+        copy.hospitalAreaId = self.hospitalAreaId;
+        copy.positionName = [self.positionName copyWithZone:zone];
+        copy.age = self.age;
+        copy.memberId = self.memberId;
+        copy.createTime = self.createTime;
+        copy.accountId = self.accountId;
+        copy.typeCode = [self.typeCode copyWithZone:zone];
+    }
+    
+    return copy;
+}
+
+
+@end

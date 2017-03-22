@@ -1,0 +1,26 @@
+//
+//  MemberTableViewCell.h
+//  DK_Doctor
+//
+//  Created by 张斌 on 2017/2/18.
+//  Copyright © 2017年 陕西医管家医院管理咨询服务有限公司. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+#import "TeamMember.h"
+@class MemberTableViewCell;
+
+@protocol MemberCallDelegate <NSObject>
+
+-(void)callMember:(MemberTableViewCell *)cell Member:(TeamMember *)member;
+
+@end
+
+@interface MemberTableViewCell : UITableViewCell
+
+
+@property(weak,nonatomic)id<MemberCallDelegate>delegate;
+
+-(void)configWith:(id)data;
+
+@end

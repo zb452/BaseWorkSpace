@@ -1,0 +1,26 @@
+//
+//  MyPageControl.h
+//  DK_Doctor
+//
+//  Created by 张斌 on 2017/3/1.
+//  Copyright © 2017年 陕西医管家医院管理咨询服务有限公司. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+
+@interface MyPageControl : UIPageControl
+
+
+/**
+ 初始化
+ 
+ @param frame frame
+ @param size  control的size
+ @param cornerRadius contor的cornerRadius
+ @param spacing control的间距
+ @return
+ */
+-(instancetype)initWithFrame:(CGRect)frame withPointSize:(CGSize)size PointCornerRadius:(double)cornerRadius Spacing:(double)spacing;
+
+
+@end

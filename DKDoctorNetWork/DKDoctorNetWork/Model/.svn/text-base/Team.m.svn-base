@@ -1,0 +1,144 @@
+//
+//  Team.m
+//
+//  Created by 斌 张 on 2017/2/17
+//  Copyright (c) 2017 __MyCompanyName__. All rights reserved.
+//
+
+#import "Team.h"
+
+
+NSString *const kTeamTeamId = @"teamId";
+NSString *const kTeamAccountId = @"accountId";
+NSString *const kTeamTeamStatus = @"teamStatus";
+NSString *const kTeamTeamPic = @"teamPic";
+NSString *const kTeamUsingMeetingStatus = @"usingMeetingStatus";
+NSString *const kTeamTeamDescription = @"teamDescription";
+NSString *const kTeamAccountName = @"accountName";
+NSString *const kTeamTeamName = @"teamName";
+
+
+@interface Team ()
+
+- (id)objectOrNilForKey:(id)aKey fromDictionary:(NSDictionary *)dict;
+
+@end
+
+@implementation Team
+
+@synthesize teamId = _teamId;
+@synthesize accountId = _accountId;
+@synthesize teamStatus = _teamStatus;
+@synthesize teamPic = _teamPic;
+@synthesize usingMeetingStatus = _usingMeetingStatus;
+@synthesize teamDescription = _teamDescription;
+@synthesize accountName = _accountName;
+@synthesize teamName = _teamName;
+
+
++ (instancetype)modelObjectWithDictionary:(NSDictionary *)dict
+{
+    return [[self alloc] initWithDictionary:dict];
+}
+
+- (instancetype)initWithDictionary:(NSDictionary *)dict
+{
+    self = [super init];
+    
+    // This check serves to make sure that a non-NSDictionary object
+    // passed into the model class doesn't break the parsing.
+    if(self && [dict isKindOfClass:[NSDictionary class]]) {
+            self.teamId = [self objectOrNilForKey:kTeamTeamId fromDictionary:dict];
+            self.accountId = [[self objectOrNilForKey:kTeamAccountId fromDictionary:dict] doubleValue];
+            self.teamStatus = [[self objectOrNilForKey:kTeamTeamStatus fromDictionary:dict] doubleValue];
+            self.teamPic = [self objectOrNilForKey:kTeamTeamPic fromDictionary:dict];
+            self.usingMeetingStatus = [[self objectOrNilForKey:kTeamUsingMeetingStatus fromDictionary:dict] doubleValue];
+            self.teamDescription = [self objectOrNilForKey:kTeamTeamDescription fromDictionary:dict];
+            self.accountName = [self objectOrNilForKey:kTeamAccountName fromDictionary:dict];
+            self.teamName = [self objectOrNilForKey:kTeamTeamName fromDictionary:dict];
+
+    }
+    
+    return self;
+    
+}
+
+- (NSDictionary *)dictionaryRepresentation
+{
+    NSMutableDictionary *mutableDict = [NSMutableDictionary dictionary];
+    [mutableDict setValue:self.teamId forKey:kTeamTeamId];
+    [mutableDict setValue:[NSNumber numberWithDouble:self.accountId] forKey:kTeamAccountId];
+    [mutableDict setValue:[NSNumber numberWithDouble:self.teamStatus] forKey:kTeamTeamStatus];
+    [mutableDict setValue:self.teamPic forKey:kTeamTeamPic];
+    [mutableDict setValue:[NSNumber numberWithDouble:self.usingMeetingStatus] forKey:kTeamUsingMeetingStatus];
+    [mutableDict setValue:self.teamDescription forKey:kTeamTeamDescription];
+    [mutableDict setValue:self.accountName forKey:kTeamAccountName];
+    [mutableDict setValue:self.teamName forKey:kTeamTeamName];
+
+    return [NSDictionary dictionaryWithDictionary:mutableDict];
+}
+
+- (NSString *)description 
+{
+    return [NSString stringWithFormat:@"%@", [self dictionaryRepresentation]];
+}
+
+#pragma mark - Helper Method
+- (id)objectOrNilForKey:(id)aKey fromDictionary:(NSDictionary *)dict
+{
+    id object = [dict objectForKey:aKey];
+    return [object isEqual:[NSNull null]] ? nil : object;
+}
+
+
+#pragma mark - NSCoding Methods
+
+- (id)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super init];
+
+    self.teamId = [aDecoder decodeObjectForKey:kTeamTeamId];
+    self.accountId = [aDecoder decodeDoubleForKey:kTeamAccountId];
+    self.teamStatus = [aDecoder decodeDoubleForKey:kTeamTeamStatus];
+    self.teamPic = [aDecoder decodeObjectForKey:kTeamTeamPic];
+    self.usingMeetingStatus = [aDecoder decodeDoubleForKey:kTeamUsingMeetingStatus];
+    self.teamDescription = [aDecoder decodeObjectForKey:kTeamTeamDescription];
+    self.accountName = [aDecoder decodeObjectForKey:kTeamAccountName];
+    self.teamName = [aDecoder decodeObjectForKey:kTeamTeamName];
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder
+{
+
+    [aCoder encodeObject:_teamId forKey:kTeamTeamId];
+    [aCoder encodeDouble:_accountId forKey:kTeamAccountId];
+    [aCoder encodeDouble:_teamStatus forKey:kTeamTeamStatus];
+    [aCoder encodeObject:_teamPic forKey:kTeamTeamPic];
+    [aCoder encodeDouble:_usingMeetingStatus forKey:kTeamUsingMeetingStatus];
+    [aCoder encodeObject:_teamDescription forKey:kTeamTeamDescription];
+    [aCoder encodeObject:_accountName forKey:kTeamAccountName];
+    [aCoder encodeObject:_teamName forKey:kTeamTeamName];
+}
+
+- (id)copyWithZone:(NSZone *)zone
+{
+    Team *copy = [[Team alloc] init];
+    
+    if (copy) {
+
+        copy.teamId = [self.teamId copyWithZone:zone];
+        copy.accountId = self.accountId;
+        copy.teamStatus = self.teamStatus;
+        copy.teamPic = [self.teamPic copyWithZone:zone];
+        copy.usingMeetingStatus = self.usingMeetingStatus;
+        copy.teamDescription = [self.teamDescription copyWithZone:zone];
+        copy.accountName = [self.accountName copyWithZone:zone];
+        copy.teamName = [self.teamName copyWithZone:zone];
+    }
+    
+    return copy;
+}
+
+
+@end

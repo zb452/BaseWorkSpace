@@ -1,0 +1,263 @@
+//
+//  BGSever+Login.m
+//  EPNetWork
+//
+//  Created by 张斌 on 2016/10/15.
+//  Copyright © 2016年 陕西医管家医院管理咨询服务有限公司. All rights reserved.
+//
+
+#import "BGSever+Login.h"
+#import "AFHTTPSessionManager.h"
+#import "CryptoFuncation.h"
+
+
+@implementation BGSever (Login)
+
+/**
+ *  登录
+ *  @param mobile 手机号
+ *  @param password 密码
+ */
++ (void)userLoginWithMobile:(NSString *)mobile
+                   password:(NSString *)password
+                   typeCode:(NSString *)loginType
+                   showLoad:(BOOL)isShowLoad
+                   loadText:(NSString *)text
+                    success:(Success)successBlock
+                    Process:(Process)processBlock
+                    failure:(Failure)failureBlock
+{
+    
+    //
+    NSMutableDictionary *postDic = [NSMutableDictionary dictionary];
+  //  NSString *szPsw =[CryptoFuncation md5:@"123456"];
+    NSString *szPsw =[CryptoFuncation md5:password];
+    
+  [postDic setNoNullObject:mobile forKey:@"accountLoginName"];
+    [postDic setNoNullObject:szPsw forKey:@"accountPassword"];
+    
+    //暂时定死是手机号码登录，102301是手机号码登录
+    [postDic setNoNullObject:@"102301" forKey:@"typeCode"];
+    
+    //医生
+    [postDic setNoNullObject:@"102401" forKey:@"roleCode"];
+    
+    //设备ios
+    [postDic setNoNullObject:@"101003" forKey:@"deviceType"];
+    
+    
+    [[HttpBase shareHttpBase] postDataFromAction:LoginApi isShowLoad:isShowLoad loadText:text withParameters:postDic withProcess:^(NSProgress *loadProcess) {
+        if (processBlock)
+        {
+            processBlock(loadProcess);
+        }
+    } withSuccessBlock:^(id backJson) {
+        if (successBlock)
+        {
+            successBlock(backJson);
+        }
+    } withFailBlock:^(NSError *error) {
+        if (failureBlock)
+        {
+            failureBlock(error);
+        }
+    }];
+}
+
+
+/**
+ 忘记密码
+
+ @param mobile 手机号
+ @param password 密码
+ @param authCode 验证码
+ @param loginType 登录类型
+
+ */
++ (void)ModifyPswWithMobile:(NSString *)mobile
+                  password:(NSString *)password
+                  AuthCode:(NSString *)authCode
+                  typeCode:(NSString *)loginType
+                   showLoad:(BOOL)isShowLoad
+                   loadText:(NSString *)text
+                   success:(Success)successBlock
+                   Process:(Process)processBlock
+                   failure:(Failure)failureBlock
+{
+    NSMutableDictionary *postDic = [NSMutableDictionary dictionary];
+    NSString *szPsw =[CryptoFuncation md5:password];
+    [postDic setNoNullObject:szPsw forKey:@"accountPassword"];
+    
+    [postDic setNoNullObject:mobile forKey:@"accountLoginName"];
+    
+    [postDic setNoNullObject:@"102301" forKey:@"typeCode"];
+     [postDic setNoNullObject:authCode forKey:@"smsCode"];
+    
+    [[HttpBase shareHttpBase] postDataFromAction:ForgetPSW isShowLoad:isShowLoad loadText:text withParameters:postDic withProcess:^(NSProgress *loadProcess) {
+        if (processBlock)
+        {
+            processBlock(loadProcess);
+        }
+    } withSuccessBlock:^(id backJson) {
+        if (successBlock)
+        {
+            successBlock(backJson);
+        }
+    } withFailBlock:^(NSError *error) {
+        if (failureBlock)
+        {
+            failureBlock(error);
+        }
+    }];
+}
+
+/**
+ *  获取验证码
+ *  @param mobile 手机号
+ *  @param password 密码
+ *  @param authCode 验证码
+ */
++ (void)GetAuthCodeWithMobile:(NSString *)mobile
+                   acountType:(NSString *)accountType
+                     typeCode:(NSString *)typeCode
+                     showLoad:(BOOL)isShowLoad
+                     loadText:(NSString *)text
+                      success:(Success)successBlock
+                      Process:(Process)processBlock
+                      failure:(Failure)failureBlock
+
+{
+    
+    NSMutableDictionary *postDic = [NSMutableDictionary dictionary];
+    [postDic setNoNullObject:mobile forKey:@"accountName"];
+    
+    [postDic setNoNullObject:accountType forKey:@"accountType"];
+    [postDic setNoNullObject:typeCode forKey:@"typeCode"];
+    
+
+    [[HttpBase shareHttpBase] postDataFromAction:GetAuthCodeForPaitent isShowLoad:isShowLoad loadText:text  withParameters:postDic withProcess:^(NSProgress *loadProcess) {
+        if (processBlock)
+        {
+            processBlock(loadProcess);
+        }
+    } withSuccessBlock:^(id backJson) {
+        
+        if (successBlock)
+        {
+            successBlock(backJson);
+        }
+        
+    } withFailBlock:^(NSError *error) {
+        if (failureBlock)
+        {
+            failureBlock(error);
+        }
+        
+    }];
+}
+
+///**
+// *  更新患者信息
+// *  @param identifer 业务主键
+// *  @param idCard 身份证
+// *  @param address 地址
+// *  @param name 姓名
+// *  @param sexCode 性别编码
+// *  @param headPic 头像地址
+// *  @param age 年龄
+// *  @param typeCode 编码
+// */
+//+(void)updateUserInfoWith:(NSString *)identifer
+//                   idCard:(NSString *)idCard
+//                  address:(NSString *)address
+//                     name:(NSString *)name
+//                  sexCode:(NSString *)sexCode
+//                  headPic:(NSString *)headPic
+//                      age:(NSString *)age
+//                 typeCode:(NSString*)typeCode
+//                  success:(Success)successBlock
+//                  Process:(Process)processBlock
+//                  failure:(Failure)failureBlock
+//{
+//    NSMutableDictionary *postDic = [NSMutableDictionary dictionary];
+//    
+//    [postDic setNoNullObject:identifer forKey:@"identifer"];
+//    [postDic setNoNullObject:idCard forKey:@"idCard"];
+//    [postDic setNoNullObject:address forKey:@"address"];
+//    [postDic setNoNullObject:name forKey:@"name"];
+//    [postDic setNoNullObject:sexCode forKey:@"sexCode"];
+//    [postDic setNoNullObject:headPic forKey:@"headPic"];
+//    [postDic setNoNullObject:age forKey:@"age"];
+//    [postDic setNoNullObject:typeCode forKey:@"typeCode"];
+//    
+//    [[HttpBase shareHttpBase] postDataFromAction:LoginForPaitentApi withParameters:postDic withProcess:^(NSProgress *loadProcess) {
+//        if (processBlock)
+//        {
+//            processBlock(loadProcess);
+//        }
+//    } withSuccessBlock:^(id backJson) {
+//        
+//        if (successBlock)
+//        {
+//            successBlock(backJson);
+//        }
+//        
+//    } withFailBlock:^(NSError *error) {
+//        if (failureBlock)
+//        {
+//            failureBlock(error);
+//        }
+//        
+//    }];
+//}
+/**
+ *  修改密码
+ *  @param userId accountid
+ *  @param password 旧密码
+ *  @param newPassword 新密码
+ *  @param loginType 账号类型
+ */
++ (void)ChangePswWithId:(NSString *)userId
+                         password:(NSString *)password
+                         NewPassword:(NSString *)newPassword
+                         typeCode:(NSString *)loginType
+                         showLoad:(BOOL)isShowLoad
+                         loadText:(NSString *)text
+                          success:(Success)successBlock
+                          Process:(Process)processBlock
+                          failure:(Failure)failureBlock
+{
+    NSMutableDictionary *postDic = [NSMutableDictionary dictionary];
+    NSString *szPsw =[CryptoFuncation md5:password];
+    NSString *szNewPsw =[CryptoFuncation md5:newPassword];
+    
+    [postDic setNoNullObject:szPsw forKey:@"accountPassword"];
+    [postDic setNoNullObject:szNewPsw forKey:@"accountNewPassword"];
+    
+    [postDic setNoNullObject:userId forKey:@"id"];
+    [postDic setNoNullObject:loginType forKey:@"typeCode"];
+    
+    
+    [[HttpBase shareHttpBase] postDataFromAction:ModifyPSW isShowLoad:isShowLoad loadText:text withParameters:postDic withProcess:^(NSProgress *loadProcess) {
+        if (processBlock)
+        {
+            processBlock(loadProcess);
+        }
+    } withSuccessBlock:^(id backJson) {
+        
+        if (successBlock)
+        {
+            successBlock(backJson);
+        }
+        
+    } withFailBlock:^(NSError *error) {
+        if (failureBlock)
+        {
+            failureBlock(error);
+        }
+        
+    }];
+}
+
+
+@end

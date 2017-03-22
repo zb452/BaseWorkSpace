@@ -1,0 +1,30 @@
+//
+//  AdressBookViewModel.h
+//  DK_Doctor
+//
+//  Created by 张斌 on 2017/2/16.
+//  Copyright © 2017年 陕西医管家医院管理咨询服务有限公司. All rights reserved.
+//
+
+#import "BaseViewModel.h"
+#import "Team.h"
+
+@interface AdressBookViewModel : BaseViewModel
+
+
+-(void)getMyAboutTeam:(BOOL)isShowLoad
+             willSend:(WillSendCallback)WillSend
+              Success:(SuccessCallback)Success
+                 Fail:(FailCallback)fail;
+
+-(NSInteger)countWithindex:(NSInteger)index;
+
+-(Team *)otherTeam:(NSInteger)index;
+
+-(Team *)myTeam:(NSInteger)index;
+
+-(void)startMeetingWithTeam:(Team *)team
+                    Success:(SuccessCallback)Success
+                       Fail:(FailCallback)fail;
+
+@end

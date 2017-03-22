@@ -1,0 +1,25 @@
+//
+//  LoginViewModel.h
+//  DK_Doctor
+//
+//  Created by 张斌 on 2017/2/10.
+//  Copyright © 2017年 陕西医管家医院管理咨询服务有限公司. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+#import "BaseViewModel.h"
+
+@interface LoginViewModel : BaseViewModel
+@property(strong,nonatomic)NSString *hudMessage;
+
+
+-(instancetype)initWithName:(NSString *)name withPsw:(NSString *)password;
+
+//检查账号和密码是否正常
+-(BOOL)checkAccountAndPswIsNormal;
+
+//登录
+-(void)loginWith:(SuccessCallback)Successs
+    withCallBack:(FailCallback)Fail;
+
+@end

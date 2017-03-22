@@ -1,0 +1,54 @@
+//
+//  BGSever+Zoom.h
+//  DKDoctorNetWork
+//
+//  Created by 张斌 on 2017/2/22.
+//  Copyright © 2017年 陕西医管家医院管理咨询服务有限公司. All rights reserved.
+//
+
+#import "BGSever.h"
+
+@interface BGSever (Zoom)
+
+/**
+ 创建zoom房间
+ 
+ @param accountId 视频发起者id
+ 
+ */
++ (void)CreateZoomMetting:(NSString *)accountId
+                 showLoad:(BOOL)isShowLoad
+                 loadText:(NSString *)text
+                  success:(Success)successBlock
+                  Process:(Process)processBlock
+                  failure:(Failure)failureBlock;
+
+/**
+ 创建一次性zoom房间
+ 
+ @param accountId 视频发起者id
+ 
+ */
++ (void)CreateOnceZoomMetting:(NSString *)accountId
+                     showLoad:(BOOL)isShowLoad
+                     loadText:(NSString *)text
+                      success:(Success)successBlock
+                      Process:(Process)processBlock
+                      failure:(Failure)failureBlock;
+
+/**
+ 获取创建好的zoom房间详情
+ 
+ @param appId 创建zoom房间时候获取的id
+ @param appValue 创建zoom房间时候获取的value
+ 
+ */
++ (void)GetZoomRoomDetail:(NSString *)appId
+                    value:(NSString *)appValue
+                 showLoad:(BOOL)isShowLoad
+                 loadText:(NSString *)text
+                  success:(Success)successBlock
+                  Process:(Process)processBlock
+                  failure:(Failure)failureBlock;
+
+@end

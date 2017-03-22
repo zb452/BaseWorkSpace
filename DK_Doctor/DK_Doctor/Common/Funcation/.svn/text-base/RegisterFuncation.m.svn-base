@@ -1,0 +1,68 @@
+//
+//  RegisterFuncation.m
+//  Ep_Doctor
+//
+//  Created by 张斌 on 16/9/9.
+//  Copyright © 2016年 陕西医管家医院管理咨询服务有限公司. All rights reserved.
+//
+
+#import "RegisterFuncation.h"
+#import "DKZoomHelper.h"
+#import "DKHyChatHelper.h"
+
+
+#define HyAppKey   @"yiguanjia#yiguanjiaepdoctor"
+
+
+@implementation RegisterFuncation
+
+/**
+ *  注册环信信息
+ */
++(void)registerHy
+{
+    
+    [[DKHyChatHelper shareDKHyChatHelper] registerHy];
+//    //注册appkey
+//    EMOptions *options = [EMOptions optionsWithAppkey:HyAppKey];
+//    //推送证书
+//    options.apnsCertName = @"SandBoxPush";
+//    [[EMClient sharedClient] initializeSDKWithOptions:options];
+//   // [[EMClient sharedClient] addDelegate:delegate];
+}
+
+///**
+// *  注册环信UI信息
+// */
+//+(void)registerHyUI:(UIApplication *)application
+//            didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+//              apnsCertName:(NSString *)apnsCertName
+//               otherConfig:(NSDictionary *)otherConfig
+//{
+//    [[EaseSDKHelper shareHelper] hyphenateApplication:application
+//                        didFinishLaunchingWithOptions:launchOptions
+//                                               appkey:HyAppKey
+//                                         apnsCertName:apnsCertName
+//                                          otherConfig:@{kSDKConfigEnableConsoleLogger:[NSNumber numberWithBool:YES]}];
+//}
+
+/**
+ 注册微信
+
+ @param appId   appid
+ @param description  描述
+ */
+//+(void)registerWX:(NSString *)appId withDescription:(NSString *)description
+//{
+//    [WXApi registerApp:appId withDescription:description];
+//}
+
+/**
+ 注册zoom
+ */
++(void)registerZoom
+{
+    [[DKZoomHelper shareZoomHelper] registerApp];
+}
+
+@end

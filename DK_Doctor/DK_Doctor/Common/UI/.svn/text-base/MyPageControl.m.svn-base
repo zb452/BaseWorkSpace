@@ -1,0 +1,93 @@
+//
+//  MyPageControl.m
+//  DK_Doctor
+//
+//  Created by 张斌 on 2017/3/1.
+//  Copyright © 2017年 陕西医管家医院管理咨询服务有限公司. All rights reserved.
+//
+
+#import "MyPageControl.h"
+
+@interface MyPageControl()
+
+//control的size
+@property(assign,nonatomic)CGSize customSize;
+//contor的cornerRadius
+@property(assign,nonatomic)double customCornerRadius;
+//control的间距
+@property(assign,nonatomic)double customSpacing;
+
+@end
+
+@implementation MyPageControl
+
+/*
+// Only override drawRect: if you perform custom drawing.
+// An empty implementation adversely affects performance during animation.
+- (void)drawRect:(CGRect)rect {
+    // Drawing code
+}
+*/
+
+/**
+ 初始化
+
+ @param frame frame
+ @param size  control的size
+ @param cornerRadius contor的cornerRadius
+ @param spacing control的间距
+ @return
+ */
+-(instancetype)initWithFrame:(CGRect)frame withPointSize:(CGSize)size PointCornerRadius:(double)cornerRadius Spacing:(double)spacing
+{
+    self.customSize = size;
+    self.customCornerRadius = cornerRadius;
+    self.customSpacing = spacing;
+    
+    return [super initWithFrame:frame];
+}
+
+- (void) setCurrentPage:(NSInteger)page {
+    [super setCurrentPage:page];
+    for (NSUInteger subviewIndex = 0; subviewIndex < [self.subviews count]; subviewIndex++) {
+        UIImageView* subview = [self.subviews objectAtIndex:subviewIndex];
+        CGSize size;
+        size.height = self.customSize.height;
+        size.width = self.customSize.width;
+        subview.layer.cornerRadius = self.customCornerRadius;
+        subview.clipsToBounds = YES;
+        
+        [subview setFrame:CGRectMake(subview.frame.origin.x, subview.frame.origin.y,
+                                     size.width,size.height)];
+        if (subviewIndex == page) {
+                [subview setBackgroundColor:self.currentPageIndicatorTintColor];
+        } else {
+                [subview setBackgroundColor:self.pageIndicatorTintColor];
+        }
+
+    }
+}
+
+- (void)layoutSubviews
+{
+    [super layoutSubviews];
+    
+    //点和间距总共用到的宽度和高度
+    CGFloat width = self.numberOfPages*self.customSize.width+(self.numberOfPages-1)*self.customSpacing;
+    
+    CGFloat height = self.customSize.height;
+    
+    //起始点
+    CGFloat startX = (self.frame.size.width-width)/2.0;
+    CGFloat startY = (self.frame.size.height-height)/2.0;
+    
+    //遍历subview,设置control frame
+    for (int i=0; i<[self.subviews count]; i++)
+    {
+        UIImageView* dot = [self.subviews objectAtIndex:i];
+        
+        [dot setFrame:CGRectMake(startX+(self.customSize.width+self.customSpacing)*i, startY, self.customSize.width, self.customSize.height)];
+    }
+}
+
+@end

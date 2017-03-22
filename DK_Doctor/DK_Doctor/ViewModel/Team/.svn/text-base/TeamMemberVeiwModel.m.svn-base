@@ -1,0 +1,82 @@
+//
+//  TeamMemberVeiwModel.m
+//  DK_Doctor
+//
+//  Created by 张斌 on 2017/2/16.
+//  Copyright © 2017年 陕西医管家医院管理咨询服务有限公司. All rights reserved.
+//
+
+#import "TeamMemberVeiwModel.h"
+#import "BGSever+Team.h"
+
+
+@interface TeamMemberVeiwModel()
+
+@property(strong,nonatomic)Team *team;
+
+@property(strong,nonatomic)NSArray *aryMemberList;
+
+@end
+
+@implementation TeamMemberVeiwModel
+
+
+-(instancetype)initWithTeam:(Team *)team
+{
+    self.team = team;
+    
+    return [super init];
+}
+
+-(void)getTeamMemberList:(BOOL)isShowLoad
+                 Success:(SuccessCallback)Success
+                    Fail:(FailCallback)fail
+{
+    [BGSever getTeamMemberList:self.team.teamId showLoad:isShowLoad loadText:@"" success:^(NSDictionary *getDic) {
+        
+        if ([getDic[@"code"] intValue] == 0)
+        {
+            if ([getDic[@"data"] isKindOfClass:[NSArray class]])
+            {
+                NSMutableArray *ary = [NSMutableArray array];
+                for (NSDictionary *dic in getDic[@"data"])
+                {
+                    TeamMember *teamMber = [TeamMember modelObjectWithDictionary:dic];
+                    
+                    [ary addObject:teamMber];
+                }
+                
+                self.aryMemberList = [NSArray arrayWithArray:ary];
+                
+                Success();
+            }
+        }
+        else
+        {
+            if ([getDic[@"data"] isKindOfClass:[NSString class]])
+            {
+                fail(getDic[@"data"]);
+            }
+            else
+            {
+                fail(@"获取成员失败");
+            }
+        }
+        
+    } Process:nil failure:^(NSError *error) {
+        fail(@"获取成员失败,请检查网络");
+    }];
+}
+-(NSInteger)countOfMember
+{
+    return self.aryMemberList.count;
+}
+
+-(TeamMember *)teamMemberOfIndex:(NSInteger)index
+{
+    return [self.aryMemberList objectAt:index];
+}
+
+
+
+@end

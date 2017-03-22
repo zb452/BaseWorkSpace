@@ -1,0 +1,88 @@
+//
+//  SendVideoVIew.m
+//  DK_Patient
+//
+//  Created by 张斌 on 2017/1/14.
+//  Copyright © 2017年 陕西医管家医院管理咨询服务有限公司. All rights reserved.
+//
+
+#import "SendVideoVIew.h"
+#import "DKZoomHelper.h"
+#import "DKHyChatHelper.h"
+#import "DKSoundHelper.h"
+
+@implementation SendVideoVIew
+
+/*
+// Only override drawRect: if you perform custom drawing.
+// An empty implementation adversely affects performance during animation.
+- (void)drawRect:(CGRect)rect {
+    // Drawing code
+}
+*/
+
+-(IBAction)ReciveVideo:(id)sender
+{
+    //接受视频
+    switch (self.meetType)
+    {
+        case PatientType:
+            [[DKHyChatHelper shareDKHyChatHelper] sendCMDMessage:DKConsent To:self.dicData[@"from"] ext:nil];
+            break;
+        case DoctorType:
+            [[DKHyChatHelper shareDKHyChatHelper] sendCMDMessage:DKDoctorConsent To:self.dicData[@"from"] ext:[NSDictionary dictionaryWithObjectsAndKeys:self.dicData[@"DKZoomId"],DKZoomId,nil]];
+            break;
+        case TeamType:
+            [[DKHyChatHelper shareDKHyChatHelper] sendCMDMessage:DKDoctorConsent To:self.dicData[@"from"] ext:[NSDictionary dictionaryWithObjectsAndKeys:self.dicData[@"DKZoomId"],DKZoomId,nil]];
+            break;
+            
+        default:
+            break;
+    }
+    
+    [[DKSoundHelper shareDKSoundHelper] stopAlertSoundWithSoundID];
+    __weak typeof (self)weakSelf = self;
+    [self dismissView:YES complete:^{
+        
+        [[DKZoomHelper shareZoomHelper] joinMeeting:self.dicData[DKZoomId]];
+    }];
+}
+
+-(IBAction)rejection:(id)sender
+{
+    //拒绝视频
+    //接受视频
+    switch (self.meetType)
+    {
+        case PatientType:
+            [[DKHyChatHelper shareDKHyChatHelper] sendCMDMessage:DKRejection To:self.dicData[@"from"] ext:nil];
+            break;
+        case DoctorType:
+            [[DKHyChatHelper shareDKHyChatHelper] sendCMDMessage:DKDoctorRejection To:self.dicData[@"from"] ext:nil];
+            break;
+        case TeamType:
+            [[DKHyChatHelper shareDKHyChatHelper] sendCMDMessage:DKDoctorRejection To:self.dicData[@"from"] ext:nil];
+            break;
+            
+        default:
+            break;
+    }
+    
+    [[DKSoundHelper shareDKSoundHelper] stopAlertSoundWithSoundID];
+    __weak typeof (self)weakSelf = self;
+    [self dismissView:YES complete:^{
+        
+        //[[DKZoomHelper shareZoomHelper] joinMeeting:self.dicData[@"RoomId"]];
+    }];
+}
+
+-(void)noResponse
+{
+    [super noResponse];
+    
+    DKLog(@"未接视频");
+    [[DKSoundHelper shareDKSoundHelper] stopAlertSoundWithSoundID];
+    
+}
+
+@end

@@ -1,0 +1,63 @@
+//
+//  DKSoundHelper.m
+//  DK_Patient
+//
+//  Created by 张斌 on 2017/1/14.
+//  Copyright © 2017年 陕西医管家医院管理咨询服务有限公司. All rights reserved.
+//
+
+#import "DKSoundHelper.h"
+#import <AudioToolbox/AudioToolbox.h>
+
+@interface DKSoundHelper()
+
+@property(assign,nonatomic)SystemSoundID sound;
+
+@end
+
+@implementation DKSoundHelper
+
+
++(DKSoundHelper *)shareDKSoundHelper
+{
+    static DKSoundHelper *soundHelper = nil;
+    
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        
+        soundHelper = [[DKSoundHelper alloc] init];
+        
+    });
+    
+    return soundHelper;
+}
+
+void soundCompleteCallback(SystemSoundID sound,void * clientData) {
+    AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);  //震动
+    AudioServicesPlaySystemSound(1007);  // 播放系统声音 这里的sound是我自定义的
+}
+
+//-(void)playSound:(SystemSoundID)sound isShake:(BOOL)isShake
+//{
+//    NSString *path = [[NSBundle mainBundle] pathForResource:soundName ofType:nil];
+//    AudioServicesCreateSystemSoundID((__bridge CFURLRef)[NSURL fileURLWithPath:path], &_sound);
+//    
+//   // AudioServicesAddSystemSoundCompletion(_soundID, NULL, NULL, soundCompleteCallback, NULL);
+//    AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+//    AudioServicesPlaySystemSound(_sound);
+//}
+-(void)playMeetMusic
+{
+//    AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);  //震动
+//    AudioServicesAddSystemSoundCompletion(1007, NULL, NULL, soundCompleteCallback, NULL);
+//    AudioServicesPlaySystemSound(1007);  // 播放系统声音 这里的sound是我自定义的
+
+}
+
+-(void)stopAlertSoundWithSoundID
+{
+    AudioServicesDisposeSystemSoundID(kSystemSoundID_Vibrate);
+    AudioServicesDisposeSystemSoundID(1007);
+    AudioServicesRemoveSystemSoundCompletion(1007);
+}
+@end

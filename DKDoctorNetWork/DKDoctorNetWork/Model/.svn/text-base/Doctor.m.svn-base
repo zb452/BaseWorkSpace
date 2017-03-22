@@ -1,0 +1,185 @@
+//
+//  Doctor.m
+//
+//  Created by 斌 张 on 2017/2/10
+//  Copyright (c) 2017 __MyCompanyName__. All rights reserved.
+//
+
+#import "Doctor.h"
+
+
+NSString *const kDoctorDescription = @"description";
+NSString *const kDoctorTechnicalTitleCode = @"technicalTitleCode";
+NSString *const kDoctorHospitalId = @"hospitalId";
+NSString *const kDoctorTechnicalTitleName = @"technicalTitleName";
+NSString *const kDoctorHospitalName = @"hospitalName";
+NSString *const kDoctorDepartmentsName = @"departmentsName";
+NSString *const kDoctorDepartmentsId = @"departmentsId";
+NSString *const kDoctorToken = @"token";
+NSString *const kDoctorAccountId = @"accountId";
+NSString *const kDoctorSignature = @"signature";
+NSString *const kDoctorProvinceName = @"provinceName";
+NSString *const kDoctorProvinceId = @"provinceId";
+NSString *const kDoctorName = @"name";
+NSString *const kDoctorHeadPic = @"headPic";
+
+
+@interface Doctor ()
+
+- (id)objectOrNilForKey:(id)aKey fromDictionary:(NSDictionary *)dict;
+
+@end
+
+@implementation Doctor
+
+@synthesize internalBaseClassDescription = _internalBaseClassDescription;
+@synthesize technicalTitleCode = _technicalTitleCode;
+@synthesize hospitalId = _hospitalId;
+@synthesize technicalTitleName = _technicalTitleName;
+@synthesize hospitalName = _hospitalName;
+@synthesize departmentsName = _departmentsName;
+@synthesize departmentsId = _departmentsId;
+@synthesize token = _token;
+@synthesize accountId = _accountId;
+@synthesize signature = _signature;
+@synthesize provinceName = _provinceName;
+@synthesize provinceId = _provinceId;
+@synthesize name = _name;
+@synthesize headPic = _headPic;
+
+
++ (instancetype)modelObjectWithDictionary:(NSDictionary *)dict
+{
+    return [[self alloc] initWithDictionary:dict];
+}
+
+- (instancetype)initWithDictionary:(NSDictionary *)dict
+{
+    self = [super init];
+    
+    // This check serves to make sure that a non-NSDictionary object
+    // passed into the model class doesn't break the parsing.
+    if(self && [dict isKindOfClass:[NSDictionary class]]) {
+            self.internalBaseClassDescription = [self objectOrNilForKey:kDoctorDescription fromDictionary:dict];
+            self.technicalTitleCode = [self objectOrNilForKey:kDoctorTechnicalTitleCode fromDictionary:dict];
+            self.hospitalId = [[self objectOrNilForKey:kDoctorHospitalId fromDictionary:dict] doubleValue];
+            self.technicalTitleName = [self objectOrNilForKey:kDoctorTechnicalTitleName fromDictionary:dict];
+            self.hospitalName = [self objectOrNilForKey:kDoctorHospitalName fromDictionary:dict];
+            self.departmentsName = [self objectOrNilForKey:kDoctorDepartmentsName fromDictionary:dict];
+            self.departmentsId = [[self objectOrNilForKey:kDoctorDepartmentsId fromDictionary:dict] doubleValue];
+            self.token = [self objectOrNilForKey:kDoctorToken fromDictionary:dict];
+            self.accountId = [[self objectOrNilForKey:kDoctorAccountId fromDictionary:dict] doubleValue];
+            self.signature = [self objectOrNilForKey:kDoctorSignature fromDictionary:dict];
+            self.provinceName = [self objectOrNilForKey:kDoctorProvinceName fromDictionary:dict];
+            self.provinceId = [[self objectOrNilForKey:kDoctorProvinceId fromDictionary:dict] doubleValue];
+            self.name = [self objectOrNilForKey:kDoctorName fromDictionary:dict];
+            self.headPic = [self objectOrNilForKey:kDoctorHeadPic fromDictionary:dict];
+
+    }
+    
+    return self;
+    
+}
+
+- (NSDictionary *)dictionaryRepresentation
+{
+    NSMutableDictionary *mutableDict = [NSMutableDictionary dictionary];
+    [mutableDict setValue:self.internalBaseClassDescription forKey:kDoctorDescription];
+    [mutableDict setValue:self.technicalTitleCode forKey:kDoctorTechnicalTitleCode];
+    [mutableDict setValue:[NSNumber numberWithDouble:self.hospitalId] forKey:kDoctorHospitalId];
+    [mutableDict setValue:self.technicalTitleName forKey:kDoctorTechnicalTitleName];
+    [mutableDict setValue:self.hospitalName forKey:kDoctorHospitalName];
+    [mutableDict setValue:self.departmentsName forKey:kDoctorDepartmentsName];
+    [mutableDict setValue:[NSNumber numberWithDouble:self.departmentsId] forKey:kDoctorDepartmentsId];
+    [mutableDict setValue:self.token forKey:kDoctorToken];
+    [mutableDict setValue:[NSNumber numberWithDouble:self.accountId] forKey:kDoctorAccountId];
+    [mutableDict setValue:self.signature forKey:kDoctorSignature];
+    [mutableDict setValue:self.provinceName forKey:kDoctorProvinceName];
+    [mutableDict setValue:[NSNumber numberWithDouble:self.provinceId] forKey:kDoctorProvinceId];
+    [mutableDict setValue:self.name forKey:kDoctorName];
+    [mutableDict setValue:self.headPic forKey:kDoctorHeadPic];
+
+    return [NSDictionary dictionaryWithDictionary:mutableDict];
+}
+
+- (NSString *)description 
+{
+    return [NSString stringWithFormat:@"%@", [self dictionaryRepresentation]];
+}
+
+#pragma mark - Helper Method
+- (id)objectOrNilForKey:(id)aKey fromDictionary:(NSDictionary *)dict
+{
+    id object = [dict objectForKey:aKey];
+    return [object isEqual:[NSNull null]] ? nil : object;
+}
+
+
+#pragma mark - NSCoding Methods
+
+- (id)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super init];
+
+    self.internalBaseClassDescription = [aDecoder decodeObjectForKey:kDoctorDescription];
+    self.technicalTitleCode = [aDecoder decodeObjectForKey:kDoctorTechnicalTitleCode];
+    self.hospitalId = [aDecoder decodeDoubleForKey:kDoctorHospitalId];
+    self.technicalTitleName = [aDecoder decodeObjectForKey:kDoctorTechnicalTitleName];
+    self.hospitalName = [aDecoder decodeObjectForKey:kDoctorHospitalName];
+    self.departmentsName = [aDecoder decodeObjectForKey:kDoctorDepartmentsName];
+    self.departmentsId = [aDecoder decodeDoubleForKey:kDoctorDepartmentsId];
+    self.token = [aDecoder decodeObjectForKey:kDoctorToken];
+    self.accountId = [aDecoder decodeDoubleForKey:kDoctorAccountId];
+    self.signature = [aDecoder decodeObjectForKey:kDoctorSignature];
+    self.provinceName = [aDecoder decodeObjectForKey:kDoctorProvinceName];
+    self.provinceId = [aDecoder decodeDoubleForKey:kDoctorProvinceId];
+    self.name = [aDecoder decodeObjectForKey:kDoctorName];
+    self.headPic = [aDecoder decodeObjectForKey:kDoctorHeadPic];
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder
+{
+    [aCoder encodeObject:_internalBaseClassDescription forKey:kDoctorDescription];
+    [aCoder encodeObject:_technicalTitleCode forKey:kDoctorTechnicalTitleCode];
+    [aCoder encodeDouble:_hospitalId forKey:kDoctorHospitalId];
+    [aCoder encodeObject:_technicalTitleName forKey:kDoctorTechnicalTitleName];
+    [aCoder encodeObject:_hospitalName forKey:kDoctorHospitalName];
+    [aCoder encodeObject:_departmentsName forKey:kDoctorDepartmentsName];
+    [aCoder encodeDouble:_departmentsId forKey:kDoctorDepartmentsId];
+    [aCoder encodeObject:_token forKey:kDoctorToken];
+    [aCoder encodeDouble:_accountId forKey:kDoctorAccountId];
+    [aCoder encodeObject:_signature forKey:kDoctorSignature];
+    [aCoder encodeObject:_provinceName forKey:kDoctorProvinceName];
+    [aCoder encodeDouble:_provinceId forKey:kDoctorProvinceId];
+    [aCoder encodeObject:_name forKey:kDoctorName];
+    [aCoder encodeObject:_headPic forKey:kDoctorHeadPic];
+}
+
+- (id)copyWithZone:(NSZone *)zone
+{
+    Doctor *copy = [[Doctor alloc] init];
+    
+    if (copy) {
+
+        copy.internalBaseClassDescription = [self.internalBaseClassDescription copyWithZone:zone];
+        copy.technicalTitleCode = [self.technicalTitleCode copyWithZone:zone];
+        copy.hospitalId = self.hospitalId;
+        copy.technicalTitleName = [self.technicalTitleName copyWithZone:zone];
+        copy.hospitalName = [self.hospitalName copyWithZone:zone];
+        copy.departmentsName = [self.departmentsName copyWithZone:zone];
+        copy.departmentsId = self.departmentsId;
+        copy.token = [self.token copyWithZone:zone];
+        copy.accountId = self.accountId;
+        copy.signature = [self.signature copyWithZone:zone];
+        copy.provinceName = [self.provinceName copyWithZone:zone];
+        copy.provinceId = self.provinceId;
+        copy.name = [self.name copyWithZone:zone];
+        copy.headPic = [self.headPic copyWithZone:zone];
+    }
+    
+    return copy;
+}
+
+
+@end

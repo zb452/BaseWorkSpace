@@ -1,0 +1,132 @@
+//
+//  DoctorInfo.m
+//
+//  Created by 斌 张 on 2016/10/17
+//  Copyright (c) 2016 陕西医管家医院管理咨询服务有限公司. All rights reserved.
+//
+
+#import "DoctorInfo.h"
+#import "Member.h"
+#import "HospitalArea.h"
+#import "Department.h"
+
+
+NSString *const kDoctorInfoMember = @"member";
+NSString *const kDoctorInfoLevelCode = @"levelCode";
+NSString *const kDoctorInfoHospitalArea = @"hospitalArea";
+NSString *const kDoctorInfoDepartment = @"department";
+
+
+@interface DoctorInfo ()
+
+- (id)objectOrNilForKey:(id)aKey fromDictionary:(NSDictionary *)dict;
+
+@end
+
+@implementation DoctorInfo
+
+@synthesize member = _member;
+@synthesize levelCode = _levelCode;
+@synthesize hospitalArea = _hospitalArea;
+@synthesize department = _department;
+
++(DoctorInfo *)shareDoctorInfo
+{
+    static dispatch_once_t pred;
+    
+    static DoctorInfo *_shareDoctorInfo = nil;
+    
+    dispatch_once(&pred, ^{
+        _shareDoctorInfo = [[self alloc] init];
+    });
+    
+    return _shareDoctorInfo;
+}
+
+
++ (instancetype)modelObjectWithDictionary:(NSDictionary *)dict
+{
+    return [[self alloc] initWithDictionary:dict];
+}
+
+- (instancetype)initWithDictionary:(NSDictionary *)dict
+{
+    self = [super init];
+    
+    // This check serves to make sure that a non-NSDictionary object
+    // passed into the model class doesn't break the parsing.
+    if(self && [dict isKindOfClass:[NSDictionary class]]) {
+            self.member = [Member modelObjectWithDictionary:[dict objectForKey:kDoctorInfoMember]];
+            self.levelCode = [self objectOrNilForKey:kDoctorInfoLevelCode fromDictionary:dict];
+            self.hospitalArea = [HospitalArea modelObjectWithDictionary:[dict objectForKey:kDoctorInfoHospitalArea]];
+            self.department = [Department modelObjectWithDictionary:[dict objectForKey:kDoctorInfoDepartment]];
+
+    }
+    
+    return self;
+    
+}
+
+- (NSDictionary *)dictionaryRepresentation
+{
+    NSMutableDictionary *mutableDict = [NSMutableDictionary dictionary];
+    [mutableDict setValue:[self.member dictionaryRepresentation] forKey:kDoctorInfoMember];
+    [mutableDict setValue:self.levelCode forKey:kDoctorInfoLevelCode];
+    [mutableDict setValue:[self.hospitalArea dictionaryRepresentation] forKey:kDoctorInfoHospitalArea];
+    [mutableDict setValue:[self.department dictionaryRepresentation] forKey:kDoctorInfoDepartment];
+
+    return [NSDictionary dictionaryWithDictionary:mutableDict];
+}
+
+- (NSString *)description 
+{
+    return [NSString stringWithFormat:@"%@", [self dictionaryRepresentation]];
+}
+
+#pragma mark - Helper Method
+- (id)objectOrNilForKey:(id)aKey fromDictionary:(NSDictionary *)dict
+{
+    id object = [dict objectForKey:aKey];
+    return [object isEqual:[NSNull null]] ? nil : object;
+}
+
+
+#pragma mark - NSCoding Methods
+
+- (id)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super init];
+
+    self.member = [aDecoder decodeObjectForKey:kDoctorInfoMember];
+    self.levelCode = [aDecoder decodeObjectForKey:kDoctorInfoLevelCode];
+    self.hospitalArea = [aDecoder decodeObjectForKey:kDoctorInfoHospitalArea];
+    self.department = [aDecoder decodeObjectForKey:kDoctorInfoDepartment];
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder
+{
+
+    [aCoder encodeObject:_member forKey:kDoctorInfoMember];
+    [aCoder encodeObject:_levelCode forKey:kDoctorInfoLevelCode];
+    [aCoder encodeObject:_hospitalArea forKey:kDoctorInfoHospitalArea];
+    [aCoder encodeObject:_department forKey:kDoctorInfoDepartment];
+}
+
+- (id)copyWithZone:(NSZone *)zone
+{
+    DoctorInfo *copy = [[DoctorInfo alloc] init];
+    
+    if (copy) {
+
+        copy.member = [self.member copyWithZone:zone];
+        copy.levelCode = [self.levelCode copyWithZone:zone];
+        copy.hospitalArea = [self.hospitalArea copyWithZone:zone];
+        copy.department = [self.department copyWithZone:zone];
+    }
+    
+    return copy;
+}
+
+
+@end

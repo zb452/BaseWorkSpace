@@ -1,0 +1,14 @@
+//
+//  SendVideoVIew.h
+//  DK_Patient
+//
+//  Created by 张斌 on 2017/1/14.
+//  Copyright © 2017年 陕西医管家医院管理咨询服务有限公司. All rights reserved.
+//
+
+#import "baseTipView.h"
+
+@interface SendVideoVIew : baseTipView
+
+
+@end

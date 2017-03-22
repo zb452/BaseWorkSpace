@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/ios/!svn/ver/14/trunk/DKZY/Doctor/DKDoctorWorkSpace/DK_Doctor/DK_Doctor/ViewModel/Login
+END
+LoginViewModel.m
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/ios/!svn/ver/11/trunk/DKZY/Doctor/DKDoctorWorkSpace/DK_Doctor/DK_Doctor/ViewModel/Login/LoginViewModel.m
+END
+CustomViewModel.m
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/ios/!svn/ver/16/trunk/DKZY/Doctor/DKDoctorWorkSpace/DK_Doctor/DK_Doctor/ViewModel/Login/CustomViewModel.m
+END
+ModifyPswViewModel.h
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/ios/!svn/ver/9/trunk/DKZY/Doctor/DKDoctorWorkSpace/DK_Doctor/DK_Doctor/ViewModel/Login/ModifyPswViewModel.h
+END
+ModifyPswViewModel.m
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/ios/!svn/ver/9/trunk/DKZY/Doctor/DKDoctorWorkSpace/DK_Doctor/DK_Doctor/ViewModel/Login/ModifyPswViewModel.m
+END
+ChooseTeamViewModel.h
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/ios/!svn/ver/16/trunk/DKZY/Doctor/DKDoctorWorkSpace/DK_Doctor/DK_Doctor/ViewModel/Login/ChooseTeamViewModel.h
+END
+LoginViewModel.h
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/ios/!svn/ver/9/trunk/DKZY/Doctor/DKDoctorWorkSpace/DK_Doctor/DK_Doctor/ViewModel/Login/LoginViewModel.h
+END
+CustomViewModel.h
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/ios/!svn/ver/9/trunk/DKZY/Doctor/DKDoctorWorkSpace/DK_Doctor/DK_Doctor/ViewModel/Login/CustomViewModel.h
+END
+ChooseTeamViewModel.m
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/ios/!svn/ver/16/trunk/DKZY/Doctor/DKDoctorWorkSpace/DK_Doctor/DK_Doctor/ViewModel/Login/ChooseTeamViewModel.m
+END

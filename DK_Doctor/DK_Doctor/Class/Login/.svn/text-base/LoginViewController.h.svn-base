@@ -1,0 +1,13 @@
+//
+//  LoginViewController.h
+//  Yiguanjia_Paitent
+//
+//  Created by 张斌 on 16/8/5.
+//  Copyright © 2016年 张斌. All rights reserved.
+//
+
+#import "BaseViewController.h"
+
+@interface LoginViewController : BaseViewController
+
+@end

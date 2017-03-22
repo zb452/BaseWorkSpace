@@ -1,0 +1,261 @@
+//
+//  ModifyPswViewModel.m
+//  DK_Doctor
+//
+//  Created by 张斌 on 2017/2/10.
+//  Copyright © 2017年 陕西医管家医院管理咨询服务有限公司. All rights reserved.
+//
+
+#import "ModifyPswViewModel.h"
+#import "CryptoFuncation.h"
+#import "BGSever+Login.h"
+#import "CommonFuncation.h"
+
+@interface ModifyPswViewModel()
+
+@property(assign,nonatomic)ControllerType *type;
+
+@end
+
+@implementation ModifyPswViewModel
+
+
+-(instancetype)initwithType:(ControllerType)type
+{
+    self.type = type;
+    return [self init];
+}
+
+-(NSString *)name
+{
+    return [_name stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+}
+
+-(NSString *)password
+{
+    return [_password stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+}
+-(NSString *)aginPassword
+{
+    return [_aginPassword stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+}
+
+-(NSString *)authCode
+{
+    return [_authCode stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+}
+//检查手机号格式
+-(BOOL)isPhoneNumber
+{
+    return [CommonFuncation isMobileCheck:self.name];
+}
+-(BOOL)isNullName
+{
+    if (self.name.length == 0)
+    {
+        return YES;
+    }
+    return NO;
+}
+-(BOOL)isNullPassord
+{
+    if (self.password.length == 0)
+    {
+        return YES;
+    }
+    
+    return NO;
+}
+-(BOOL)isNullAuthCode
+{
+    if (self.authCode.length == 0)
+    {
+        return YES;
+    }
+    
+    return NO;
+}
+
+-(BOOL)isNullAginPassword
+{
+    if (self.aginPassword.length == 0)
+    {
+        return YES;
+    }
+    
+    return NO;
+}
+-(BOOL)comparePswAndAgainPsw
+{
+    if ([self.password isEqualToString:self.aginPassword])
+    {
+        return YES;
+    }
+    
+    return NO;
+}
+
+//检查账号和密码是否正常
+-(BOOL)checkAccountAndPswIsNormal
+{
+    if ([self isNullName])
+    {
+        self.hudMessage = @"请输入手机号";
+        
+        return NO;
+    }
+    
+    if (![self isPhoneNumber])
+    {
+        self.hudMessage = @"请输入正确的手机号";
+        //[CommonFuncation ShowAlert:nil Message:@"请输入正确的手机号"];
+        return NO;
+    }
+    
+    if ([self isNullAuthCode])
+    {
+        self.hudMessage = @"请输入验证码";
+        return NO;
+    }
+    
+    if ([self isNullPassord])
+    {
+        self.hudMessage = @"请输入密码";
+        return NO;
+    }
+    
+    if ([self isNullAginPassword])
+    {
+        self.hudMessage = @"请确认密码";
+        return NO;
+    }
+    
+   
+    if (self.password.length>32)
+    {
+        self.hudMessage = @"密码最多32位";
+        return NO;
+    }
+    
+    if (![self comparePswAndAgainPsw])
+    {
+        self.hudMessage = @"两次密码不一致";
+        return NO;
+    }
+    
+    return YES;
+}
+//检查手机号
+-(BOOL)checkPhoneNumer
+{
+    if ([self isNullName])
+    {
+        self.hudMessage = @"请输入手机号";
+        return NO;
+    }
+    
+    if (![self isPhoneNumber])
+    {
+        self.hudMessage = @"请输入正确的手机号";
+        return NO;
+    }
+    
+    return YES;
+}
+//注册或者修改密码
+-(void)finishRegist:(SuccessCallback)success
+               withFail:(FailCallback)fail
+{
+    if (self.type = ModifyPSWType)
+    {
+        [BGSever ModifyPswWithMobile:self.name password:self.password AuthCode:self.authCode typeCode:nil showLoad:YES loadText:@"正在修改密码..." success:^(NSDictionary *getDic) {
+            
+            if ([getDic[@"code"] intValue]==0)
+            {
+                [DefaultNotificationCenter postNotificationName:ForGetPSWNote object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:self.name,@"accountName",nil]];
+                
+            }
+            else
+            {
+                if (getDic[@"data"] && [getDic[@"data"] isKindOfClass:[NSString class]])
+                {
+                    fail(getDic[@"data"]);
+                }
+                else
+                {
+                    fail(@"修改密码失败，请再试一次");
+                }
+                
+            }
+            
+        } Process:nil failure:^(NSError *error) {
+            
+            fail(@"修改密码失败");
+        }];
+    }
+    else
+    {
+//        [BGSever RegisterWithMobile:self.name password:self.password AuthCode:self.authCode UnionId:@"" typeCode:nil showLoad:NO loadText:@"" success:^(NSDictionary *getDic) {
+//            
+//            if ([getDic[@"code"] intValue]==0)
+//            {
+//                success();
+//            }
+//            else
+//            {
+//                if (getDic[@"data"] && [getDic[@"data"] isKindOfClass:[NSString class]])
+//                {
+//                    fail(getDic[@"data"]);
+//                    [MBProgressHUD showHideMessage:getDic[@"data"]];
+//                }
+//                else
+//                {
+//                    fail(@"注册失败，请再试一次");
+//                }
+//            }
+//            
+//        } Process:nil failure:^(NSError *error) {
+//            fail(@"注册失败，请检查网络");
+//        }];
+
+    }
+}
+
+//获取验证码
+-(void)getAuthCode:(SuccessCallback)success
+          withFail:(FailCallback)fail
+{
+    
+    NSString *typeCode = @"";
+    if (self.type == ModifyPSWType)
+    {
+        typeCode = @"102702";
+    }
+    else
+    {
+        typeCode = @"102701";
+    }
+    
+    [BGSever GetAuthCodeWithMobile:self.name acountType:@"102301" typeCode:typeCode showLoad:YES loadText:@"正在获取验证码" success:^(NSDictionary *getDic) {
+        
+        if ([getDic[@"code"] intValue] == 0)
+        {
+            success();
+        }
+        else
+        {
+            if (getDic[@"data"] && [getDic[@"data"] isKindOfClass:[NSString class]])
+            {
+                fail(getDic[@"data"]);
+            }
+            else
+            {
+                fail(@"获取验证码失败");
+            }
+        }
+    } Process:nil failure:^(NSError *error) {
+        fail(@"获取验证码失败");
+    }];
+}
+
+@end

@@ -1,0 +1,41 @@
+//
+//  baseTipView.h
+//  DK_Patient
+//
+//  Created by 张斌 on 2017/1/14.
+//  Copyright © 2017年 陕西医管家医院管理咨询服务有限公司. All rights reserved.
+//
+
+#import "baseAnimalView.h"
+
+typedef enum
+{
+    PatientType = 0,    //医生和患者之间的视频
+    DoctorType,         //医生和医生之间的视频
+    TeamType            //团队和团队之间的视频
+}MeetingType; //会议的类型
+
+@interface baseTipView : baseAnimalView
+
+@property(strong,nonatomic)NSDictionary *dicData;
+@property(strong,nonatomic)NSTimer* timer;
+@property(assign,nonatomic)NSInteger waitTime;
+@property(assign,nonatomic)MeetingType meetType;
+
+@property(weak,nonatomic)IBOutlet UIImageView *imgHeader;
+@property(weak,nonatomic)IBOutlet UILabel *labelName;
+
+
+-(void)showWithData:(NSDictionary *)dic
+           withType:(MeetingType)type
+           Complete:(Complete)complete;
+
+-(void)showWithData:(NSDictionary *)dic;
+
+//结束定时器
+-(void)invalidateTimer;
+
+//用于子类实现，处理结束后的提示信息
+-(void)noResponse;
+
+@end

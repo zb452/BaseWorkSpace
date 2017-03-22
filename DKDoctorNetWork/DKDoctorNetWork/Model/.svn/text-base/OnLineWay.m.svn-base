@@ -1,0 +1,102 @@
+//
+//  OnLineWay.m
+//
+//  Created by 斌 张 on 2017/2/11
+//  Copyright (c) 2017 __MyCompanyName__. All rights reserved.
+//
+
+#import "OnLineWay.h"
+
+
+NSString *const kOnLineWayStateId = @"stateId";
+NSString *const kOnLineWayStateName = @"stateName";
+
+
+@interface OnLineWay ()
+
+- (id)objectOrNilForKey:(id)aKey fromDictionary:(NSDictionary *)dict;
+
+@end
+
+@implementation OnLineWay
+
+@synthesize stateId = _stateId;
+@synthesize stateName = _stateName;
+
+
++ (instancetype)modelObjectWithDictionary:(NSDictionary *)dict
+{
+    return [[self alloc] initWithDictionary:dict];
+}
+
+- (instancetype)initWithDictionary:(NSDictionary *)dict
+{
+    self = [super init];
+    
+    // This check serves to make sure that a non-NSDictionary object
+    // passed into the model class doesn't break the parsing.
+    if(self && [dict isKindOfClass:[NSDictionary class]]) {
+            self.stateId = [[self objectOrNilForKey:kOnLineWayStateId fromDictionary:dict] doubleValue];
+            self.stateName = [self objectOrNilForKey:kOnLineWayStateName fromDictionary:dict];
+
+    }
+    
+    return self;
+    
+}
+
+- (NSDictionary *)dictionaryRepresentation
+{
+    NSMutableDictionary *mutableDict = [NSMutableDictionary dictionary];
+    [mutableDict setValue:[NSNumber numberWithDouble:self.stateId] forKey:kOnLineWayStateId];
+    [mutableDict setValue:self.stateName forKey:kOnLineWayStateName];
+
+    return [NSDictionary dictionaryWithDictionary:mutableDict];
+}
+
+- (NSString *)description 
+{
+    return [NSString stringWithFormat:@"%@", [self dictionaryRepresentation]];
+}
+
+#pragma mark - Helper Method
+- (id)objectOrNilForKey:(id)aKey fromDictionary:(NSDictionary *)dict
+{
+    id object = [dict objectForKey:aKey];
+    return [object isEqual:[NSNull null]] ? nil : object;
+}
+
+
+#pragma mark - NSCoding Methods
+
+- (id)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super init];
+
+    self.stateId = [aDecoder decodeDoubleForKey:kOnLineWayStateId];
+    self.stateName = [aDecoder decodeObjectForKey:kOnLineWayStateName];
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder
+{
+
+    [aCoder encodeDouble:_stateId forKey:kOnLineWayStateId];
+    [aCoder encodeObject:_stateName forKey:kOnLineWayStateName];
+}
+
+- (id)copyWithZone:(NSZone *)zone
+{
+    OnLineWay *copy = [[OnLineWay alloc] init];
+    
+    if (copy) {
+
+        copy.stateId = self.stateId;
+        copy.stateName = [self.stateName copyWithZone:zone];
+    }
+    
+    return copy;
+}
+
+
+@end

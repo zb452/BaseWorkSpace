@@ -1,0 +1,21 @@
+//
+//  CustomViewModel.h
+//  DK_Doctor
+//
+//  Created by 张斌 on 2017/2/11.
+//  Copyright © 2017年 陕西医管家医院管理咨询服务有限公司. All rights reserved.
+//
+
+#import "BaseViewModel.h"
+
+@interface CustomViewModel : BaseViewModel
+
+
+/**
+ 检查是否需要弹出登录界面，需要弹出就执行needLogin block, 否则就执行登录接口
+ 
+ @param needLogin 执行弹出
+ */
+-(void)checkLogin:(SuccessCallback)needLogin;
+
+@end

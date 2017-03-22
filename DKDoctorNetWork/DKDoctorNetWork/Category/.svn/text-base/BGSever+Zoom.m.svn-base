@@ -1,0 +1,129 @@
+//
+//  BGSever+Zoom.m
+//  DKDoctorNetWork
+//
+//  Created by 张斌 on 2017/2/22.
+//  Copyright © 2017年 陕西医管家医院管理咨询服务有限公司. All rights reserved.
+//
+
+#import "BGSever+Zoom.h"
+
+@implementation BGSever (Zoom)
+
+
+/**
+ 创建zoom房间
+
+ @param accountId 视频发起者id
+
+ */
++ (void)CreateZoomMetting:(NSString *)accountId
+             showLoad:(BOOL)isShowLoad
+             loadText:(NSString *)text
+              success:(Success)successBlock
+              Process:(Process)processBlock
+              failure:(Failure)failureBlock
+{
+    NSMutableDictionary *postDic = [NSMutableDictionary dictionary];
+    [postDic setNoNullObject:accountId forKey:@"accountId"];
+    [[HttpBase shareHttpBase] postDataFromAction:CreateMeeting isShowLoad:isShowLoad loadText:text withParameters:postDic withProcess:^(NSProgress *loadProcess) {
+        if (processBlock)
+        {
+            processBlock(loadProcess);
+        }
+    } withSuccessBlock:^(id backJson) {
+        
+        if (successBlock)
+        {
+            successBlock(backJson);
+        }
+        
+    } withFailBlock:^(NSError *error) {
+        if (failureBlock)
+        {
+            failureBlock(error);
+        }
+        
+    }];
+}
+
+/**
+ 创建一次性zoom房间
+
+ @param accountId 视频发起者id
+ 
+ */
++ (void)CreateOnceZoomMetting:(NSString *)accountId
+                     showLoad:(BOOL)isShowLoad
+                     loadText:(NSString *)text
+                      success:(Success)successBlock
+                      Process:(Process)processBlock
+                      failure:(Failure)failureBlock
+{
+    NSMutableDictionary *postDic = [NSMutableDictionary dictionary];
+    [postDic setNoNullObject:accountId forKey:@"accountId"];
+    [[HttpBase shareHttpBase] postDataFromAction:CreateOnceMeeting isShowLoad:isShowLoad loadText:text withParameters:postDic withProcess:^(NSProgress *loadProcess) {
+        if (processBlock)
+        {
+            processBlock(loadProcess);
+        }
+    } withSuccessBlock:^(id backJson) {
+        
+        if (successBlock)
+        {
+            successBlock(backJson);
+        }
+        
+    } withFailBlock:^(NSError *error) {
+        if (failureBlock)
+        {
+            failureBlock(error);
+        }
+        
+    }];
+}
+
+
+/**
+ 获取创建好的zoom房间详情
+
+ @param appId 创建zoom房间时候获取的id
+ @param appValue 创建zoom房间时候获取的value
+
+ */
++ (void)GetZoomRoomDetail:(NSString *)appId
+                    value:(NSString *)appValue
+                     showLoad:(BOOL)isShowLoad
+                     loadText:(NSString *)text
+                      success:(Success)successBlock
+                      Process:(Process)processBlock
+                      failure:(Failure)failureBlock
+{
+    NSMutableDictionary *postDic = [NSMutableDictionary dictionary];
+    [postDic setNoNullObject:appId forKey:@"appId"];
+    [postDic setNoNullObject:appValue forKey:@"appValue"];
+    
+    [[HttpBase shareHttpBase] postDataFromAction:GetZoomMetting isShowLoad:isShowLoad loadText:text withParameters:postDic withProcess:^(NSProgress *loadProcess) {
+        if (processBlock)
+        {
+            processBlock(loadProcess);
+        }
+    } withSuccessBlock:^(id backJson) {
+        
+        if (successBlock)
+        {
+            successBlock(backJson);
+        }
+        
+    } withFailBlock:^(NSError *error) {
+        if (failureBlock)
+        {
+            failureBlock(error);
+        }
+        
+    }];
+}
+
+
+
+@end

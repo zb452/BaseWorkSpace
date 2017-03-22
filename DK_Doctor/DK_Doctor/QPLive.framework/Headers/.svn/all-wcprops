@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/ios/!svn/ver/7/trunk/DKZY/Doctor/DKDoctorWorkSpace/DK_Doctor/DK_Doctor/QPLive.framework/Headers
+END
+QPLiveRequest.h
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/ios/!svn/ver/7/trunk/DKZY/Doctor/DKDoctorWorkSpace/DK_Doctor/DK_Doctor/QPLive.framework/Headers/QPLiveRequest.h
+END
+QPConnectionSpeedDetector.h
+K 25
+svn:wc:ra_dav:version-url
+V 124
+/ios/!svn/ver/7/trunk/DKZY/Doctor/DKDoctorWorkSpace/DK_Doctor/DK_Doctor/QPLive.framework/Headers/QPConnectionSpeedDetector.h
+END
+QPLive.h
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/ios/!svn/ver/7/trunk/DKZY/Doctor/DKDoctorWorkSpace/DK_Doctor/DK_Doctor/QPLive.framework/Headers/QPLive.h
+END
+QPAuth.h
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/ios/!svn/ver/7/trunk/DKZY/Doctor/DKDoctorWorkSpace/DK_Doctor/DK_Doctor/QPLive.framework/Headers/QPAuth.h
+END
+QPLConfiguration.h
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/ios/!svn/ver/7/trunk/DKZY/Doctor/DKDoctorWorkSpace/DK_Doctor/DK_Doctor/QPLive.framework/Headers/QPLConfiguration.h
+END
+QPLiveSession.h
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/ios/!svn/ver/7/trunk/DKZY/Doctor/DKDoctorWorkSpace/DK_Doctor/DK_Doctor/QPLive.framework/Headers/QPLiveSession.h
+END
+QPHttpDNS.h
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/ios/!svn/ver/7/trunk/DKZY/Doctor/DKDoctorWorkSpace/DK_Doctor/DK_Doctor/QPLive.framework/Headers/QPHttpDNS.h
+END

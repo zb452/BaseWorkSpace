@@ -1,0 +1,191 @@
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/ios/!svn/ver/7/trunk/DKZY/Doctor/DKDoctorWorkSpace/DK_Doctor/DK_Doctor/HyphenateSDK/include
+END
+EMTextMessageBody.h
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/ios/!svn/ver/7/trunk/DKZY/Doctor/DKDoctorWorkSpace/DK_Doctor/DK_Doctor/HyphenateSDK/include/EMTextMessageBody.h
+END
+EMConversation.h
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/ios/!svn/ver/7/trunk/DKZY/Doctor/DKDoctorWorkSpace/DK_Doctor/DK_Doctor/HyphenateSDK/include/EMConversation.h
+END
+EMOptions+PrivateDeploy.h
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/ios/!svn/ver/7/trunk/DKZY/Doctor/DKDoctorWorkSpace/DK_Doctor/DK_Doctor/HyphenateSDK/include/EMOptions+PrivateDeploy.h
+END
+IEMChatroomManager.h
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/ios/!svn/ver/7/trunk/DKZY/Doctor/DKDoctorWorkSpace/DK_Doctor/DK_Doctor/HyphenateSDK/include/IEMChatroomManager.h
+END
+IEMChatManager.h
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/ios/!svn/ver/7/trunk/DKZY/Doctor/DKDoctorWorkSpace/DK_Doctor/DK_Doctor/HyphenateSDK/include/IEMChatManager.h
+END
+EMErrorCode.h
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/ios/!svn/ver/7/trunk/DKZY/Doctor/DKDoctorWorkSpace/DK_Doctor/DK_Doctor/HyphenateSDK/include/EMErrorCode.h
+END
+EMVideoMessageBody.h
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/ios/!svn/ver/7/trunk/DKZY/Doctor/DKDoctorWorkSpace/DK_Doctor/DK_Doctor/HyphenateSDK/include/EMVideoMessageBody.h
+END
+EMCommonDefs.h
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/ios/!svn/ver/7/trunk/DKZY/Doctor/DKDoctorWorkSpace/DK_Doctor/DK_Doctor/HyphenateSDK/include/EMCommonDefs.h
+END
+EMPushOptions.h
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/ios/!svn/ver/7/trunk/DKZY/Doctor/DKDoctorWorkSpace/DK_Doctor/DK_Doctor/HyphenateSDK/include/EMPushOptions.h
+END
+EMOptions.h
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/ios/!svn/ver/7/trunk/DKZY/Doctor/DKDoctorWorkSpace/DK_Doctor/DK_Doctor/HyphenateSDK/include/EMOptions.h
+END
+EMLocationMessageBody.h
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/ios/!svn/ver/7/trunk/DKZY/Doctor/DKDoctorWorkSpace/DK_Doctor/DK_Doctor/HyphenateSDK/include/EMLocationMessageBody.h
+END
+EMChatroomManagerDelegate.h
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/ios/!svn/ver/7/trunk/DKZY/Doctor/DKDoctorWorkSpace/DK_Doctor/DK_Doctor/HyphenateSDK/include/EMChatroomManagerDelegate.h
+END
+EMChatManagerDelegate.h
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/ios/!svn/ver/7/trunk/DKZY/Doctor/DKDoctorWorkSpace/DK_Doctor/DK_Doctor/HyphenateSDK/include/EMChatManagerDelegate.h
+END
+EMGroupOptions.h
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/ios/!svn/ver/7/trunk/DKZY/Doctor/DKDoctorWorkSpace/DK_Doctor/DK_Doctor/HyphenateSDK/include/EMGroupOptions.h
+END
+EMClientDelegate.h
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/ios/!svn/ver/7/trunk/DKZY/Doctor/DKDoctorWorkSpace/DK_Doctor/DK_Doctor/HyphenateSDK/include/EMClientDelegate.h
+END
+EMChatroom.h
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/ios/!svn/ver/7/trunk/DKZY/Doctor/DKDoctorWorkSpace/DK_Doctor/DK_Doctor/HyphenateSDK/include/EMChatroom.h
+END
+EMCursorResult.h
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/ios/!svn/ver/7/trunk/DKZY/Doctor/DKDoctorWorkSpace/DK_Doctor/DK_Doctor/HyphenateSDK/include/EMCursorResult.h
+END
+EMClient.h
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/ios/!svn/ver/7/trunk/DKZY/Doctor/DKDoctorWorkSpace/DK_Doctor/DK_Doctor/HyphenateSDK/include/EMClient.h
+END
+EMSDK.h
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/ios/!svn/ver/7/trunk/DKZY/Doctor/DKDoctorWorkSpace/DK_Doctor/DK_Doctor/HyphenateSDK/include/EMSDK.h
+END
+EMContactManagerDelegate.h
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/ios/!svn/ver/7/trunk/DKZY/Doctor/DKDoctorWorkSpace/DK_Doctor/DK_Doctor/HyphenateSDK/include/EMContactManagerDelegate.h
+END
+EMGroupManagerDelegate.h
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/ios/!svn/ver/7/trunk/DKZY/Doctor/DKDoctorWorkSpace/DK_Doctor/DK_Doctor/HyphenateSDK/include/EMGroupManagerDelegate.h
+END
+EMMessage.h
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/ios/!svn/ver/7/trunk/DKZY/Doctor/DKDoctorWorkSpace/DK_Doctor/DK_Doctor/HyphenateSDK/include/EMMessage.h
+END
+EMCmdMessageBody.h
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/ios/!svn/ver/7/trunk/DKZY/Doctor/DKDoctorWorkSpace/DK_Doctor/DK_Doctor/HyphenateSDK/include/EMCmdMessageBody.h
+END
+EMVoiceMessageBody.h
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/ios/!svn/ver/7/trunk/DKZY/Doctor/DKDoctorWorkSpace/DK_Doctor/DK_Doctor/HyphenateSDK/include/EMVoiceMessageBody.h
+END
+EMError.h
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/ios/!svn/ver/7/trunk/DKZY/Doctor/DKDoctorWorkSpace/DK_Doctor/DK_Doctor/HyphenateSDK/include/EMError.h
+END
+EMGroup.h
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/ios/!svn/ver/7/trunk/DKZY/Doctor/DKDoctorWorkSpace/DK_Doctor/DK_Doctor/HyphenateSDK/include/EMGroup.h
+END
+IEMContactManager.h
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/ios/!svn/ver/7/trunk/DKZY/Doctor/DKDoctorWorkSpace/DK_Doctor/DK_Doctor/HyphenateSDK/include/IEMContactManager.h
+END
+IEMGroupManager.h
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/ios/!svn/ver/7/trunk/DKZY/Doctor/DKDoctorWorkSpace/DK_Doctor/DK_Doctor/HyphenateSDK/include/IEMGroupManager.h
+END
+EMMessageBody.h
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/ios/!svn/ver/7/trunk/DKZY/Doctor/DKDoctorWorkSpace/DK_Doctor/DK_Doctor/HyphenateSDK/include/EMMessageBody.h
+END
+EMFileMessageBody.h
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/ios/!svn/ver/7/trunk/DKZY/Doctor/DKDoctorWorkSpace/DK_Doctor/DK_Doctor/HyphenateSDK/include/EMFileMessageBody.h
+END
+EMImageMessageBody.h
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/ios/!svn/ver/7/trunk/DKZY/Doctor/DKDoctorWorkSpace/DK_Doctor/DK_Doctor/HyphenateSDK/include/EMImageMessageBody.h
+END

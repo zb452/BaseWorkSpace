@@ -1,0 +1,156 @@
+//
+//  LoginViewModel.m
+//  DK_Doctor
+//
+//  Created by 张斌 on 2017/2/10.
+//  Copyright © 2017年 陕西医管家医院管理咨询服务有限公司. All rights reserved.
+//
+
+#import "LoginViewModel.h"
+#import "CommonFuncation.h"
+#import "BGSever+Login.h"
+#import "DoctorInfo.h"
+#import "UserDefaultCache.h"
+#import "CryptoFuncation.h"
+#import "Doctor.h"
+#import "DKHyChatHelper.h"
+
+
+@interface LoginViewModel ()
+
+@property(strong,nonatomic)NSString *name;
+@property(strong,nonatomic)NSString *password;
+
+
+@end
+
+@implementation LoginViewModel
+
+-(instancetype)initWithName:(NSString *)name withPsw:(NSString *)password
+{
+    _name = name;
+    _password = password;
+    
+    return [self init];
+}
+
+-(NSString *)name
+{
+    return [_name stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+}
+
+-(NSString *)password
+{
+    return [_password stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+}
+//检查手机号格式
+-(BOOL)isPhoneNumber
+{
+    return [CommonFuncation isMobileCheck:self.name];
+}
+-(BOOL)isNullName
+{
+    if (self.name.length == 0)
+    {
+        return YES;
+    }
+    return NO;
+}
+-(BOOL)isNullPassord
+{
+    if (self.password.length == 0)
+    {
+        return YES;
+    }
+    
+    return NO;
+}
+//检查账号和密码是否正常
+-(BOOL)checkAccountAndPswIsNormal
+{
+    if ([self isNullName])
+    {
+        self.hudMessage = @"请输入手机号";
+        
+        return NO;
+    }
+    
+    if ([self isNullPassord])
+    {
+        self.hudMessage = @"请输入密码";
+        //[CommonFuncation ShowAlert:nil Message:@"请输入密码"];
+        return NO;
+    }
+    
+    if (![self isPhoneNumber])
+    {
+        self.hudMessage = @"请输入正确的手机号";
+        //[CommonFuncation ShowAlert:nil Message:@"请输入正确的手机号"];
+        return NO;
+    }
+    
+    if (self.password.length>32)
+    {
+        self.hudMessage = @"密码最多32位";
+       // [CommonFuncation ShowAlert:nil Message:@""];
+        return NO;
+    }
+    
+    return YES;
+}
+
+#pragma mark- HTTP
+//登录
+-(void)loginWith:(SuccessCallback)Successs
+    withCallBack:(FailCallback)Fail
+{
+    //登录前先删除之前的登录信息
+    [UserDefaultCache removeCache:UserDoctor];
+    
+    __weak typeof (self)weakSelf = self;
+    [BGSever userLoginWithMobile:self.name  password:self.password typeCode:nil showLoad:YES loadText:@"正在登录..." success:^(NSDictionary *getDic) {
+        if ([getDic[@"code"] intValue] == 0)
+        {
+            Doctor *doctor = [Doctor modelObjectWithDictionary:getDic[@"data"]];
+            
+            [UserDefaultCache setCache:doctor forKey:UserDoctor];
+            
+            NSString *psw = [CryptoFuncation md5:AccountPsw];
+            //环信登录
+            EMError *error = [[DKHyChatHelper shareDKHyChatHelper] loginWithUserName:[NSString stringWithFormat:@"%d",(int)doctor.accountId] password:psw];
+            if (!error)
+            {
+                NSLog(@"登录成功");
+                
+                [UserDefaultCache setCache:self.name forKey:UESERNAME];
+                [UserDefaultCache setCache:self.password forKey:UESERPASSWORD];
+                Successs();
+            }
+            else
+            {
+                Fail(@"登录失败,请重新登录");
+            }
+        }
+        else
+        {
+            if ([getDic[@"data"] isKindOfClass:[NSString class]] && ![getDic[@"data"] isEqualToString:@""])
+            {
+                Fail(getDic[@"data"]);
+            }
+            else
+            {
+                  Fail(@"登录失败,请重新登录");
+            }
+            
+        }
+        
+    } Process:nil failure:^(NSError *error) {
+        
+        Fail(@"登录失败，请检查网络连接");
+    }];
+
+}
+
+
+
+@end

@@ -1,0 +1,236 @@
+//
+//  ModifyPSWViewController.m
+//  Yiguanjia_Paitent
+//
+//  Created by 张斌 on 16/8/26.
+//  Copyright © 2016年 张斌. All rights reserved.
+//
+
+#import "ModifyPSWViewController.h"
+#import "CommonFuncation.h"
+#import "BGSever+Login.h"
+#import "ModifyPswViewModel.h"
+
+@interface ModifyPSWViewController ()<UITextFieldDelegate>
+
+@property(weak,nonatomic)IBOutlet UIButton *btnFinish;
+
+@property(assign,nonatomic)ControllerType controllerType;
+
+@property(weak,nonatomic)IBOutlet UIButton *btnAuthCode;
+@property(weak,nonatomic)IBOutlet UITextField *labelPhone;
+@property(weak,nonatomic)IBOutlet UITextField *labelAuthCode;
+@property(weak,nonatomic)IBOutlet UITextField *labelPsw;
+@property(weak,nonatomic)IBOutlet UITextField *labelAgainPsw;
+
+
+@property(weak,nonatomic)IBOutlet UIImageView *imageAccount;
+@property(weak,nonatomic)IBOutlet UIImageView *imageAuthCode;
+@property(weak,nonatomic)IBOutlet UIImageView *imagePsw;
+@property(weak,nonatomic)IBOutlet UIImageView *imageAgainPsw;
+
+@property(strong,nonatomic)ModifyPswViewModel *modifyViewModel;
+
+@property(assign,nonatomic)int time;
+@property(strong,nonatomic)NSTimer *timer; //验证码倒计时；
+
+@end
+
+@implementation ModifyPSWViewController
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    // Do any additional setup after loading the view from its nib.
+    [self initUI];
+    
+    UITapGestureRecognizer *tap =[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapClick:)];
+    
+    [self.view addGestureRecognizer:tap];
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+-(void)dealloc
+{
+    if (self.timer)
+    {
+        [self.timer invalidate];
+        self.timer = nil;
+    }
+
+}
+-(instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil withType:(ControllerType)Type
+{
+    self = [self initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    self.controllerType = Type;
+    
+    self.modifyViewModel = [[ModifyPswViewModel alloc] init];
+    
+    return self;
+}
+
+#pragma mark- 初始化UI
+-(void)initUI
+{
+    if (self.controllerType == ModifyPSWType)
+    {
+        self.title = @"忘记密码";
+    }
+    else
+    {
+        self.title = @"注册";
+    }
+    
+    self.btnFinish.layer.cornerRadius = 3.f;
+}
+
+/*
+#pragma mark - Navigation
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+}
+*/
+
+#pragma mark- Action
+-(IBAction)Finish:(id)sender
+{
+    self.modifyViewModel.name = self.labelPhone.text;
+    self.modifyViewModel.password = self.labelPsw.text;
+    self.modifyViewModel.aginPassword = self.labelAgainPsw.text;
+    self.modifyViewModel.authCode = self.labelAuthCode.text;
+    
+    if (![self.modifyViewModel checkAccountAndPswIsNormal])
+    {
+        [MBProgressHUD showHideMessage:self.modifyViewModel.hudMessage];
+        return;
+    }
+     __weak typeof (self)weakSelf = self;
+    
+    [self.modifyViewModel finishRegist:^{
+        if (weakSelf.controllerType == ModifyPSWType)
+        {
+            [MBProgressHUD showHideMessage:@"修改密码成功"];
+        }
+        else
+        {
+            [MBProgressHUD showHideMessage:@"注册成功"];
+        }
+        
+        [weakSelf.navigationController popViewControllerAnimated:YES];
+        
+    } withFail:^(NSString *errorMsg) {
+        [MBProgressHUD showHideMessage:errorMsg];
+    }];
+
+}
+
+-(IBAction)GetAutCode:(id)sender
+{
+    self.modifyViewModel.name = self.labelPhone.text;
+    
+    if (![self.modifyViewModel checkPhoneNumer])
+    {
+        [MBProgressHUD showHideMessage:self.modifyViewModel.hudMessage];
+        return;
+    }
+    
+    NSTimer *timer = [NSTimer timerWithTimeInterval:1.f target:self selector:@selector(authCodeTime) userInfo:nil repeats:YES];
+    
+    [[NSRunLoop mainRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
+    
+    self.btnAuthCode.userInteractionEnabled = NO;
+    
+    __weak typeof (self)weakSelf = self;
+    //获取验证码接口
+    [self.modifyViewModel getAuthCode:^{
+        [MBProgressHUD showHideMessage:@"验证码已发送"];
+        weakSelf.time = 60;
+        [weakSelf.btnAuthCode setTitle:[NSString stringWithFormat:@"%d s",weakSelf.time] forState:UIControlStateNormal];
+        
+        if (weakSelf.timer)
+        {
+            [weakSelf.timer invalidate];
+            weakSelf.timer = nil;
+        }
+    } withFail:^(NSString *errorMsg) {
+        [MBProgressHUD showHideMessage:errorMsg];
+    }];
+}
+-(void)authCodeTime
+{
+    self.time--;
+    if (self.time<=0)
+    {
+        self.btnAuthCode.userInteractionEnabled = YES;
+        [self.btnAuthCode setTitle:@"获取验证码" forState:UIControlStateNormal];
+        if (self.timer)
+        {
+            [self.timer invalidate];
+            self.timer = nil;
+        }
+        
+    }
+    else
+    {
+        [self.btnAuthCode setTitle:[NSString stringWithFormat:@"%d s",self.time] forState:UIControlStateNormal];
+    }
+}
+
+
+-(void)tapClick:(UITapGestureRecognizer *)tap
+{
+    [self.labelAuthCode resignFirstResponder];
+    [self.labelPhone resignFirstResponder];
+    [self.labelAgainPsw resignFirstResponder];
+    [self.labelPsw resignFirstResponder];
+}
+
+#pragma mark- UITextFiledDelegate
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    if ([textField isEqual:self.labelPhone])
+    {
+        self.imageAccount.image = [UIImage imageNamed:@"selectAccount"];
+    }
+    else if ([textField isEqual:self.labelAuthCode])
+    {
+        self.imageAuthCode.image = [UIImage imageNamed:@"selectAuthCode"];
+    }
+    else if ([textField isEqual:self.labelPsw])
+    {
+        self.imagePsw.image = [UIImage imageNamed:@"selectPsw"];
+    }
+    else if ([textField isEqual:self.labelAgainPsw])
+    {
+        self.imageAgainPsw.image = [UIImage imageNamed:@"selectPsw"];
+    }
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    if ([textField isEqual:self.labelPhone])
+    {
+        self.imageAccount.image = [UIImage imageNamed:@"normalAccount"];
+    }
+    else if ([textField isEqual:self.labelAuthCode])
+    {
+        self.imageAuthCode.image = [UIImage imageNamed:@"normalAuthCode"];
+    }
+    else if ([textField isEqual:self.labelPsw])
+    {
+        self.imagePsw.image = [UIImage imageNamed:@"normalPsw"];
+    }
+    else if ([textField isEqual:self.labelAgainPsw])
+    {
+        self.imageAgainPsw.image = [UIImage imageNamed:@"normalPsw"];
+    }
+}
+
+@end

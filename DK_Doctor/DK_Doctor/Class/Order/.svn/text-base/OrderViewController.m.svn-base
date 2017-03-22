@@ -1,0 +1,133 @@
+//
+//  OrderViewController.m
+//  DK_Doctor
+//
+//  Created by 张斌 on 2017/1/19.
+//  Copyright © 2017年 陕西医管家医院管理咨询服务有限公司. All rights reserved.
+//
+
+#import "OrderViewController.h"
+#import "OrderTableViewCell.h"
+#import "MJRefresh.h"
+#import "UIScrollView+EmptyDataSet.h"
+
+#define OrderCellHeight 175
+
+@interface OrderViewController ()<UITableViewDelegate,UITableViewDataSource,DZNEmptyDataSetSource>
+@property(weak,nonatomic)IBOutlet UITableView *tableView;
+@property(strong,nonatomic)NSMutableArray *aryOrder;
+
+@property(assign,nonatomic)NSInteger page;//当前页
+
+@end
+
+@implementation OrderViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    // Do any additional setup after loading the view from its nib.
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+-(void)initUI
+{
+    [super initUI];
+    
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    [self.tableView registerNib:[UINib nibWithNibName:@"OrderTableViewCell" bundle:nil] forCellReuseIdentifier:@"OrderTableViewCell"];
+    
+    self.tableView.emptyDataSetSource = self;
+    
+    self.title = @"订单";
+}
+#pragma mark- loadLzing
+-(NSMutableArray *)aryOrder
+{
+    if (!_aryOrder)
+    {
+        _aryOrder = [NSMutableArray array];
+    }
+    
+    return _aryOrder;
+}
+
+-(void)initData
+{
+    self.page = 0;
+    self.tableView.mj_header = [MJRefreshStateHeader headerWithRefreshingTarget:self refreshingAction:@selector(pullUp)];
+    self.tableView.mj_footer = [MJRefreshAutoFooter footerWithRefreshingTarget:self refreshingAction:@selector(pullDown)];
+}
+
+/*
+#pragma mark - Navigation
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+}
+*/
+
+#pragma mark- HTTP
+-(void)pullUp
+{
+    
+}
+-(void)pullDown
+{
+    
+}
+
+#pragma mark- UITableViewDataSource
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return self.aryOrder.count;
+}
+
+// Row display. Implementers should *always* try to reuse cells by setting each cell's reuseIdentifier and querying for available reusable cells with dequeueReusableCellWithIdentifier:
+// Cell gets various attributes set automatically based on table (separators) and data source (accessory views, editing controls)
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    OrderTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"OrderTableViewCell" forIndexPath:indexPath];
+    
+    return cell;
+}
+#pragma mark- UITbaleViewDelegate
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return OrderCellHeight;
+}
+
+#pragma mark- DZNEmptyDataSetSource
+- (UIImage *)imageForEmptyDataSet:(UIScrollView *)scrollView
+{
+    return [UIImage imageNamed:@"nullOrder"];
+}
+
+
+- (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView
+{
+    NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:[UIFont systemFontOfSize:18],NSFontAttributeName,[UIColor colorWithHexString:@"#3d3d3d"],NSForegroundColorAttributeName,nil];
+    return [[NSAttributedString alloc] initWithString:@"您还没有订单哦" attributes:dic];
+}
+
+- (NSAttributedString *)descriptionForEmptyDataSet:(UIScrollView *)scrollView
+{
+    NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:[UIFont systemFontOfSize:16],NSFontAttributeName,[UIColor colorWithHexString:@"#7b7b7b"],NSForegroundColorAttributeName,nil];
+    return [[NSAttributedString alloc] initWithString:@"这里空空的 快去生成订单吧" attributes:dic];
+}
+//- (NSAttributedString *)buttonTitleForEmptyDataSet:(UIScrollView *)scrollView forState:(UIControlState)state
+//{
+//    return [[NSAttributedString alloc] initWithString:@"这里"];
+//}
+//- (UIImage *)buttonImageForEmptyDataSet:(UIScrollView *)scrollView forState:(UIControlState)state
+//{
+//    return [UIImage imageNamed:@"jiancha"];
+//}
+
+
+@end

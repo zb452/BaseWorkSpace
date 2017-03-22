@@ -1,0 +1,39 @@
+//
+//  LiveDetail.h
+//
+//  Created by 斌 张 on 2016/11/10
+//  Copyright (c) 2016 __MyCompanyName__. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+
+
+
+@interface LiveDetail : NSObject <NSCoding, NSCopying>
+
+@property (nonatomic, assign) double internalBaseClassIdentifier;
+@property (nonatomic, strong) NSString *internalBaseClassDescription;
+@property (nonatomic, strong) NSString *liveType;
+@property (nonatomic, strong) NSString *technicalTitleName;
+@property (nonatomic, strong) NSString *technicalTitleCode;
+@property (nonatomic, strong) NSString *sexName;
+@property (nonatomic, strong) NSString *name;
+@property (nonatomic, assign) double chatroomCount;
+@property (nonatomic, strong) NSString *pullPath;
+@property (nonatomic, assign) double accountId;
+@property (nonatomic, strong) NSString *nickName;
+@property (nonatomic, strong) NSString *liveStatus;
+@property (nonatomic, strong) NSString *areaName;
+@property (nonatomic, strong) NSString *sexCode;
+@property (nonatomic, assign) double cId;
+@property (nonatomic, assign) double createTime;
+@property (nonatomic, strong) NSString *headPic;
+@property (nonatomic, strong) NSString *pushPath;
+@property (nonatomic, strong) NSString *cityName;
+@property (nonatomic, strong) NSString *restId;
+
++ (instancetype)modelObjectWithDictionary:(NSDictionary *)dict;
+- (instancetype)initWithDictionary:(NSDictionary *)dict;
+- (NSDictionary *)dictionaryRepresentation;
+
+@end

@@ -1,0 +1,76 @@
+//
+//  CustomViewModel.m
+//  DK_Doctor
+//
+//  Created by 张斌 on 2017/2/11.
+//  Copyright © 2017年 陕西医管家医院管理咨询服务有限公司. All rights reserved.
+//
+
+#import "CustomViewModel.h"
+#import "UserDefaultCache.h"
+#import "Doctor.h"
+#import "BGSever+Login.h"
+#import "CryptoFuncation.h"
+#import "DKHyChatHelper.h"
+
+@implementation CustomViewModel
+
+/**
+ 检查是否需要弹出登录界面，需要弹出就执行needLogin block, 否则就执行登录接口
+
+ @param needLogin 执行弹出
+ */
+-(void)checkLogin:(SuccessCallback)needLogin
+{
+    NSString *userName =  [UserDefaultCache loadCache:UESERNAME];
+    NSString *userPsw = [UserDefaultCache loadCache:UESERPASSWORD];
+    if(userName && userPsw)
+    {
+        //登录前先删除之前的登录信息
+        [UserDefaultCache removeCache:UserDoctor];
+        
+        
+        [BGSever userLoginWithMobile:userName  password:userPsw typeCode:nil showLoad:NO loadText:@"" success:^(NSDictionary *getDic) {
+            if ([getDic[@"code"] intValue] == 0)
+            {
+                Doctor *doctor = [Doctor modelObjectWithDictionary:getDic[@"data"]];
+                
+                [UserDefaultCache setCache:doctor forKey:UserDoctor];
+                NSString *psw = [CryptoFuncation md5:AccountPsw];
+                //环信登录
+                
+                EMError *error = [[DKHyChatHelper shareDKHyChatHelper] loginWithUserName:[NSString stringWithFormat:@"%d",(int)doctor.accountId] password:psw];
+                
+                if (!error)
+                {
+                    NSLog(@"登录成功");
+                    [UserDefaultCache setCache:userName forKey:UESERNAME];
+                    [UserDefaultCache setCache:userPsw forKey:UESERPASSWORD];
+                    [DefaultNotificationCenter postNotificationName:LogInOK object:self];
+                    
+                }
+                else
+                {
+                    needLogin();
+                }
+
+                
+            }
+            else
+            {
+                needLogin();
+            }
+            
+        } Process:nil failure:^(NSError *error) {
+            
+            needLogin();
+        }];
+
+    }
+    else
+    {
+        needLogin();
+    }
+}
+
+@end

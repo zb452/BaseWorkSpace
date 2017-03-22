@@ -1,0 +1,331 @@
+//
+//  DKZoomHelper.m
+//  DK_Patient
+//
+//  Created by 张斌 on 2017/1/11.
+//  Copyright © 2017年 陕西医管家医院管理咨询服务有限公司. All rights reserved.
+//
+
+#import "DKZoomHelper.h"
+#import <MobileRTC/MobileRTC.h>
+
+
+#define kSDKUserID      @""
+#define kSDKUserName    @"123"  //[[PaintInfo sharePaitentInfo] name]
+#define kSDKUserToken   @""
+#define kSDKMeetNumber  @""
+
+#define kZoomSDKAppKey      @"JalUzHrB9MVQy21CPYDcVn9FKhEyVl0EtW5i"
+#define kZoomSDKAppSecret   @"Z4mVMhT1GMkBGJr3bvqQ59Eiv94B58ooNUtD"
+#define kZoomSDKDomain      @"www.zoomus.cn"
+
+@interface DKZoomHelper()<MobileRTCAuthDelegate,MobileRTCMeetingServiceDelegate>
+
+
+
+@end
+
+@implementation DKZoomHelper
+
++(DKZoomHelper *)shareZoomHelper
+{
+    static DKZoomHelper *zoomHelper = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        zoomHelper = [[DKZoomHelper alloc] init];
+    });
+    
+    
+    return zoomHelper;
+}
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        MobileRTCAuthService *authService = [[MobileRTC sharedRTC] getAuthService];
+        authService.delegate = self;
+        
+        self.isIdle = YES;
+    }
+    return self;
+}
+
+
+/**
+ 注册zoom SDK
+ */
+-(void)registerApp
+{
+    [[MobileRTC sharedRTC] setMobileRTCDomain:kZoomSDKDomain];
+    MobileRTCAuthService *authService = [[MobileRTC sharedRTC] getAuthService];
+    if (authService)
+    {
+        authService.clientKey = kZoomSDKAppKey;
+        authService.clientSecret = kZoomSDKAppSecret;
+        [authService sdkAuth];
+    }
+}
+
+/**
+ 登录zoom
+
+ @param name 邮箱
+ @param szPsw 密码
+ @return 是否登录成功
+ */
+-(BOOL)logIn:(NSString *)name  password:(NSString *)szPsw
+{
+    MobileRTCAuthService *authService = [[MobileRTC sharedRTC] getAuthService];
+    
+    if (authService)
+    {
+        BOOL ret = [authService loginWithEmail:name password:szPsw];
+        
+        return ret;
+    }
+    
+    return NO;
+}
+
+/**
+ 登出zoom
+
+ @return 是否登出成功
+ */
+-(BOOL)louOut
+{
+    MobileRTCAuthService *authService = [[MobileRTC sharedRTC] getAuthService];
+    if (authService)
+    {
+        return [authService logoutRTC];
+    }
+    
+    return NO;
+
+}
+
+/**
+ 开始会议
+
+ @param meetNumber 会议号
+ */
+-(void)startMeeting:(NSString *)meetNumber
+{
+    if (meetNumber.length == 0 )
+    {
+        return;
+    }
+    
+    MobileRTCMeetingService *ms = [[MobileRTC sharedRTC] getMeetingService];
+    NSDictionary *paramDict = @{kMeetingParam_UserID:kSDKUserID,
+                                kMeetingParam_UserToken:kSDKUserToken, kMeetingParam_UserType:@( MobileRTCUserType_APIUser), kMeetingParam_Username:kSDKUserName, kMeetingParam_MeetingNumber:meetNumber
+                                };
+    
+    MobileRTCMeetError ret = [ms startMeetingWithDictionary:paramDict];
+    ms.delegate = self;
+}
+
+/**
+ 加入会议
+
+ @param meetNumer 会议号
+ */
+-(void)joinMeeting:(NSString *)meetNumer
+{
+    if (meetNumer.length == 0 )
+    {
+        return;
+    }
+    
+    MobileRTCMeetingService *ms = [[MobileRTC sharedRTC] getMeetingService];
+    
+    if (ms)
+    {
+        //For Join a meeting with password
+        NSDictionary *paramDict = @{
+                                    kMeetingParam_Username:kSDKUserName,
+                                    kMeetingParam_MeetingNumber:meetNumer
+                                    };
+        
+        MobileRTCMeetError ret = [ms joinMeetingWithDictionary:paramDict];
+        ms.delegate = self;
+    }
+}
+
+#pragma mark - Auth Delegate
+
+/**
+ * Designated for MobileRTC Auth response.
+ *
+ * @param returnValue tell user when the auth state changed.
+ *
+ */
+- (void)onMobileRTCAuthReturn:(MobileRTCAuthError)returnValue
+{
+    DKLog(@"auth:%d",returnValue);
+}
+
+/**
+ * Designated for MobileRTC Login response.
+ *
+ * @param returnValue tell user when the login state changed.
+ *
+ */
+- (void)onMobileRTCLoginReturn:(NSInteger)returnValue
+{
+    DKLog(@"login:%d",returnValue);
+}
+
+/**
+ * Designated for MobileRTC Logout response.
+ *
+ * @param returnValue tell user whether the logout success or not.
+ *
+ */
+- (void)onMobileRTCLogoutReturn:(NSInteger)returnValue
+{
+    DKLog(@"logout:%d",returnValue);
+}
+
+#pragma mark - MeetingServiceDelegate
+/**
+ * Designated for Meeting Response.
+ *
+ * @param error, tell client related to this meeting event.
+ * @param internalError, internal error code
+ *
+ */
+- (void)onMeetingReturn:(MobileRTCMeetError)error internalError:(NSInteger)internalError
+{
+     DKLog(@"onMeetingReturn:%d, internalError:%zd", error, internalError);
+}
+
+/**
+ * Designated for Meeting Error message.
+ *
+ * @param error, internal error code.
+ * @param message, the message for meeting error
+ *
+ */
+- (void)onMeetingError:(NSInteger)error message:(NSString*)message
+{
+    DKLog(@"message:%@",message);
+}
+
+/**
+ * Designated for Meeting State Change.
+ *
+ * @param state, tell client meeting state chagne.
+ *
+ */
+- (void)onMeetingStateChange:(MobileRTCMeetingState)state
+{
+    if (state == MobileRTCMeetingState_Idle)
+    {
+        self.isIdle = YES;
+    }
+    else
+    {
+        self.isIdle = NO;
+    }
+    NSLog(@"state:%d",state);
+}
+
+/**
+ * Designated for Meeting has been ready.
+ *
+ */
+- (void)onMeetingReady
+{
+    DKLog(@"%@",@"ready");
+}
+
+/**
+ * Designated for App share has started with default splash.
+ *
+ * *Note*: This method is just for special customer.
+ */
+- (void)onAppShareSplash
+{
+    DKLog(@"splash");
+}
+
+/**
+ * Designated for clicked the Share button in meeting.
+ *
+ * *Note*: This method is just for special customer.
+ */
+- (void)onClickedShareButton
+{
+     DKLog(@"Share");
+}
+
+/**
+ * Designated for notify that there does not exist ongoing share.
+ *
+ * *Note*: This method is just for special customer.
+ */
+- (void)onOngoingShareStopped
+{
+    DKLog(@"stop");
+}
+
+/**
+ * Designated for join a none-host meeting, Partner can show/hide a customized JBH waiting UI.
+ *
+ * *Note*: This method is just for special customer.
+ */
+- (void)onJBHWaitingWithCmd:(JBHCmd)cmd
+{
+    switch (cmd) {
+        case JBHCmd_Show:
+        {
+            NSLog(@"wait....");
+        }
+            break;
+        case JBHCmd_Hide: default:
+        {
+           // [self dismissViewControllerAnimated:YES completion:NULL];
+        }
+            break;
+    }
+}
+
+/**
+ * Designated for customize the Invite event.
+ *
+ * @param parentVC, parent viewcontroller to present customize Invite UI.
+ *
+ * *Note*: This method is just for special customer.
+ */
+- (void)onClickedInviteButton:(UIViewController*)parentVC
+{
+    
+}
+
+/**
+ * Designated for customize Dial out.
+ *
+ * @param parentVC, parent viewcontroller to present Dial Out UI.
+ * @param me, if YES, means "Call Me"; if NO, means "Invite by Phone".
+ *
+ * *Note*: This method is just for special customer.
+ */
+- (void)onClickedDialOut:(UIViewController*)parentVC isCallMe:(BOOL)me
+{
+    parentVC.title = @"aaaa";
+}
+
+/**
+ * Designated for Dial Out status change.
+ *
+ * @param status tell client the status of dial out.
+ *
+ */
+- (void)onDialOutStatusChanged:(DialOutStatus)status
+{
+    DKLog(@"status:%d",status);
+}
+
+@end

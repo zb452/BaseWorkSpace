@@ -1,0 +1,110 @@
+//
+//  BGSever+Login.h
+//  EPNetWork
+//
+//  Created by 张斌 on 2016/10/15.
+//  Copyright © 2016年 陕西医管家医院管理咨询服务有限公司. All rights reserved.
+//
+
+#import "BGSever.h"
+
+@interface BGSever (Login)
+
+/**
+ *  登录
+ *  @param mobile 手机号
+ *  @param password 密码
+ */
++ (void)userLoginWithMobile:(NSString *)mobile
+                   password:(NSString *)password
+                   typeCode:(NSString *)loginType
+                   showLoad:(BOOL)isShowLoad
+                   loadText:(NSString *)text
+                    success:(Success)successBlock
+                    Process:(Process)processBlock
+                    failure:(Failure)failureBlock;
+
+///**
+// *  注册
+// *  @param mobile 手机号
+// *  @param password 密码
+// */
+//+ (void)RegisterWithMobile:(NSString *)mobile
+//                  password:(NSString *)password
+//                  AuthCode:(NSString *)authCode
+//                  typeCode:(NSString *)loginType
+//                   success:(Success)successBlock
+//                   Process:(Process)processBlock
+//                   failure:(Failure)failureBlock;
+
+/**
+ *  修改密码
+ *  @param mobile 手机号
+ *  @param password 密码
+ *  @param authCode 验证码
+ */
++ (void)ModifyPswWithMobile:(NSString *)mobile
+                   password:(NSString *)password
+                   AuthCode:(NSString *)authCode
+                   typeCode:(NSString *)loginType
+                   showLoad:(BOOL)isShowLoad
+                   loadText:(NSString *)text
+                    success:(Success)successBlock
+                    Process:(Process)processBlock
+                    failure:(Failure)failureBlock;
+/**
+ *  获取验证码
+ *  @param mobile 手机号
+ *  @param accountType 修改密码或者注册账号
+ *  @param typeCode 验证码编码
+ */
++ (void)GetAuthCodeWithMobile:(NSString *)mobile
+                   acountType:(NSString *)accountType
+                     typeCode:(NSString *)typeCode
+                     showLoad:(BOOL)isShowLoad
+                     loadText:(NSString *)text
+                      success:(Success)successBlock
+                      Process:(Process)processBlock
+                      failure:(Failure)failureBlock;
+///**
+// *  修改个人信息
+// *  @param identifer 业务主键
+// *  @param idCard 身份证
+// *  @param address 地址
+// *  @param name 姓名
+// *  @param sexCode 性别编码
+// *  @param headPic 头像地址
+// *  @param age 年龄
+// *  @param typeCode 编码
+// */
+//+(void)updateUserInfoWith:(NSString *)identifer
+//                             idCard:(NSString *)idCard
+//                            address:(NSString *)address
+//                               name:(NSString *)name
+//                            sexCode:(NSString *)sexCode
+//                            headPic:(NSString *)headPic
+//                                age:(NSString *)age
+//                           typeCode:(NSString*)typeCode
+//                            success:(Success)successBlock
+//                            Process:(Process)processBlock
+//                            failure:(Failure)failureBlock;
+/**
+ *  修改密码
+ *  @param userId 用户编号
+ *  @param password 旧密码
+ *  @param newPassword 新密码
+ *  @param loginType 账号类型
+ */
++ (void)ChangePswWithId:(NSString *)userId
+               password:(NSString *)password
+            NewPassword:(NSString *)newPassword
+               typeCode:(NSString *)loginType
+               showLoad:(BOOL)isShowLoad
+               loadText:(NSString *)text
+                success:(Success)successBlock
+                Process:(Process)processBlock
+                failure:(Failure)failureBlock;
+
+
+
+@end

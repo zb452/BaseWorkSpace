@@ -1,0 +1,50 @@
+//
+//  DKZoomHelper.h
+//  DK_Patient
+//
+//  Created by 张斌 on 2017/1/11.
+//  Copyright © 2017年 陕西医管家医院管理咨询服务有限公司. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+
+@interface DKZoomHelper : NSObject
+
+@property(assign,nonatomic)BOOL isIdle; //是否不在会议中
+
++(DKZoomHelper *)shareZoomHelper;
+/**
+ 登录zoom
+ 
+ @param name 邮箱
+ @param szPsw 密码
+ @return 是否登录成功
+ */
+-(BOOL)logIn:(NSString *)name  password:(NSString *)szPsw;
+
+/**
+ 登出zoom
+ 
+ @return 是否登出成功
+ */
+-(BOOL)louOut;
+
+/**
+ 注册zoom SDK
+ */
+-(void)registerApp;
+/**
+ 开始会议
+ 
+ @param meetNumber 会议号
+ */
+-(void)startMeeting:(NSString *)meetNumber;
+
+/**
+ 加入会议
+ 
+ @param meetNumer 会议号
+ */
+-(void)joinMeeting:(NSString *)meetNumer;
+
+@end

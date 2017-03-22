@@ -1,0 +1,25 @@
+//
+//  UpdateMyInfoViewModel.h
+//  DK_Doctor
+//
+//  Created by 张斌 on 2017/2/28.
+//  Copyright © 2017年 陕西医管家医院管理咨询服务有限公司. All rights reserved.
+//
+
+#import "BaseViewModel.h"
+
+typedef  void (^SuccessUpdaLoad)(NSString *szImage);
+
+@interface UpdateMyInfoViewModel : BaseViewModel
+
+//上传图片
+-(void)uploadImage:(UIImage *)image
+           Success:(SuccessUpdaLoad)uploadSuccess
+              Fail:(FailCallback)fail;
+
+-(void)finsh:(UIImage *)image
+    withText:(NSString*)text
+     Success:(SuccessCallback)success
+        Fail:(FailCallback)fail;
+
+@end

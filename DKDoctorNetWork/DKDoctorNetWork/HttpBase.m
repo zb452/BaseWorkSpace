@@ -1,0 +1,215 @@
+//
+//  HttpBase.m
+//  LLProjectNetBase
+//
+//  Created by sam on 16/3/8.
+//  Copyright © 2016年 LLProjectNetBase. All rights reserved.
+//
+
+#import "HttpBase.h"
+#import "NetEngine.h"
+
+@implementation HttpBase
+
+
++(HttpBase *)shareHttpBase
+{
+    static dispatch_once_t pred;
+    
+    static HttpBase *_shareHttpBase = nil;
+    
+    dispatch_once(&pred, ^{
+        _shareHttpBase = [[self alloc] init];
+        UIWindow *window = [[UIApplication sharedApplication] keyWindow];
+        _shareHttpBase.hud = [[MBProgressHUD alloc] initWithView:window];
+        [window addSubview:_shareHttpBase.hud];
+
+    });
+    
+    return _shareHttpBase;
+}
+
+/**
+ *  统一发送get请求
+ *
+ *  @param actionName   接口名
+ *  @param parameters   接口参数
+ *  @param successBlock
+ *  @param failBlock
+ */
+-(void) getDataFromAction:(NSString*)actionName
+            withParameters:(NSDictionary*)parameters
+            withProcess:(void(^)(NSProgress *loadProcess))pocessBlock
+          withSuccessBlock:(void(^)(id backJson)) successBlock
+             withFailBlock:(void(^)(NSError *error))failBlock
+{
+    [self.hud show:YES];
+    [[NetEngine sharedEngine].requestGroup GET:actionName parameters:parameters withProcess:^(NSProgress *loadProcess) {
+        if (pocessBlock) {
+            pocessBlock(loadProcess);
+        }
+    } success:^(NSURLSessionDataTask *task, id responseObject) {
+        [self.hud hide:YES];
+        if (successBlock) {
+            successBlock(responseObject);
+        }
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        [self.hud hide:YES];
+        if (failBlock) {
+            failBlock(error);
+        }
+    }];
+}
+
+/**
+ *  统一发送get请求, 有提示信息
+ *
+ *  @param actionName   接口名
+ *  @param parameters   接口参数
+ *  @param successBlock
+ *  @param failBlock
+ */
+-(void) getDataFromAction:(NSString*)actionName
+               isShowLoad:(BOOL)isShowLoad
+                 loadText:(NSString *)text
+              withParameters:(NSDictionary*)parameters
+              withProcess:(void(^)(NSProgress *loadProcess))pocessBlock
+         withSuccessBlock:(void(^)(id backJson)) successBlock
+            withFailBlock:(void(^)(NSError *error))failBlock
+{
+    if (isShowLoad)
+    {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.hud.labelText = text;
+            [self.hud show:YES];
+        });
+    }
+    [[NetEngine sharedEngine].requestGroup GET:actionName parameters:parameters withProcess:^(NSProgress *loadProcess) {
+        if (pocessBlock) {
+            pocessBlock(loadProcess);
+        }
+    } success:^(NSURLSessionDataTask *task, id responseObject) {
+        if (isShowLoad)
+        {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                self.hud.labelText = text;
+                [self.hud hide:YES];
+            });
+        }
+
+        if (successBlock) {
+            successBlock(responseObject);
+        }
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        if (isShowLoad)
+        {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.hud hide:YES];
+            });
+        }
+
+        if (failBlock) {
+            failBlock(error);
+        }
+    }];
+}
+
+
+- (void)postDataFromAction:(NSString*)actionName
+            withParameters:(NSDictionary*)parameters
+            withProcess:(void(^)(NSProgress *loadProcess))pocessBlock
+          withSuccessBlock:(void(^)(id backJson)) successBlock
+             withFailBlock:(void(^)(NSError *error))failBlock
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        self.hud.labelText = @"";
+        [self.hud show:YES];
+    });
+
+    [[NetEngine sharedEngine].requestGroup POST:actionName parameters:parameters withProcess:^(NSProgress *loadProcess) {
+        if (pocessBlock) {
+            pocessBlock(loadProcess);
+        }
+    } success:^(NSURLSessionDataTask *task, id responseObject) {
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+           [self.hud hide:YES];
+        });
+        if (successBlock) {
+            successBlock(responseObject);
+        }
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.hud hide:YES];
+        });
+        
+        if (failBlock) {
+            failBlock(error);
+        }
+    }];
+}
+
+//不显示loading图标
+- (void)postDataFromAction:(NSString*)actionName
+                isShowLoad:(BOOL)isShowLoad
+                  loadText:(NSString *)text
+            withParameters:(NSDictionary*)parameters
+               withProcess:(void(^)(NSProgress *loadProcess))pocessBlock
+          withSuccessBlock:(void(^)(id backJson)) successBlock
+             withFailBlock:(void(^)(NSError *error))failBlock
+{
+    if (isShowLoad)
+    {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.hud.labelText = text;
+            [self.hud show:YES];
+        });
+    }
+    
+    [[NetEngine sharedEngine].requestGroup POST:actionName parameters:parameters withProcess:^(NSProgress *loadProcess) {
+        if (pocessBlock) {
+            
+            pocessBlock(loadProcess);
+        }
+    } success:^(NSURLSessionDataTask *task, id responseObject) {
+        
+        if (isShowLoad)
+        {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                self.hud.labelText = text;
+                [self.hud hide:YES];
+            });
+        }
+        if (successBlock)
+        {
+            if ([responseObject isKindOfClass:[NSDictionary class]])
+            {
+                NSDictionary *dic = (NSDictionary *)responseObject;
+                if ([dic[@"code"] intValue] == -1)
+                {
+                    [[NSNotificationCenter defaultCenter] postNotificationName:NotiTokenInvalid object:self];
+                    return;
+                }
+            }
+            successBlock(responseObject);
+        }
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        
+        if (isShowLoad)
+        {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.hud hide:YES];
+            });
+        }
+        
+        if (failBlock) {
+            failBlock(error);
+        }
+    }];
+}
+
+
+
+@end

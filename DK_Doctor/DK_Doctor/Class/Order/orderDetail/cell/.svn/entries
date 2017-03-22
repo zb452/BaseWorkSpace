@@ -1,0 +1,112 @@
+10
+
+dir
+0
+http://zb@192.168.125:9880/ios/trunk/DKZY/Doctor/DKDoctorWorkSpace/DK_Doctor/DK_Doctor/Class/Order/orderDetail/cell
+http://zb@192.168.125:9880/ios
+add
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+c58d07a8-82a3-7f4b-897d-7ace862ac819
+
+ImageCollectionViewCell.h
+file
+
+
+
+add
+
+DescriptiOfPatientCell.xib
+file
+
+
+
+add
+
+OrderDetailHeadCell.xib
+file
+
+
+
+add
+
+MessageTableViewCell.m
+file
+
+
+
+add
+
+ImageCollectionViewCell.m
+file
+
+
+
+add
+
+DescriptiOfPatientCell.h
+file
+
+
+
+add
+
+OrderDetailHeadCell.h
+file
+
+
+
+add
+
+MessageTableViewCell.xib
+file
+
+
+
+add
+
+ImageCollectionViewCell.xib
+file
+
+
+
+add
+
+DescriptiOfPatientCell.m
+file
+
+
+
+add
+
+OrderDetailHeadCell.m
+file
+
+
+
+add
+
+MessageTableViewCell.h
+file
+
+
+
+add
+

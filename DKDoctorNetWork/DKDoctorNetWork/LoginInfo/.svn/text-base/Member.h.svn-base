@@ -1,0 +1,49 @@
+//
+//  Member.h
+//
+//  Created by 斌 张 on 2016/12/28
+//  Copyright (c) 2016 __MyCompanyName__. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+
+
+
+@interface Member : NSObject <NSCoding, NSCopying>
+
+@property (nonatomic, strong) NSString *internalBaseClassDescription;
+@property (nonatomic, strong) NSString *technicalTitleCode;
+@property (nonatomic, strong) NSString *birthday;
+@property (nonatomic, strong) NSString *nickName;
+@property (nonatomic, strong) NSString *areaName;
+@property (nonatomic, strong) NSString *typeName;
+@property (nonatomic, strong) NSString *status;
+@property (nonatomic, strong) NSString *telephone;
+@property (nonatomic, strong) NSString *positionCode;
+@property (nonatomic, assign) double updateTime;
+@property (nonatomic, strong) NSString *technicalTitleName;
+@property (nonatomic, strong) NSString *authenCode;
+@property (nonatomic, assign) double hospitalId;
+@property (nonatomic, strong) NSString *sexCode;
+@property (nonatomic, strong) NSString *authenName;
+@property (nonatomic, strong) NSString *sexName;
+@property (nonatomic, strong) NSString *workUnit;
+@property (nonatomic, strong) NSString *name;
+@property (nonatomic, assign) double departmentsId;
+@property (nonatomic, strong) NSString *headPic;
+@property (nonatomic, strong) NSString *idCard;
+@property (nonatomic, assign) double internalBaseClassIdentifier;
+@property (nonatomic, assign) double provinceId;
+@property (nonatomic, assign) double hospitalAreaId;
+@property (nonatomic, strong) NSString *positionName;
+@property (nonatomic, assign) double age;
+@property (nonatomic, assign) double memberId;
+@property (nonatomic, assign) double createTime;
+@property (nonatomic, assign) double accountId;
+@property (nonatomic, strong) NSString *typeCode;
+
++ (instancetype)modelObjectWithDictionary:(NSDictionary *)dict;
+- (instancetype)initWithDictionary:(NSDictionary *)dict;
+- (NSDictionary *)dictionaryRepresentation;
+
+@end

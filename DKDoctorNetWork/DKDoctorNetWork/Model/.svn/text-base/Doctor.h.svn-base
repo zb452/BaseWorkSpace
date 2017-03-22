@@ -1,0 +1,32 @@
+//
+//  Doctor.h
+//
+//  Created by 斌 张 on 2017/2/10
+//  Copyright (c) 2017 __MyCompanyName__. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+
+@interface Doctor : NSObject <NSCoding, NSCopying>
+
+@property (nonatomic, strong) NSString *internalBaseClassDescription;
+@property (nonatomic, strong) NSString *technicalTitleCode;
+@property (nonatomic, assign) double hospitalId;
+@property (nonatomic, strong) NSString *technicalTitleName;
+@property (nonatomic, strong) NSString *hospitalName;
+@property (nonatomic, strong) NSString *departmentsName;
+@property (nonatomic, assign) double departmentsId;
+@property (nonatomic, strong) NSString *token;
+@property (nonatomic, assign) double accountId;
+@property (nonatomic, strong) NSString *signature;
+@property (nonatomic, strong) NSString *provinceName;
+@property (nonatomic, assign) double provinceId;
+@property (nonatomic, strong) NSString *name;
+@property (nonatomic, strong) NSString *headPic;
+
+
++ (instancetype)modelObjectWithDictionary:(NSDictionary *)dict;
+- (instancetype)initWithDictionary:(NSDictionary *)dict;
+- (NSDictionary *)dictionaryRepresentation;
+
+@end

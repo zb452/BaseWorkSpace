@@ -1,0 +1,117 @@
+//
+//  UpdateMyInfoViewModel.m
+//  DK_Doctor
+//
+//  Created by 张斌 on 2017/2/28.
+//  Copyright © 2017年 陕西医管家医院管理咨询服务有限公司. All rights reserved.
+//
+
+#import "UpdateMyInfoViewModel.h"
+#import "CryptoFuncation.h"
+#import "Doctor.h"
+
+@implementation UpdateMyInfoViewModel
+
+-(void)uploadImage:(UIImage *)image
+           Success:(SuccessUpdaLoad)uploadSuccess
+              Fail:(FailCallback)fail
+{
+    //如果不是png，就是jepg
+    NSData *data = UIImagePNGRepresentation(image);
+    NSString *imageType = @"png";
+    
+    if (!data)
+    {
+        data = UIImageJPEGRepresentation(image, 0.5);
+        imageType = @"jpg";
+    }
+    
+    if (!data)
+    {
+        NSLog(@"图片为空");
+        return;
+    }
+    id<OSSCredentialProvider> credential = [[OSSPlainTextAKSKPairCredentialProvider alloc] initWithPlainTextAccessKey:AliyunOSSAccessKey secretKey:AliyunOSSSecretKey];
+    
+    OSSClientConfiguration * conf = [OSSClientConfiguration new];
+    
+    // 网络请求遇到异常失败后的重试次数
+    conf.maxRetryCount = 3;
+    
+    // 网络请求的超时时间
+    conf.timeoutIntervalForRequest =10;
+    
+    // 允许资源传输的最长时间
+    conf.timeoutIntervalForResource = 10;
+    
+    // 你的阿里地址前面通常是这种格式 ：http://oss……
+    OSSClient *client = [[OSSClient alloc] initWithEndpoint:ALIENDPOINT credentialProvider:credential];
+    
+    
+    OSSPutObjectRequest * put = [OSSPutObjectRequest new];
+    
+    put.bucketName =ALIPUBLIC_BUCKET;
+    
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyyMMddHHmmss"];
+    
+    Doctor *doctor = [UserDefaultCache loadCache:UserDoctor];
+    NSString *name = [NSString stringWithFormat:@"%d%@",(int)doctor.accountId,[dateFormatter stringFromDate:[NSDate date]]];
+    
+    NSString *objectName = [NSString stringWithFormat:@"%@.%@",[CryptoFuncation md5:name],imageType];
+    put.objectKey = objectName;
+    
+    put.uploadingData = data; // 直接上传NSData
+    
+    
+    OSSTask * putTask = [client putObject:put];
+    
+    
+    __weak typeof (self)weakSelf = self;
+    // 上传阿里云
+    [putTask continueWithBlock:^id(OSSTask *task) {
+        
+        //  NSString *url = @"";
+        if (!task.error)
+        {
+            NSLog(@"upload object success!");
+            OSSTask * task = [client presignPublicURLWithBucketName:ALIPUBLIC_BUCKET withObjectKey:objectName];
+            uploadSuccess(task.result);
+        }
+        else
+        {
+            fail(@"图片上传失败");
+        }
+        
+        return nil;
+
+    }];
+}
+
+-(void)finsh:(UIImage *)image
+    withText:(NSString*)text
+     Success:(SuccessCallback)success
+        Fail:(FailCallback)fail
+{
+    if ([text isEqualToString:@" 介绍一下自己"])
+    {
+        text = @"";
+    }
+    
+    if (image)
+    {
+        //先上传图片
+        [self uploadImage:image Success:^(NSString *szImage) {
+            
+            
+        } Fail:^(NSString *errorMsg) {
+            fail(errorMsg);
+        }];
+    }
+    else
+    {
+        
+    }
+}
+
+@end

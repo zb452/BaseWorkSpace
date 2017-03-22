@@ -1,0 +1,37 @@
+//
+//  Department.h
+//
+//  Created by 斌 张 on 2016/10/17
+//  Copyright (c) 2016 陕西医管家医院管理咨询服务有限公司. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+
+
+
+@interface Department : NSObject <NSCoding, NSCopying>
+
+@property (nonatomic, assign) double departmentIdentifier;
+@property (nonatomic, strong) NSString *levelCode;
+@property (nonatomic, assign) id departmentDescription;
+@property (nonatomic, assign) id levelName;
+@property (nonatomic, assign) id typeCode;
+@property (nonatomic, strong) NSString *name;
+@property (nonatomic, assign) id star;
+@property (nonatomic, assign) id typeName;
+@property (nonatomic, assign) id time;
+@property (nonatomic, strong) NSString *isDefault;
+@property (nonatomic, strong) NSString *isPublic;
+@property (nonatomic, assign) double createTime;
+@property (nonatomic, assign) id num;
+@property (nonatomic, assign) id iconImg;
+@property (nonatomic, assign) double hospitalAreaId;
+@property (nonatomic, assign) id imgPath;
+@property (nonatomic, strong) NSString *status;
+@property (nonatomic, assign) double updateTime;
+
++ (instancetype)modelObjectWithDictionary:(NSDictionary *)dict;
+- (instancetype)initWithDictionary:(NSDictionary *)dict;
+- (NSDictionary *)dictionaryRepresentation;
+
+@end

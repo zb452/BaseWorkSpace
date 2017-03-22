@@ -1,0 +1,333 @@
+//
+//  YXNetRequestGroup.m
+//  YXApp
+//
+//  Created by ChenChao on 15/1/15.
+//  Copyright (c) 2015年 YingXiang. All rights reserved.
+//
+
+#import "YXNetRequestGroup.h"
+#import "NetEngine.h"
+#import "BGSever.h"
+
+@interface YXNetRequestGroup ()
+@property(strong, nonatomic)NSMutableDictionary* requests;
+
+@end
+
+@implementation YXNetRequestGroup
+- (id)init
+{
+    self = [super init];
+    if (self) {
+        self.requests = [[NSMutableDictionary alloc] initWithCapacity:2];
+    }
+    return self;
+}
+
+- (void)dealloc
+{
+    [self cancelAllRequest];
+}
+
+- (NSInteger)numberOfRequests
+{
+    return [self.requests count];
+}
+
+- (void)removeOperation:(id)operation
+{
+    NSArray *requestUrlArray = [self.requests allKeys];
+    for (NSString* urlPath in requestUrlArray) {
+        if (self.requests[urlPath] == operation) {
+            [self.requests removeObjectForKey:urlPath];
+            return;
+        }
+    }
+}
+
+- (void)addOperation:(id)operation urlPath:(NSString *)urlPath
+{
+    if (urlPath && operation) {
+        [self.requests setObject:operation forKey:urlPath];
+    }
+}
+
+- (NSURLSessionTask *)findOperationByUrlPath:(NSString *)urlPath
+{
+    if ([urlPath length] > 0) {
+        return [self.requests objectForKey:urlPath];
+    }
+    return nil;
+}
+
+- (void)cancelRequestByUrlString:(NSString *)urlPath
+{
+    if ([urlPath length] == 0) {
+        return;
+    }
+    NSURLSessionTask *task = [self findOperationByUrlPath:urlPath];
+    if (task) {
+        [task cancel];
+        [self.requests removeObjectForKey:urlPath];
+    }
+}
+
+- (void)cancelRequestByNSURL:(NSURL *)nsUrl
+{
+    NSString * urlString = [nsUrl absoluteString];
+    [self cancelRequestByUrlString:urlString];
+}
+
+- (void)cancelRequestByOperation:(NSURLSessionTask *)operation
+{
+    if (operation) {
+        [operation cancel];
+        [self removeOperation:operation];
+    }
+}
+
+- (void)cancelAllRequest
+{
+    NSArray* newRequests = [self.requests allValues];
+    for (NSURLSessionTask* operation in newRequests) {
+        [operation cancel];
+    }
+    [self.requests removeAllObjects];
+}
+- (NSURLSessionDataTask *)GET:(NSString *)URLString
+                   parameters:(id)parameters
+                    withProcess:(void(^)(NSProgress *loadProcess))pocessBlock
+                      success:(void (^)(NSURLSessionDataTask *task, id responseObject))success
+                      failure:(void (^)(NSURLSessionDataTask *task, NSError *error))failure
+{
+    if ([URLString length] == 0) {
+         NSLog(@"+++URLString为空");
+        return nil;
+    }
+   // [self cancelRequestByUrlString:URLString];
+    
+    ////加上统一的参数
+    //加上统一的参数
+    BOOL needToken = YES;
+    if ([URLString isEqualToString:ModifyPSW])
+    {
+        needToken = NO;
+    }
+    parameters = [self getFinalopostParams:parameters isNeedToken:needToken];
+
+    
+    __weak __typeof(self) weakSelf = self;
+    NSURLSessionDataTask* operation = [[NetEngine sharedEngine] GET:URLString parameters:parameters progress:^(NSProgress * _Nonnull downloadProgress) {
+        if (pocessBlock)
+        {
+            pocessBlock(downloadProgress);
+        }
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        __strong __typeof(weakSelf) strongSelf = weakSelf;
+        [strongSelf removeOperation:operation];
+        if (success) {
+            success(task, responseObject);
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        __strong __typeof(weakSelf) strongSelf = weakSelf;
+        
+        [strongSelf removeOperation:operation];
+        NSInteger errorCode = error.code;
+#if DEBUG
+        if (errorCode != NSURLErrorCancelled) {
+            NSLog(@"cancelRequestByUser");
+        }
+#endif
+        if (failure && (errorCode != NSURLErrorCancelled)) {
+            failure(task, error);
+        }
+
+    }];
+    
+    [self addOperation:operation urlPath:URLString];
+    return operation;
+}
+
+- (NSURLSessionDataTask *)POST:(NSString *)URLString
+                    parameters:(id)parameters
+                     withProcess:(void(^)(NSProgress *loadProcess))pocessBlock
+                       success:(void (^)(NSURLSessionDataTask *task, id responseObject))success
+                       failure:(void (^)(NSURLSessionDataTask *task, NSError *error))failure
+{
+    __weak __typeof(self) weakSelf = self;
+    if ([URLString length] == 0)
+    {
+        NSLog(@"+++URLString为空");
+        failure(nil,nil);
+        return nil;
+    }
+    //加上统一的参数
+    BOOL needToken = YES;
+    if ([URLString isEqualToString:ModifyPSW])
+    {
+        needToken = NO;
+    }
+    parameters = [self getFinalopostParams:parameters isNeedToken:needToken];
+    
+    NSURLSessionDataTask* operation = [[NetEngine sharedEngine] POST:URLString parameters:parameters progress:^(NSProgress * _Nonnull downloadProgress) {
+        if (pocessBlock)
+        {
+            pocessBlock(downloadProgress);
+        }
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        __strong __typeof(weakSelf) strongSelf = weakSelf;
+        [strongSelf removeOperation:operation];
+        if (success) {
+            success(task, responseObject);
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        __strong __typeof(weakSelf) strongSelf = weakSelf;
+        
+        [strongSelf removeOperation:operation];
+        NSInteger errorCode = error.code;
+#if DEBUG
+        if (errorCode != NSURLErrorCancelled) {
+            NSLog(@"cancelRequestByUser");
+        }
+#endif
+        if (failure && (errorCode != NSURLErrorCancelled)) {
+            failure(task, error);
+        }
+        
+    }];
+    
+    [self addOperation:operation urlPath:URLString];
+    return operation;
+}
+
+- (NSURLSessionDataTask *)POST:(NSString *)URLString
+                    parameters:(id)parameters
+     constructingBodyWithDatas:(NSArray*)bodyDatas
+        withProcess:(void(^)(NSProgress *loadProcess))pocessBlock
+         constructingIdentifer:(NSString*)identifer
+                       success:(void (^)(NSURLSessionDataTask *task, id responseObject))success
+                       failure:(void (^)(NSURLSessionDataTask *task, NSError *error))failure
+{
+    if ([URLString length] == 0) {
+         NSLog(@"+++URLString为空");
+        return nil;
+    }
+    
+    __weak __typeof(self) weakSelf = self;
+    
+    NSURLSessionDataTask *operation = [[NetEngine sharedEngine]POST:URLString parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+        for (NSUInteger i = 0 ; i < [bodyDatas count]; i++) {
+            [formData appendPartWithFileData:[bodyDatas objectAtIndex:i] name:identifer fileName:[NSString stringWithFormat:@"%@_%zd.png",identifer,i] mimeType:@"image/png"];
+        }
+    } progress:^(NSProgress * _Nonnull uploadProgress) {
+        if (pocessBlock)
+        {
+            pocessBlock(uploadProgress);
+        }
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        __strong __typeof(weakSelf) strongSelf = weakSelf;
+        [strongSelf removeOperation:operation];
+        
+        if (responseObject) {
+            if (success) {
+                success(task, responseObject);
+            }
+        } else {
+            if (failure) {
+                failure(task, nil);
+            }
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+        __strong __typeof(weakSelf) strongSelf = weakSelf;
+        [strongSelf removeOperation:operation];
+        NSInteger errorCode = error.code;
+#if DEBUG
+        NSLog(@"%@", error);
+        if (errorCode == NSURLErrorCancelled) {
+            NSLog(@"cancelRequestByUser");
+        }
+#endif
+        if (failure && (errorCode != NSURLErrorCancelled)) {
+            failure(task, error);
+        }
+    }];
+    
+
+    [self addOperation:operation urlPath:URLString];
+    return operation;
+}
+
+/**
+ *  文件下载
+ *
+ *  @param URLString URL
+ *  @param filePath  目标路径
+ *  @param progress  下载进度
+ *  @param success   success block
+ *  @param failure   failure block
+ *
+ *  @return 下载请求事务实例
+ */
+- (NSURLSessionDownloadTask *)download:(NSString *)URLString
+                              filePath:(NSString *)filePath
+                           withProcess:(void(^)(NSProgress *loadProcess))pocessBlock
+                              progress:(NSProgress * __autoreleasing *)progress
+                               success:(void (^)(NSURLResponse *response, NSURL *filePath))success
+                               failure:(void (^)(NSURLResponse *response, NSError *error))failure
+{
+    if ([URLString length] == 0)
+    {
+        NSLog(@"+++URLString为空");
+        return nil;
+    }
+    
+    NSURLSessionDownloadTask *operation = [[NetEngine sharedEngine].requestGroup download:URLString filePath:filePath withProcess:^(NSProgress *loadProcess) {
+        
+    } progress:progress success:^(NSURLResponse *response, NSURL *filePath) {
+        
+    } failure:^(NSURLResponse *response, NSError *error) {
+//        if (failure) {
+//            failure(error);
+//        }
+    }];
+    
+    [self addOperation:operation urlPath:URLString];
+    return operation;
+}
+
+#pragma mark- 参数的处理
+/**
+ *  最终的参数
+ *
+ *  @param parameters 接口参数
+ *
+ *  @return 最终的参数
+ */
+//-(id)getFinalopostParams:(id)parameters isNeedToken:(BOOL)needToken
+//{
+//    if ([parameters isKindOfClass:[NSDictionary class]])
+//    {
+//        NSMutableDictionary *dic = [[NSMutableDictionary alloc] initWithDictionary:parameters];
+//        
+//        Doctor *doctor = [NSKeyedUnarchiver unarchiveObjectWithData:[[NSUserDefaults standardUserDefaults] valueForKey:@"Dcotor"]];
+//        
+//        if (needToken)
+//        {
+//            [dic setNoNullObject:doctor.token forKey:@"token"];
+//        }
+//        
+//        
+//        return dic;
+//    }
+//   
+//    return parameters;
+//}
+
+
+
+
+@end

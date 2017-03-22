@@ -1,0 +1,165 @@
+//
+//  TeamMember.m
+//
+//  Created by 斌 张 on 2017/2/18
+//  Copyright (c) 2017 __MyCompanyName__. All rights reserved.
+//
+
+#import "TeamMember.h"
+
+
+NSString *const kTeamMemberName = @"name";
+NSString *const kTeamMemberAccountId = @"accountId";
+NSString *const kTeamMemberDepartmentsId = @"departmentsId";
+NSString *const kTeamMemberHeadPic = @"headPic";
+NSString *const kTeamMemberSignature = @"signature";
+NSString *const kTeamMemberDepartmentsName = @"departmentsName";
+NSString *const kTeamMemberUsingMeetingStatus = @"usingMeetingStatus";
+NSString *const kTeamMemberDescription = @"description";
+NSString *const kTeamMemberTechnicalTitleCode = @"technicalTitleCode";
+NSString *const kTeamMemberTechnicalTitleName = @"technicalTitleName";
+NSString *const kTeamMemberAccountStatus = @"accountStatus";
+
+
+@interface TeamMember ()
+
+- (id)objectOrNilForKey:(id)aKey fromDictionary:(NSDictionary *)dict;
+
+@end
+
+@implementation TeamMember
+
+@synthesize name = _name;
+@synthesize accountId = _accountId;
+@synthesize departmentsId = _departmentsId;
+@synthesize headPic = _headPic;
+@synthesize signature = _signature;
+@synthesize departmentsName = _departmentsName;
+@synthesize usingMeetingStatus = _usingMeetingStatus;
+@synthesize internalBaseClassDescription = _internalBaseClassDescription;
+@synthesize technicalTitleCode = _technicalTitleCode;
+@synthesize technicalTitleName = _technicalTitleName;
+@synthesize accountStatus = _accountStatus;
+
+
++ (instancetype)modelObjectWithDictionary:(NSDictionary *)dict
+{
+    return [[self alloc] initWithDictionary:dict];
+}
+
+- (instancetype)initWithDictionary:(NSDictionary *)dict
+{
+    self = [super init];
+    
+    // This check serves to make sure that a non-NSDictionary object
+    // passed into the model class doesn't break the parsing.
+    if(self && [dict isKindOfClass:[NSDictionary class]]) {
+            self.name = [self objectOrNilForKey:kTeamMemberName fromDictionary:dict];
+            self.accountId = [[self objectOrNilForKey:kTeamMemberAccountId fromDictionary:dict] doubleValue];
+            self.departmentsId = [self objectOrNilForKey:kTeamMemberDepartmentsId fromDictionary:dict];
+            self.headPic = [self objectOrNilForKey:kTeamMemberHeadPic fromDictionary:dict];
+            self.signature = [self objectOrNilForKey:kTeamMemberSignature fromDictionary:dict];
+            self.departmentsName = [self objectOrNilForKey:kTeamMemberDepartmentsName fromDictionary:dict];
+            self.usingMeetingStatus = [self objectOrNilForKey:kTeamMemberUsingMeetingStatus fromDictionary:dict];
+            self.internalBaseClassDescription = [self objectOrNilForKey:kTeamMemberDescription fromDictionary:dict];
+            self.technicalTitleCode = [self objectOrNilForKey:kTeamMemberTechnicalTitleCode fromDictionary:dict];
+            self.technicalTitleName = [self objectOrNilForKey:kTeamMemberTechnicalTitleName fromDictionary:dict];
+            self.accountStatus = [[self objectOrNilForKey:kTeamMemberAccountStatus fromDictionary:dict] doubleValue];
+
+    }
+    
+    return self;
+    
+}
+
+- (NSDictionary *)dictionaryRepresentation
+{
+    NSMutableDictionary *mutableDict = [NSMutableDictionary dictionary];
+    [mutableDict setValue:self.name forKey:kTeamMemberName];
+    [mutableDict setValue:[NSNumber numberWithDouble:self.accountId] forKey:kTeamMemberAccountId];
+    [mutableDict setValue:self.departmentsId forKey:kTeamMemberDepartmentsId];
+    [mutableDict setValue:self.headPic forKey:kTeamMemberHeadPic];
+    [mutableDict setValue:self.signature forKey:kTeamMemberSignature];
+    [mutableDict setValue:self.departmentsName forKey:kTeamMemberDepartmentsName];
+    [mutableDict setValue:self.usingMeetingStatus forKey:kTeamMemberUsingMeetingStatus];
+    [mutableDict setValue:self.internalBaseClassDescription forKey:kTeamMemberDescription];
+    [mutableDict setValue:self.technicalTitleCode forKey:kTeamMemberTechnicalTitleCode];
+    [mutableDict setValue:self.technicalTitleName forKey:kTeamMemberTechnicalTitleName];
+    [mutableDict setValue:[NSNumber numberWithDouble:self.accountStatus] forKey:kTeamMemberAccountStatus];
+
+    return [NSDictionary dictionaryWithDictionary:mutableDict];
+}
+
+- (NSString *)description 
+{
+    return [NSString stringWithFormat:@"%@", [self dictionaryRepresentation]];
+}
+
+#pragma mark - Helper Method
+- (id)objectOrNilForKey:(id)aKey fromDictionary:(NSDictionary *)dict
+{
+    id object = [dict objectForKey:aKey];
+    return [object isEqual:[NSNull null]] ? nil : object;
+}
+
+
+#pragma mark - NSCoding Methods
+
+- (id)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super init];
+
+    self.name = [aDecoder decodeObjectForKey:kTeamMemberName];
+    self.accountId = [aDecoder decodeDoubleForKey:kTeamMemberAccountId];
+    self.departmentsId = [aDecoder decodeObjectForKey:kTeamMemberDepartmentsId];
+    self.headPic = [aDecoder decodeObjectForKey:kTeamMemberHeadPic];
+    self.signature = [aDecoder decodeObjectForKey:kTeamMemberSignature];
+    self.departmentsName = [aDecoder decodeObjectForKey:kTeamMemberDepartmentsName];
+    self.usingMeetingStatus = [aDecoder decodeObjectForKey:kTeamMemberUsingMeetingStatus];
+    self.internalBaseClassDescription = [aDecoder decodeObjectForKey:kTeamMemberDescription];
+    self.technicalTitleCode = [aDecoder decodeObjectForKey:kTeamMemberTechnicalTitleCode];
+    self.technicalTitleName = [aDecoder decodeObjectForKey:kTeamMemberTechnicalTitleName];
+    self.accountStatus = [aDecoder decodeDoubleForKey:kTeamMemberAccountStatus];
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder
+{
+
+    [aCoder encodeObject:_name forKey:kTeamMemberName];
+    [aCoder encodeDouble:_accountId forKey:kTeamMemberAccountId];
+    [aCoder encodeObject:_departmentsId forKey:kTeamMemberDepartmentsId];
+    [aCoder encodeObject:_headPic forKey:kTeamMemberHeadPic];
+    [aCoder encodeObject:_signature forKey:kTeamMemberSignature];
+    [aCoder encodeObject:_departmentsName forKey:kTeamMemberDepartmentsName];
+    [aCoder encodeObject:_usingMeetingStatus forKey:kTeamMemberUsingMeetingStatus];
+    [aCoder encodeObject:_internalBaseClassDescription forKey:kTeamMemberDescription];
+    [aCoder encodeObject:_technicalTitleCode forKey:kTeamMemberTechnicalTitleCode];
+    [aCoder encodeObject:_technicalTitleName forKey:kTeamMemberTechnicalTitleName];
+    [aCoder encodeDouble:_accountStatus forKey:kTeamMemberAccountStatus];
+}
+
+- (id)copyWithZone:(NSZone *)zone
+{
+    TeamMember *copy = [[TeamMember alloc] init];
+    
+    if (copy) {
+
+        copy.name = [self.name copyWithZone:zone];
+        copy.accountId = self.accountId;
+        copy.departmentsId = [self.departmentsId copyWithZone:zone];
+        copy.headPic = [self.headPic copyWithZone:zone];
+        copy.signature = [self.signature copyWithZone:zone];
+        copy.departmentsName = [self.departmentsName copyWithZone:zone];
+        copy.usingMeetingStatus = [self.usingMeetingStatus copyWithZone:zone];
+        copy.internalBaseClassDescription = [self.internalBaseClassDescription copyWithZone:zone];
+        copy.technicalTitleCode = [self.technicalTitleCode copyWithZone:zone];
+        copy.technicalTitleName = [self.technicalTitleName copyWithZone:zone];
+        copy.accountStatus = self.accountStatus;
+    }
+    
+    return copy;
+}
+
+
+@end

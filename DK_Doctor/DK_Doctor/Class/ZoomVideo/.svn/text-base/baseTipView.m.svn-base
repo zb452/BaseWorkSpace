@@ -1,0 +1,117 @@
+//
+//  baseTipView.m
+//  DK_Patient
+//
+//  Created by 张斌 on 2017/1/14.
+//  Copyright © 2017年 陕西医管家医院管理咨询服务有限公司. All rights reserved.
+//
+
+#import "baseTipView.h"
+#import "UIImageView+WebCache.h"
+
+#define DKVideoWaitTime  30
+
+@interface baseTipView()
+
+
+
+@end
+
+@implementation baseTipView
+
+/*
+// Only override drawRect: if you perform custom drawing.
+// An empty implementation adversely affects performance during animation.
+- (void)drawRect:(CGRect)rect {
+    // Drawing code
+}
+*/
+
+
+-(void)dealloc
+{
+    if (_timer)
+    {
+        [_timer invalidate];
+        _timer = nil;
+    }
+}
+
+-(NSDictionary *)dicData
+{
+    if (!_dicData)
+    {
+        _dicData = [NSDictionary dictionary];
+    }
+    
+    return _dicData;
+}
+
+-(void)showWithData:(NSDictionary *)dic
+            withType:(MeetingType)type
+            Complete:(Complete)complete
+{
+    self.meetType = type;
+    [self showWithData:dic Complete:complete];
+}
+
+-(void)showWithData:(NSDictionary *)dic
+           Complete:(Complete)complete
+{
+    self.dicData = dic;
+    
+    if (self.timer)
+    {
+        [self.timer invalidate];
+        self.timer = nil;
+    }
+    
+    self.waitTime = 0;
+    __weak typeof (self)weakSelf = self;
+    self.timer = [NSTimer timerWithTimeInterval:1.f target:self selector:@selector(chronography) userInfo:nil repeats:YES];
+    
+    [[NSRunLoop currentRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
+    
+    self.labelName.text = dic[DKDoctorName];
+    if ([dic[DKDoctorPic]  containsString:@"http"])
+    {
+        [self.imgHeader sd_setImageWithURL:[NSURL URLWithString:dic[DKDoctorPic]]];
+    }
+    else
+    {
+        [self.imgHeader sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@",URLDomainName,dic[DKDoctorPic]]]];
+    }
+    
+    [self showView:YES animalType:CenterType complete:complete];
+}
+-(void)noResponse
+{
+    //用于子类实现
+}
+//计时
+-(void)chronography
+{
+    self.waitTime++;
+    
+    if (self.waitTime >= DKVideoWaitTime)
+    {
+        [self.timer invalidate];
+        self.timer = nil;
+         __weak typeof (self)weakSelf = self;
+        [self dismissView:YES complete:^{
+            
+            [weakSelf noResponse];
+        }];
+    }
+}
+
+-(void)invalidateTimer
+{
+    if (_timer)
+    {
+        [_timer invalidate];
+        _timer = nil;
+    }
+}
+
+@end

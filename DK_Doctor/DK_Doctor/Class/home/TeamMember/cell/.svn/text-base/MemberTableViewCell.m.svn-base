@@ -1,0 +1,91 @@
+//
+//  MemberTableViewCell.m
+//  DK_Doctor
+//
+//  Created by 张斌 on 2017/2/18.
+//  Copyright © 2017年 陕西医管家医院管理咨询服务有限公司. All rights reserved.
+//
+
+#import "MemberTableViewCell.h"
+#import "UIImageView+WebCache.h"
+
+@interface MemberTableViewCell()
+
+@property(weak,nonatomic)IBOutlet UIImageView *imgView;
+@property(weak,nonatomic)IBOutlet UILabel *labelName;
+@property(weak,nonatomic)IBOutlet UILabel *labelProfess;
+@property(weak,nonatomic)IBOutlet UIImageView *imgMeeting;
+@property(weak,nonatomic)IBOutlet UIButton *btnCall;
+
+@property(strong,nonatomic)TeamMember *teamMember;
+@end
+
+@implementation MemberTableViewCell
+
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    // Initialization code
+    
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
+    
+    self.imgView.layer.cornerRadius = 20;
+    self.imgView.clipsToBounds = YES;
+}
+
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+    [super setSelected:selected animated:animated];
+
+    // Configure the view for the selected state
+}
+
+-(void)configWith:(id)data
+{
+    if ([data isKindOfClass:[TeamMember class]])
+    {
+        self.teamMember = (TeamMember*)data;
+        
+        if ([self.teamMember.headPic containsString:@"http"])
+        {
+            [self.imgView sd_setImageWithURL:[NSURL URLWithString:self.teamMember.headPic] placeholderImage:[UIImage imageNamed:@"defaultHeader"]];
+        }
+        else
+        {
+            [self.imgView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@",URLDomainName,self.teamMember.headPic]] placeholderImage:[UIImage imageNamed:@"defaultHeader"]];
+        }
+        
+        self.labelName.text = self.teamMember.name;
+        self.labelProfess.text = self.teamMember.technicalTitleName;
+        
+        if ([self.teamMember.usingMeetingStatus intValue] == 0)
+        {
+            self.imgMeeting.hidden = NO;
+        }
+        else
+        {
+            self.imgMeeting.hidden = YES;
+        }
+        
+        if (self.teamMember.accountStatus == 1)
+        {
+            [self.btnCall setImage:[UIImage imageNamed:@"memberNoCall"] forState:UIControlStateNormal];
+        }
+        else
+        {
+            [self.btnCall setImage:[UIImage imageNamed:@"memberCall"] forState:UIControlStateNormal];
+        }
+    }
+}
+
+-(IBAction)click:(id)sender
+{
+    if (self.teamMember.accountStatus != 1)
+    {
+        if ([self.delegate respondsToSelector:@selector(callMember:Member:)])
+        {
+            [self.delegate callMember:self Member:self.teamMember];
+        }
+    }
+   
+}
+
+@end

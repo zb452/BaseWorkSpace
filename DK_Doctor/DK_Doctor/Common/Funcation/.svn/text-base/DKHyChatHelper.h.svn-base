@@ -1,0 +1,53 @@
+//
+//  DKHyChatHelper.h
+//  DK_Patient
+//
+//  Created by 张斌 on 2017/1/13.
+//  Copyright © 2017年 陕西医管家医院管理咨询服务有限公司. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+
+@interface DKHyChatHelper : NSObject
+
++(DKHyChatHelper *)shareDKHyChatHelper;
+/**
+ 注册环信
+ */
+-(void)registerHy;
+
+/**
+ 登录环信
+ 
+ @param name 用户id
+ @param psw 密码
+ @return 登录状态
+ */
+-(EMError *)loginWithUserName:(NSString *)name password:(NSString *)psw;
+
+/**
+ 登出
+ 
+ @return 登出状态
+ */
+-(EMError *)logout;
+
+/**
+ 发送CMD消息
+ 
+ @param action CMD命令
+ @param toUser 要发送给消息的用户id
+ @param messageExt 额外的参数
+ */
+-(void)sendCMDMessage:(NSString *)action To:(NSString *)toUser ext:(NSDictionary *)messageExt;
+
+/**
+ 发送文本消息
+ 
+ @param message 文本消息
+ @param toUser 要发送给消息的用户id
+ @param messageExt 额外的参数
+ */
+-(void)sendTextMessage:(NSString *)Msg To:(NSString *)toUser ext:(NSDictionary *)messageExt;
+
+@end

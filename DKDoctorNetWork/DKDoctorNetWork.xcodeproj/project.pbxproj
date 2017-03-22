@@ -1,0 +1,427 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		01007279221CC907D2399237 /* libPods-DKDoctorNetWork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EF3023CF889DD95C3F6B3FD /* libPods-DKDoctorNetWork.a */; };
+		77178E231E2CB380007EA57E /* DKDoctorNetWork.m in Sources */ = {isa = PBXBuildFile; fileRef = 77178E221E2CB380007EA57E /* DKDoctorNetWork.m */; };
+		77178E241E2CB380007EA57E /* DKDoctorNetWork.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 77178E211E2CB380007EA57E /* DKDoctorNetWork.h */; };
+		77178FE81E2DED2E007EA57E /* BGSever.m in Sources */ = {isa = PBXBuildFile; fileRef = 77178FCC1E2DED2E007EA57E /* BGSever.m */; };
+		77178FE91E2DED2E007EA57E /* CryptoFuncation.m in Sources */ = {isa = PBXBuildFile; fileRef = 77178FD01E2DED2E007EA57E /* CryptoFuncation.m */; };
+		77178FEA1E2DED2E007EA57E /* HttpBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 77178FD21E2DED2E007EA57E /* HttpBase.m */; };
+		77178FF01E2DED2E007EA57E /* MBProgressHUD+ShowInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 77178FE11E2DED2E007EA57E /* MBProgressHUD+ShowInfo.m */; };
+		77178FF11E2DED2E007EA57E /* NetEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 77178FE31E2DED2E007EA57E /* NetEngine.m */; };
+		77178FF21E2DED2E007EA57E /* YXNetRequestGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 77178FE51E2DED2E007EA57E /* YXNetRequestGroup.m */; };
+		771790421E2DF788007EA57E /* libMBProgressHUD.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 771790411E2DF788007EA57E /* libMBProgressHUD.a */; };
+		771790441E2DF78C007EA57E /* libAFNetworking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 771790431E2DF78C007EA57E /* libAFNetworking.a */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		77178E1C1E2CB380007EA57E /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+				77178E241E2CB380007EA57E /* DKDoctorNetWork.h in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		1B3249FAB4F9923064B5D8FF /* Pods-DKDoctorNetWork.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DKDoctorNetWork.release.xcconfig"; path = "../Pods/Target Support Files/Pods-DKDoctorNetWork/Pods-DKDoctorNetWork.release.xcconfig"; sourceTree = "<group>"; };
+		2EF3023CF889DD95C3F6B3FD /* libPods-DKDoctorNetWork.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DKDoctorNetWork.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		77178E1E1E2CB380007EA57E /* libDKDoctorNetWork.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libDKDoctorNetWork.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		77178E211E2CB380007EA57E /* DKDoctorNetWork.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKDoctorNetWork.h; sourceTree = "<group>"; };
+		77178E221E2CB380007EA57E /* DKDoctorNetWork.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DKDoctorNetWork.m; sourceTree = "<group>"; };
+		77178E341E2CB89C007EA57E /* urls.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = urls.h; path = DKDoctorNetWork/urls.h; sourceTree = "<group>"; };
+		77178FCB1E2DED2E007EA57E /* BGSever.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BGSever.h; sourceTree = "<group>"; };
+		77178FCC1E2DED2E007EA57E /* BGSever.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BGSever.m; sourceTree = "<group>"; };
+		77178FCF1E2DED2E007EA57E /* CryptoFuncation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CryptoFuncation.h; sourceTree = "<group>"; };
+		77178FD01E2DED2E007EA57E /* CryptoFuncation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CryptoFuncation.m; sourceTree = "<group>"; };
+		77178FD11E2DED2E007EA57E /* HttpBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HttpBase.h; sourceTree = "<group>"; };
+		77178FD21E2DED2E007EA57E /* HttpBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HttpBase.m; sourceTree = "<group>"; };
+		77178FE01E2DED2E007EA57E /* MBProgressHUD+ShowInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MBProgressHUD+ShowInfo.h"; sourceTree = "<group>"; };
+		77178FE11E2DED2E007EA57E /* MBProgressHUD+ShowInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MBProgressHUD+ShowInfo.m"; sourceTree = "<group>"; };
+		77178FE21E2DED2E007EA57E /* NetEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetEngine.h; sourceTree = "<group>"; };
+		77178FE31E2DED2E007EA57E /* NetEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetEngine.m; sourceTree = "<group>"; };
+		77178FE41E2DED2E007EA57E /* YXNetRequestGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YXNetRequestGroup.h; sourceTree = "<group>"; };
+		77178FE51E2DED2E007EA57E /* YXNetRequestGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YXNetRequestGroup.m; sourceTree = "<group>"; };
+		77178FF31E2DED5A007EA57E /* DKDoctorNetWork.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = DKDoctorNetWork.pch; path = DKDoctorNetWork/DKDoctorNetWork.pch; sourceTree = "<group>"; };
+		771790411E2DF788007EA57E /* libMBProgressHUD.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMBProgressHUD.a; path = "../../../Library/Developer/Xcode/DerivedData/DKDoctorWorkSpace-amavctgsyqtxjydadrwzrlnvvwrb/Build/Products/Debug-iphoneos/MBProgressHUD/libMBProgressHUD.a"; sourceTree = "<group>"; };
+		771790431E2DF78C007EA57E /* libAFNetworking.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAFNetworking.a; path = "../../../Library/Developer/Xcode/DerivedData/DKDoctorWorkSpace-amavctgsyqtxjydadrwzrlnvvwrb/Build/Products/Debug-iphoneos/AFNetworking/libAFNetworking.a"; sourceTree = "<group>"; };
+		9D1D2F020644EDD70C35D88C /* Pods-DKDoctorNetWork.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DKDoctorNetWork.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-DKDoctorNetWork/Pods-DKDoctorNetWork.debug.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		77178E1B1E2CB380007EA57E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				771790441E2DF78C007EA57E /* libAFNetworking.a in Frameworks */,
+				771790421E2DF788007EA57E /* libMBProgressHUD.a in Frameworks */,
+				01007279221CC907D2399237 /* libPods-DKDoctorNetWork.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		77178E151E2CB380007EA57E = {
+			isa = PBXGroup;
+			children = (
+				77178E201E2CB380007EA57E /* DKDoctorNetWork */,
+				77178FAA1E2CBFDF007EA57E /* Supporting Files */,
+				77178E1F1E2CB380007EA57E /* Products */,
+				CCF2F602F9BD2E4F1A6E87C0 /* Pods */,
+				FB035DD0C50371F9AB609AF0 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		77178E1F1E2CB380007EA57E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				77178E1E1E2CB380007EA57E /* libDKDoctorNetWork.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		77178E201E2CB380007EA57E /* DKDoctorNetWork */ = {
+			isa = PBXGroup;
+			children = (
+				771B0E1C1E4EA1E8007CDF5A /* Model */,
+				77178FC61E2DED2E007EA57E /* Category */,
+				77178FCE1E2DED2E007EA57E /* Encryption */,
+				77178FD11E2DED2E007EA57E /* HttpBase.h */,
+				77178FD21E2DED2E007EA57E /* HttpBase.m */,
+				77178FDF1E2DED2E007EA57E /* MBHud */,
+				77178FE21E2DED2E007EA57E /* NetEngine.h */,
+				77178FE31E2DED2E007EA57E /* NetEngine.m */,
+				77178FE41E2DED2E007EA57E /* YXNetRequestGroup.h */,
+				77178FE51E2DED2E007EA57E /* YXNetRequestGroup.m */,
+				77178E211E2CB380007EA57E /* DKDoctorNetWork.h */,
+				77178E221E2CB380007EA57E /* DKDoctorNetWork.m */,
+			);
+			path = DKDoctorNetWork;
+			sourceTree = "<group>";
+		};
+		77178FAA1E2CBFDF007EA57E /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				77178E341E2CB89C007EA57E /* urls.h */,
+				77178FF31E2DED5A007EA57E /* DKDoctorNetWork.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		77178FC61E2DED2E007EA57E /* Category */ = {
+			isa = PBXGroup;
+			children = (
+				77178FCB1E2DED2E007EA57E /* BGSever.h */,
+				77178FCC1E2DED2E007EA57E /* BGSever.m */,
+			);
+			path = Category;
+			sourceTree = "<group>";
+		};
+		77178FCE1E2DED2E007EA57E /* Encryption */ = {
+			isa = PBXGroup;
+			children = (
+				77178FCF1E2DED2E007EA57E /* CryptoFuncation.h */,
+				77178FD01E2DED2E007EA57E /* CryptoFuncation.m */,
+			);
+			path = Encryption;
+			sourceTree = "<group>";
+		};
+		77178FDF1E2DED2E007EA57E /* MBHud */ = {
+			isa = PBXGroup;
+			children = (
+				77178FE01E2DED2E007EA57E /* MBProgressHUD+ShowInfo.h */,
+				77178FE11E2DED2E007EA57E /* MBProgressHUD+ShowInfo.m */,
+			);
+			path = MBHud;
+			sourceTree = "<group>";
+		};
+		771B0E1C1E4EA1E8007CDF5A /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		CCF2F602F9BD2E4F1A6E87C0 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				9D1D2F020644EDD70C35D88C /* Pods-DKDoctorNetWork.debug.xcconfig */,
+				1B3249FAB4F9923064B5D8FF /* Pods-DKDoctorNetWork.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		FB035DD0C50371F9AB609AF0 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				771790431E2DF78C007EA57E /* libAFNetworking.a */,
+				771790411E2DF788007EA57E /* libMBProgressHUD.a */,
+				2EF3023CF889DD95C3F6B3FD /* libPods-DKDoctorNetWork.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		77178E1D1E2CB380007EA57E /* DKDoctorNetWork */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 77178E271E2CB380007EA57E /* Build configuration list for PBXNativeTarget "DKDoctorNetWork" */;
+			buildPhases = (
+				459455B1D5EA32E04C742F98 /* [CP] Check Pods Manifest.lock */,
+				77178E1A1E2CB380007EA57E /* Sources */,
+				77178E1B1E2CB380007EA57E /* Frameworks */,
+				77178E1C1E2CB380007EA57E /* CopyFiles */,
+				2CC5EC431F416C6FA4C93322 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = DKDoctorNetWork;
+			productName = DKDoctorNetWork;
+			productReference = 77178E1E1E2CB380007EA57E /* libDKDoctorNetWork.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		77178E161E2CB380007EA57E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0820;
+				ORGANIZATIONNAME = "陕西医管家医院管理咨询服务有限公司";
+				TargetAttributes = {
+					77178E1D1E2CB380007EA57E = {
+						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = VVA5KU6925;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 77178E191E2CB380007EA57E /* Build configuration list for PBXProject "DKDoctorNetWork" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 77178E151E2CB380007EA57E;
+			productRefGroup = 77178E1F1E2CB380007EA57E /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				77178E1D1E2CB380007EA57E /* DKDoctorNetWork */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		2CC5EC431F416C6FA4C93322 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/../Pods/Target Support Files/Pods-DKDoctorNetWork/Pods-DKDoctorNetWork-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		459455B1D5EA32E04C742F98 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		77178E1A1E2CB380007EA57E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				77178FEA1E2DED2E007EA57E /* HttpBase.m in Sources */,
+				77178E231E2CB380007EA57E /* DKDoctorNetWork.m in Sources */,
+				77178FF11E2DED2E007EA57E /* NetEngine.m in Sources */,
+				77178FE81E2DED2E007EA57E /* BGSever.m in Sources */,
+				77178FF21E2DED2E007EA57E /* YXNetRequestGroup.m in Sources */,
+				77178FE91E2DED2E007EA57E /* CryptoFuncation.m in Sources */,
+				77178FF01E2DED2E007EA57E /* MBProgressHUD+ShowInfo.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		77178E251E2CB380007EA57E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		77178E261E2CB380007EA57E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		77178E281E2CB380007EA57E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9D1D2F020644EDD70C35D88C /* Pods-DKDoctorNetWork.debug.xcconfig */;
+			buildSettings = {
+				DEVELOPMENT_TEAM = VVA5KU6925;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/DKDoctorNetWork",
+				);
+				GCC_PREFIX_HEADER = "$(SRCROOT)/DKDoctorNetWork/DKDoctorNetWork.pch";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/DKDoctorNetWork\"/** \"$(SRCROOT)/DKDoctorNetWork/Category\"";
+			};
+			name = Debug;
+		};
+		77178E291E2CB380007EA57E /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1B3249FAB4F9923064B5D8FF /* Pods-DKDoctorNetWork.release.xcconfig */;
+			buildSettings = {
+				DEVELOPMENT_TEAM = VVA5KU6925;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/DKDoctorNetWork",
+				);
+				GCC_PREFIX_HEADER = "$(SRCROOT)/DKDoctorNetWork/DKDoctorNetWork.pch";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/DKDoctorNetWork\"/** \"$(SRCROOT)/DKDoctorNetWork/Category\"";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		77178E191E2CB380007EA57E /* Build configuration list for PBXProject "DKDoctorNetWork" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				77178E251E2CB380007EA57E /* Debug */,
+				77178E261E2CB380007EA57E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		77178E271E2CB380007EA57E /* Build configuration list for PBXNativeTarget "DKDoctorNetWork" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				77178E281E2CB380007EA57E /* Debug */,
+				77178E291E2CB380007EA57E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 77178E161E2CB380007EA57E /* Project object */;
+}
